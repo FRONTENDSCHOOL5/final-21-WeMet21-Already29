@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+## 프로젝트이름 !
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+목업이미지 -최종 발표 영상 url 연결
+<br>
 
-## Available Scripts
+## 🗼 배포
 
-In the project directory, you can run:
+-서비스링크 -서비스 이용을 위한 테스트 계정
 
-### `npm start`
+- ID:
+- Password:
+  <br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 1. 프로젝트 개요
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-어쩌구 저쩌구 하는 서비스
 
-### `npm test`
+> .목표
+> <br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 2. 팀원소개<br>
 
-### `npm run build`
+|                                                                        최범관                                                                         |                                                                        박경보                                                                         |                                                                        유하은                                                                         |                                                                         한상헌                                                                         |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/4ac018c7-f9f3-49c1-89e8-9e0523c69919.jpg" width="170" height="170"/> | <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/f8f06190-ece0-4a5d-ada4-d7df6cca0455.png" width="170" height="170"/> | <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/dac4ccc0-c4c2-4240-8e4b-067a4b2eeb7d.jpg" width="170" height="170"/> | <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/9d2c1f67-82c0-4d91-8bf9-09be962044f4.jpg" width="170" height="170" /> |
+|                                                                         blog:                                                                         |                                                                         blog:                                                                         |                                                                         blog:                                                                         |                                                                         blog:                                                                          |
+|                                                 <a href="https://github.com/KwanBeom">🔗 GitHub </a>                                                  |                                              <a href="https://github.com/kyeongboo-coder">🔗 GitHub </a>                                              |                                               <a href="https://github.com/yonsinthefish">🔗 GitHub </a>                                               |                                                 <a href="https://github.com/Skyllerrr">🔗 GitHub </a>                                                  |
+|                                <img src="https://img.shields.io/badge/FrontEnd-3178C6?style=plastic&logoColor=blue"/>                                 |                                <img src="https://img.shields.io/badge/FrontEnd-3178C6?style=plastic&logoColor=blue"/>                                 |                                <img src="https://img.shields.io/badge/FrontEnd-3178C6?style=plastic&logoColor=blue"/>                                 |                                 <img src="https://img.shields.io/badge/FrontEnd-3178C6?style=plastic&logoColor=blue"/>                                 |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 3. 개발 기간 및 작업문화<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 4. 기술 및 개발 환경<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### [사용기술]
 
-### `npm run eject`
+### [개발환경]
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### [커밋컨벤션]
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### [코드컨벤션]
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### [폴더구조]
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 5. 역할분담<br>
 
-## Learn More
+## 5. 페이지 UI<br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 6. 페이지 기능 시연<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 7. 트러블 슈팅<br>
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 8. 프로젝트를 마치며

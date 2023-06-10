@@ -1,4 +1,4 @@
-import UploadProduct from "./pages/UpladProduct";
+import UploadProduct from "./pages/UploadProduct";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 

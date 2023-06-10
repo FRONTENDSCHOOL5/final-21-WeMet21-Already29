@@ -67,7 +67,7 @@ const ImgUploadButton = styled.div`
   bottom: 12px;
 `;
 
-function UploadProduct() {
+export default function UploadProduct() {
   const imgPre = useRef(null),
     submitBtn = useRef(null);
 
@@ -103,7 +103,7 @@ function UploadProduct() {
         itemName: productTitle,
         price: parseInt(productPrice),
         link: productLink,
-        itemImage: image,
+        itemImage: imageUrl,
       },
     };
 
@@ -139,7 +139,7 @@ function UploadProduct() {
       body: formData,
     });
     const json = await res.json();
-
+    // C:\\fakepath\\tiger.PNG
     imgPre.current.style.display = "block";
     setImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
   };
@@ -194,5 +194,3 @@ function UploadProduct() {
     </Page>
   );
 }
-
-export default UploadProduct;

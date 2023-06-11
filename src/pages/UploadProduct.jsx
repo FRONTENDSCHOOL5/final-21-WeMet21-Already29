@@ -74,8 +74,8 @@ export default function UploadProduct() {
   const [productTitle, setProductTitle] = useState(""),
     [productPrice, setProductPrice] = useState(""),
     [productLink, setProductLink] = useState(""),
-    [image, setImage] = useState(""),
-    [imageUrl, setImageUrl] = useState("");
+    [productImage, setproductImage] = useState(""),
+    [productImageUrl, setproductImageUrl] = useState("");
 
   const inputValueHandler = (e) => {
     switch (e.target.type) {
@@ -103,7 +103,7 @@ export default function UploadProduct() {
         itemName: productTitle,
         price: parseInt(productPrice),
         link: productLink,
-        itemImage: imageUrl,
+        itemImage: productImageUrl,
       },
     };
 
@@ -130,18 +130,18 @@ export default function UploadProduct() {
 
     const formData = new FormData();
     const userImg = e.target.files[0];
-    setImage(e.target.value);
+    setproductImage(e.target.value);
     console.log(userImg);
-    formData.append("image", userImg);
+    formData.append("productImage", userImg);
 
-    const res = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
+    const res = await fetch("https://api.mandarin.weniv.co.kr/productImage/uploadfile", {
       method: "POST",
       body: formData,
     });
     const json = await res.json();
     // C:\\fakepath\\tiger.PNG
     imgPre.current.style.display = "block";
-    setImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
+    setproductImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
   };
 
   const imgButtonfilterHandler = (e) => {
@@ -157,12 +157,12 @@ export default function UploadProduct() {
   };
 
   useEffect(() => {
-    if (productTitle && productPrice && productLink && image) {
+    if (productTitle && productPrice && productLink && productImage) {
       submitBtn.current.disabled = false;
     } else {
       submitBtn.current.disabled = true;
     }
-  }, [productTitle, productLink, productPrice, image]);
+  }, [productTitle, productLink, productPrice, productImage]);
 
   return (
     <Page>
@@ -170,13 +170,13 @@ export default function UploadProduct() {
         <InputLabel htmlFor="productImg" onClick={imgButtonfilterHandler}>
           <span className="a11y-hidden">상품 이미지 등록</span>
           <PlaceImg>
-            <img src={imageUrl} alt="" ref={imgPre} id="imagePre" onError={(e) => (e.target.style.display = "none")} />
+            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" onError={(e) => (e.target.style.display = "none")} />
             <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>
               <img src={iconAlbum} alt="앨범 아이콘" />
             </ImgUploadButton>
           </PlaceImg>
         </InputLabel>
-        <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} required />
+        <input type="file" id="productImg" accept="productImage/*" style={{ display: "none" }} onChange={handleImgInput} required />
 
         <InputLabel htmlFor="productNameInput">상품명</InputLabel>
         <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required></Input>

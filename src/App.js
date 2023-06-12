@@ -2,7 +2,7 @@ import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import UploadProduct from "./pages/UploadProduct";
-import ProductList from "./pages/ProductList";
+import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 
 const GlobalStyle = createGlobalStyle`
@@ -43,7 +43,7 @@ function App() {
         <Link to="/productList">상품 리스트 불러오기</Link>
         <Routes>
           <Route path="/uploadProduct" element={<UploadProduct />}></Route>
-          <Route path="/productList" element={<ProductList />}></Route>
+          <Route path="/products" element={<Products />}></Route>
           <Route path="/product/*" element={<Outlet />}>
             <Route path="detail/:id" element={<ProductDetail />}></Route>
             <Route path="modify/:id" element={<UploadProduct />}></Route>

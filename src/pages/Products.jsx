@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Section = styled.section`
   margin-left: 20px;
+  overflow: hidden;
 `;
 
 const H2 = styled.h2`
@@ -41,35 +42,37 @@ const Ul = styled.ul`
 
 export default function ProductList() {
   const userAccountName = "testtestabc";
-  const productList = useRef(null);
   const [productDatas, setProductDatas] = useState(null);
+  const slideUl = useRef(null);
+
+  async function fetchUserProducts() {
+    const res = await fetch(`https://api.mandarin.weniv.co.kr/product/${userAccountName}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-type": "application/json",
+      },
+    });
+    const json = await res.json();
+
+    const userProductItems = json.product;
+    setProductDatas(userProductItems);
+  }
 
   useEffect(() => {
-    (async function () {
-      const res = await fetch(`https://api.mandarin.weniv.co.kr/product/${userAccountName}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-type": "application/json",
-        },
-      });
-      const json = await res.json();
-
-      const userProductItems = json.product;
-      setProductDatas(userProductItems);
-    })();
+    fetchUserProducts();
   }, []);
 
   return (
     <Section>
       <H2 className="product-section-title">판매 중인 상품</H2>
-      <Ul ref={productList}>
+      <Ul ref={slideUl}>
         {productDatas
           ? productDatas.map((item) => {
               return (
                 <li key={item.id}>
                   <Link to={`/product/detail/${item.id}`}>
-                    <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                    <img src={item.itemImage} alt="상품 이미지" className="product-img" draggable={false} />
                     <h3 className="product-title">{item.itemName}</h3>
                     <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
                   </Link>

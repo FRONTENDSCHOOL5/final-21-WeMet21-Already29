@@ -1,6 +1,9 @@
-import UploadProduct from "./pages/UploadProduct";
+import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import UploadProduct from "./pages/UploadProduct";
+import ProductList from "./pages/ProductList";
+import ProductDetail from "./pages/ProductDetail";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -21,13 +24,32 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     position: absolute;
   }
+  img{
+    max-width: 100%;
+    vertical-align: top;
+  }
+  a{
+    text-decoration: none;
+    color: initial;
+  }
 `;
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <UploadProduct />
+      <BrowserRouter>
+        <Link to="/uploadProduct">상품 올리기</Link>
+        <Link to="/productList">상품 리스트 불러오기</Link>
+        <Routes>
+          <Route path="/uploadProduct" element={<UploadProduct />}></Route>
+          <Route path="/productList" element={<ProductList />}></Route>
+          <Route path="/product/*" element={<Outlet />}>
+            <Route path="detail/:id" element={<ProductDetail />}></Route>
+            <Route path="modify/:id" element={<UploadProduct />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

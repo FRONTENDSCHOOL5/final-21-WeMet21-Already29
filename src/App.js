@@ -40,7 +40,7 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Link to="/uploadProduct">상품 올리기</Link>
-        <Link to="/productList">상품 리스트 불러오기</Link>
+        <Link to="/products">상품 리스트 불러오기</Link>
         <Routes>
           <Route path="/uploadProduct" element={<UploadProduct />}></Route>
           <Route path="/products" element={<Products />}></Route>

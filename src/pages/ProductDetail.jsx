@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+
+const ProductPage = styled.main`
+  img {
+    width: 100%;
+  }
+`;
 
 export default function ProductDetail() {
   const param = useParams();
   const [product, setProduct] = useState(null);
-
+  const [productAuthor, setProductAuthor] = useState(null);
+  const navigator = useNavigate();
   const deleteProductHandler = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => alert(json.message));
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          alert(json.message);
+          navigator("/productlist");
+        });
+    }
   };
 
   useEffect(() => {
@@ -26,11 +39,16 @@ export default function ProductDetail() {
       },
     })
       .then((res) => res.json())
-      .then((json) => setProduct(json.product));
+      .then((json) => {
+        setProduct(json.product);
+        setProductAuthor(json.product.author);
+      });
   }, []);
 
+  console.log(productAuthor);
+
   return (
-    <main>
+    <ProductPage>
       {product ? (
         <>
           <img src={product.itemImage} alt="상품 이미지" />
@@ -46,6 +64,6 @@ export default function ProductDetail() {
       ) : (
         "...loading"
       )}
-    </main>
+    </ProductPage>
   );
 }

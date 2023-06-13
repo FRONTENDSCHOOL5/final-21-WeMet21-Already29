@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import Loading from "./Loading";
 
 export default function Products(props) {
   const userAccountName = props.userAccountName;
@@ -26,19 +26,21 @@ export default function Products(props) {
 
   return (
     <>
-      {productDatas
-        ? productDatas.map((item) => {
-            return (
-              <li key={item.id}>
-                <Link to={`/product/detail/${item.id}`} draggable={false}>
-                  <img src={item.itemImage} alt="상품 이미지" className="product-img" />
-                  <h3 className="product-title">{item.itemName}</h3>
-                  <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
-                </Link>
-              </li>
-            );
-          })
-        : "loading.."}
+      {productDatas ? (
+        productDatas.map((item) => {
+          return (
+            <li key={item.id}>
+              <Link to={`/product/detail/${item.id}`} draggable={false}>
+                <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                <h3 className="product-title">{item.itemName}</h3>
+                <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
+              </Link>
+            </li>
+          );
+        })
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

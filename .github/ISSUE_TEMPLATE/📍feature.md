@@ -8,14 +8,14 @@ assignees: ''
 ---
 
 ## Description
----
+
 설명해주세요
 
 ## Todo 
----
+
 - [ ]
 
 ## ETC
----
+
 기타 사항
 

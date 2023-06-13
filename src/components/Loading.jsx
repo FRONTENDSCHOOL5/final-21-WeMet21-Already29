@@ -23,9 +23,5 @@ const LoadingImage = styled.img`
 `;
 
 export default function Loading() {
-  return (
-    <>
-      <LoadingImage src={mascot} alt="로딩 중" />
-    </>
-  );
+  return <LoadingImage src={mascot} alt="로딩 중" />;
 }

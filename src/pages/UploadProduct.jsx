@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import iconAlbum from "../assets/images/icon-image.svg";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Page = styled.main`
   margin: 0 34px;
@@ -76,10 +76,11 @@ export default function UploadProduct() {
     [productPrice, setProductPrice] = useState(""),
     [productLink, setProductLink] = useState(""),
     [productImage, setproductImage] = useState(""),
-    [productImageUrl, setproductImageUrl] = useState("https://api.mandarin.weniv.co.kr/1686546477978.png");
+    [productImageUrl, setproductImageUrl] = useState("https://api.mandarin.weniv.co.kr/1686629045637.png");
 
   const [isModify, setIsModify] = useState(false);
   const param = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // useParams hook으로 파라미터 값을 가져와서 파라미터가 존재한다면 isModify 상태값을 true로 변경
@@ -156,7 +157,9 @@ export default function UploadProduct() {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-    });
+    })
+      .then((res) => res.json())
+      .then((json) => navigate(`/product/detail/${json.product.id}`));
   };
 
   const uploadProductHandler = (e) => {
@@ -171,7 +174,7 @@ export default function UploadProduct() {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((json) => console.log(json));
+      .then((json) => navigate(`/product/detail/${json.product.id}`));
   };
 
   const handleImgInput = async (e) => {
@@ -185,12 +188,15 @@ export default function UploadProduct() {
       return;
     }
 
-    const fileExtension = userImg.name.slice(-3).toLowerCase();
-    if (fileExtension === "png" || fileExtension === "jpg") {
-    } else {
-      alert("png & jpg 파일만 업로드 가능합니다.");
+    const fileNamesplitArray = userImg.name.split(".");
+    const fileExtension = fileNamesplitArray[fileNamesplitArray.length - 1];
+    const fileExtensionValues = ["jpg", "gif", "png", "jpeg", "bmp", "tif", "heic"];
+
+    if (!fileExtensionValues.includes(fileExtension)) {
+      alert("이미지 파일만 업로드 가능합니다.");
       return;
     }
+
     setproductImage(e.target.value);
     formData.append("image", userImg);
 
@@ -200,7 +206,6 @@ export default function UploadProduct() {
     });
     const json = await res.json();
     console.log(json);
-    imgPre.current.style.display = "block";
     setproductImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
   };
 
@@ -225,28 +230,30 @@ export default function UploadProduct() {
   }, [productTitle, productLink, productPrice, productImage]);
 
   return (
-    <Page>
-      <form onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
-        <InputLabel htmlFor="productImg" onClick={imgButtonfilterHandler}>
-          <span className="a11y-hidden">상품 이미지 등록</span>
-          <PlaceImg>
-            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
-            <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>
-              <img src={iconAlbum} alt="앨범 아이콘" />
-            </ImgUploadButton>
-          </PlaceImg>
-        </InputLabel>
-        <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />
-        <InputLabel htmlFor="productNameInput">상품명</InputLabel>
-        <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required></Input>
-        <InputLabel htmlFor="productPriceInput">가격</InputLabel>
-        <Input type="number" id="productPriceInput" value={productPrice} onChange={inputValueHandler} placeholder="숫자만 입력 가능합니다." pattern="[0-9]*" required></Input>
-        <InputLabel htmlFor="productUrlInput">판매 링크</InputLabel>
-        <Input type="url" id="productUrlInput" value={productLink} onChange={inputValueHandler} placeholder="URL을 입력해주세요." required></Input>
-        <Button type="submit" ref={submitBtn}>
-          저장
-        </Button>
-      </form>
-    </Page>
+    <>
+      <Button type="submit" form="abc" ref={submitBtn}>
+        저장
+      </Button>
+      <Page>
+        <form id="abc" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
+          <InputLabel htmlFor="productImg" onClick={imgButtonfilterHandler}>
+            <span className="a11y-hidden">상품 이미지 등록</span>
+            <PlaceImg>
+              <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
+              <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>
+                <img src={iconAlbum} alt="앨범 아이콘" />
+              </ImgUploadButton>
+            </PlaceImg>
+          </InputLabel>
+          <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />
+          <InputLabel htmlFor="productNameInput">상품명</InputLabel>
+          <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required></Input>
+          <InputLabel htmlFor="productPriceInput">가격</InputLabel>
+          <Input type="number" id="productPriceInput" value={productPrice} onChange={inputValueHandler} placeholder="숫자만 입력 가능합니다." pattern="[0-9]*" required></Input>
+          <InputLabel htmlFor="productUrlInput">판매 링크</InputLabel>
+          <Input type="url" id="productUrlInput" value={productLink} onChange={inputValueHandler} placeholder="URL을 입력해주세요." required></Input>
+        </form>
+      </Page>
+    </>
   );
 }

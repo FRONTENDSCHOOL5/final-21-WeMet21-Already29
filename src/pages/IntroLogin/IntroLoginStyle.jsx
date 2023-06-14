@@ -5,6 +5,7 @@ const StyledIntroLoginPage = styled.main`
   width: 390px;
   position: relative;
   box-shadow: -1px 0 30px -1px #f2f2f2, 1px 0 30px -1px #f2f2f2;
+  margin: 0 auto;
 
   h1 {
     position: absolute;
@@ -102,16 +103,8 @@ const StyledIntroLoginPage = styled.main`
   .sns-login-li button::before {
     content: '';
   }
-
-  .blackmail-logo {
-    position: absolute;
-    left: 120px;
-    right: 0%;
-    top: 75px;
-    width:300px;
-  }
-
-  .facebook-login {
+  
+  .email-login {
     border: 1px solid #0B0B0B;
     border-radius: 10px;
     width: 322px;
@@ -120,6 +113,12 @@ const StyledIntroLoginPage = styled.main`
     background-position: 10px 8px;
     cursor: pointer;
     text-align: center;
+  }
+  
+  .email-login:hover {
+    display: block;
+    background-color: rgba(5, 139, 46, 1);
+    color: white;
   }
 
   .email-text {
@@ -131,12 +130,6 @@ const StyledIntroLoginPage = styled.main`
     font-weight: 700;
     font-size: 16px;
     line-height: 23px;
-  }
-
-  .facebook-login:hover {
-    display: block;
-    background-color: rgba(5, 139, 46, 1);
-    color: white;
   }
 
   .login-join-cont {

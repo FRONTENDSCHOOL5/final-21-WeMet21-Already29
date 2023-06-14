@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
-import { ProductImage, ProductPage } from "./ProductDetailStyle";
+import { AuthorInfo, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
+import styled from "styled-components";
+import { followButtonHandler } from "../../utils/followButtonHandler";
 
 export default function ProductDetail() {
   const param = useParams();
   const [product, setProduct] = useState(null);
   const [productAuthor, setProductAuthor] = useState(null);
   const navigator = useNavigate();
+
   const deleteProductHandler = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
@@ -19,7 +22,6 @@ export default function ProductDetail() {
       })
         .then((res) => res.json())
         .then((json) => {
-          alert(json.message);
           navigator("/productlist");
         });
     }
@@ -46,15 +48,36 @@ export default function ProductDetail() {
     <ProductPage>
       {product ? (
         <>
-          <ProductImage src={product.itemImage} alt="상품 이미지" />
-          <h2>{product.itemName}</h2>
-          <p>{new Intl.NumberFormat().format(product.price)}원</p>
-          <a href={product.link}>상품 판매 링크</a>
-          <br />
+          <ProductImageWrapper>
+            <ProductImage src={product.itemImage} alt="상품 이미지" />
+          </ProductImageWrapper>
+          <div>
+            <ProductTitle>{product.itemName}</ProductTitle>
+            <ProductPrice>
+              {new Intl.NumberFormat().format(product.price)}
+              <span>원</span>
+            </ProductPrice>
+
+            <p>
+              구매링크<a href={product.link}>{product.link}</a>
+            </p>
+          </div>
           <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
           <button type="button" onClick={deleteProductHandler}>
             삭제하기
           </button>
+          <AuthorInfo>
+            <Link to={`/profile/${productAuthor.accountname}`}>
+              <img src={productAuthor.image} alt="상점 프로필 사진" />
+              <div>
+                <p>{productAuthor.username}</p>
+                <p>@ {productAuthor.accountname}</p>
+              </div>
+            </Link>
+            <button type="button" onClick={followButtonHandler}>
+              팔로우
+            </button>
+          </AuthorInfo>
         </>
       ) : (
         <Loading />

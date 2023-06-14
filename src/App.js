@@ -1,4 +1,4 @@
-import LoginEmail from "./pages/LoginEmail";
+import Login from "./pages/Login/Login";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import reset from "styled-reset";
@@ -24,7 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <LoginEmail />
+      <Login />
     </BrowserRouter>
   );
 }

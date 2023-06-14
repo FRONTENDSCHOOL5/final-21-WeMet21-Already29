@@ -84,8 +84,6 @@ const StyledIntroLoginPage = styled.main`
     background-color: #ffffff;
   }
 
-  
-
   .sns-login-li img {
     width: 18px;
     height: 18px;
@@ -135,14 +133,8 @@ const StyledIntroLoginPage = styled.main`
     line-height: 23px;
   }
 
-  .facebook-login {
-    
-  }
-
   .facebook-login:hover {
     display: block;
-    filter: brightness(1);
-    
     background-color: rgba(5, 139, 46, 1);
     color: white;
   }

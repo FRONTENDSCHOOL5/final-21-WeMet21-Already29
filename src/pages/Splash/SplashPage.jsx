@@ -1,7 +1,7 @@
 import React from 'react';
 import mainLogo from '../../assets/images/main-logo.png';
 import footerLogo from '../../assets/images/splash-footer.png'
-import StyledSplashPage from './styled';
+import StyledSplashPage from './SplashStyle';
 
 const SplashPage = () => (
     <StyledSplashPage>

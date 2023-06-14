@@ -2,7 +2,7 @@ import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import UploadProduct from "./pages/UploadProduct/UploadProduct";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import ProductList from "./pages/ProductList/ProductList";
-import GlobalStyle from "./styles/GlobalStyle";
+import GlobalStyle from "./style/GlobalStyle";
 
 function App() {
   return (

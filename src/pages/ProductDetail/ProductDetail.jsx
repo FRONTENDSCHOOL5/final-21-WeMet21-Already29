@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-
-const ProductPage = styled.main`
-  img {
-    width: 100%;
-  }
-`;
+import Loading from "../../components/Loading";
+import { ProductImage, ProductPage } from "./ProductDetailStyle";
 
 export default function ProductDetail() {
   const param = useParams();
@@ -51,7 +46,7 @@ export default function ProductDetail() {
     <ProductPage>
       {product ? (
         <>
-          <img src={product.itemImage} alt="상품 이미지" />
+          <ProductImage src={product.itemImage} alt="상품 이미지" />
           <h2>{product.itemName}</h2>
           <p>{new Intl.NumberFormat().format(product.price)}원</p>
           <a href={product.link}>상품 판매 링크</a>
@@ -62,7 +57,7 @@ export default function ProductDetail() {
           </button>
         </>
       ) : (
-        "...loading"
+        <Loading />
       )}
     </ProductPage>
   );

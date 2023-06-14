@@ -1,72 +1,9 @@
 import React, { useRef, useState } from "react";
-import styled from "styled-components";
-import iconAlbum from "../assets/images/icon-image.svg";
+
+import iconAlbum from "../../assets/images/icon-image.svg";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-const Page = styled.main`
-  margin: 0 34px;
-`;
-
-const PlaceImg = styled.div`
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3/2;
-  margin: 18px 0 30px;
-  background-color: #f2f2f2;
-  border: 0.5px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-`;
-
-const InputLabel = styled.label`
-  margin-bottom: 10px;
-  font-size: 12px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding-bottom: 8px;
-  border: 0;
-  border-bottom: 1px solid #c4c4c4;
-  outline: none;
-
-  &::placeholder {
-    color: #c4c4c4;
-    font-size: 14px;
-  }
-`;
-
-const Button = styled.button`
-  background-color: var(--main-color);
-  border: 0;
-  color: #fff;
-  font-size: 14px;
-  padding: 7px 32px;
-  border-radius: 32px;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.5;
-  }
-`;
-
-const ImgUploadButton = styled.div`
-  display: inline-block;
-  padding: 7px;
-  border-radius: 50%;
-  background-color: #767676;
-  cursor: pointer;
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-`;
+import { Button, ImgPlace, ImgUploadButton, Input, InputLabel, Page } from "./UploadProductStyle";
 
 export default function UploadProduct() {
   const imgPre = useRef(null),
@@ -209,12 +146,6 @@ export default function UploadProduct() {
     setproductImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
   };
 
-  const imgButtonfilterHandler = (e) => {
-    if (!e.target.src) {
-      e.preventDefault();
-    }
-  };
-
   const buttonKeyboardEvent = (e) => {
     if (e.key === " " || e.key === "Enter") {
       e.target.firstElementChild.click();
@@ -236,15 +167,16 @@ export default function UploadProduct() {
       </Button>
       <Page>
         <form id="abc" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
-          <InputLabel htmlFor="productImg" onClick={imgButtonfilterHandler}>
-            <span className="a11y-hidden">상품 이미지 등록</span>
-            <PlaceImg>
-              <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
+          <ImgPlace>
+            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
+            <InputLabel htmlFor="productImg">
+              <span className="a11y-hidden">상품 이미지 등록</span>
               <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>
                 <img src={iconAlbum} alt="앨범 아이콘" />
               </ImgUploadButton>
-            </PlaceImg>
-          </InputLabel>
+            </InputLabel>
+          </ImgPlace>
+
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />
           <InputLabel htmlFor="productNameInput">상품명</InputLabel>
           <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required></Input>

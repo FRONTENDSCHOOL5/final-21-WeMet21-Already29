@@ -1,41 +1,42 @@
 import styled from "styled-components";
 
-const Section = styled.section`
-  margin-left: 20px;
-  overflow: hidden;
-`;
-
-const H2 = styled.h2`
-  font-weight: bold;
-`;
-
 const Ul = styled.ul`
-  display: flex;
-  overflow-x: clip;
-  gap: 10px;
-
   li {
-    flex-shrink: 0;
-    width: 140px;
-    font-size: 14px;
+    width: 100%;
+    font-size: 18px;
 
+    a {
+      margin: 10px 0;
+      display: flex;
+      gap: 10px;
+    }
+    .product-img-section {
+      flex-shrink: 0;
+    }
+    .product-info-section {
+      flex-grow: 0;
+      overflow: hidden;
+    }
     .product-img {
-      min-width: 100%;
-      aspect-ratio: 4/3;
       border-radius: 10px;
       object-fit: cover;
+      width: 200px;
+      aspect-ratio: 4/3;
     }
     .product-title {
-      margin: 5px 0;
-      width: 140px;
-      text-overflow: ellipsis;
       white-space: nowrap;
-      overflow: clip;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .product-price {
       color: var(--main-color);
+      font-weight: bold;
     }
+  }
+
+  li + li {
+    border-top: 1px solid #ccc;
   }
 `;
 
-export { Section, H2, Ul };
+export { Ul };

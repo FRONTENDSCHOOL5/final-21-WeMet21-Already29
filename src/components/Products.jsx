@@ -31,9 +31,13 @@ export default function Products(props) {
           return (
             <li key={item.id}>
               <Link to={`/product/detail/${item.id}`} draggable={false}>
-                <img src={item.itemImage} alt="상품 이미지" className="product-img" />
-                <h3 className="product-title">{item.itemName}</h3>
-                <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
+                <div className="product-img-section">
+                  <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                </div>
+                <div className="product-info-section">
+                  <h3 className="product-title">{item.itemName}</h3>
+                  <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
+                </div>
               </Link>
             </li>
           );

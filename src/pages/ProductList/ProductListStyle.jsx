@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Ul = styled.ul`
   li {
     width: 100%;
-    font-size: 18px;
+    font-size: 1.8rem;
 
     a {
       margin: 10px 0;

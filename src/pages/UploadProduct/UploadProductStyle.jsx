@@ -23,7 +23,7 @@ const ImgPlace = styled.div`
 
 const InputLabel = styled.label`
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 1.2rem;
 `;
 
 const Input = styled.input`
@@ -35,7 +35,7 @@ const Input = styled.input`
 
   &::placeholder {
     color: #bdbdbd;
-    font-size: 14px;
+    font-size: 1.4rem;
   }
   &:focus {
     box-shadow: 0 2px 0 0 var(--main-color);
@@ -46,7 +46,7 @@ const Button = styled.button`
   background-color: var(--main-color);
   border: 0;
   color: #fff;
-  font-size: 14px;
+  font-size: 1.4rem;
   padding: 7px 32px;
   border-radius: 32px;
   cursor: pointer;

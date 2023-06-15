@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
-import { AuthorInfo, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
+import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
 import { followButtonHandler } from "../../utils/followButtonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
 
@@ -51,17 +51,17 @@ export default function ProductDetail() {
           <ProductImageWrapper>
             <ProductImage src={product.itemImage} alt="상품 이미지" />
           </ProductImageWrapper>
-          <div>
+          <ProductDetailSection>
             <ProductTitle>{product.itemName}</ProductTitle>
             <ProductPrice>
               {new Intl.NumberFormat().format(product.price)}
               <span>원</span>
             </ProductPrice>
-            <p>{uploadDateCalculate(product.updatedAt)}</p>
+            <span>{uploadDateCalculate(product.updatedAt)}</span>
             <p>
               구매링크<a href={product.link}>{product.link}</a>
             </p>
-          </div>
+          </ProductDetailSection>
           <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
           <button type="button" onClick={deleteProductHandler}>
             삭제하기

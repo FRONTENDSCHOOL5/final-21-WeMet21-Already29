@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import share from "../../assets/images/share.png";
+import { GreenBigButton, GreenMdButton, GreenSmButton } from "../../components/Button/Button";
 
 const ProfileSection = styled.section`
   display: flex;
@@ -55,6 +56,20 @@ const ProfileIntro = styled.div`
   }
 `;
 
+const ShareButton = styled.button`
+  border-radius: 50%;
+  border: 1px solid var(--line-gray-color);
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  vertical-align: top;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 const LinkStyle = styled(NavLink)`
   font-weight: bold;
   font-size: 1.6rem;
@@ -67,6 +82,7 @@ const LinkStyle = styled(NavLink)`
 
 const ProductUl = styled.ul`
   width: max-content;
+  margin-top: 16px;
 
   li {
     display: inline-block;
@@ -77,15 +93,6 @@ const ProductUl = styled.ul`
     margin: 0 10px;
   }
 
-  .product-img-section {
-    flex-shrink: 0;
-  }
-
-  .product-info-section {
-    flex-grow: 0;
-    overflow: hidden;
-  }
-
   .product-img {
     border-radius: 10px;
     object-fit: contain;
@@ -93,6 +100,8 @@ const ProductUl = styled.ul`
   }
 
   .product-title {
+    margin: 5px 0;
+    font-size: 1.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -101,31 +110,14 @@ const ProductUl = styled.ul`
   .product-price {
     color: var(--main-color);
     font-weight: bold;
+    font-size: 1.2rem;
   }
 `;
 
 const ProductSection = styled.section`
   overflow: hidden;
-  margin-left: 30px;
-`;
-
-const FollowButton = styled.button`
-  width: 120px;
-  height: 34px;
-  border: 0;
-  font-size: 1.4rem;
-  background-color: var(--main-color);
-  border-radius: 10px;
-  color: var(--white-color);
-`;
-
-const ShareButton = styled.button`
-  border-radius: 50%;
   border: 1px solid var(--line-gray-color);
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  vertical-align: top;
+  padding: 16px 0 23px 30px;
 `;
 
 export default function Profile() {
@@ -159,9 +151,12 @@ export default function Profile() {
       .then((json) => alert(json.message));
   };
 
-  console.log(userData);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   const mouseStart = (e) => {
-    setMouseStartPosition(e.pageX + slideUlLocation);
+    setMouseStartPosition(0 - e.pageX + slideUlLocation);
   };
 
   const mouseEnd = (e) => {
@@ -169,17 +164,15 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    setslideUlLocation(mouseStartPosition - mouseEndPosition);
-    console.log(mouseStartPosition, mouseEndPosition);
+    setslideUlLocation(mouseStartPosition + mouseEndPosition);
   }, [mouseEndPosition]);
+  console.log(slideUlLocation);
 
   useEffect(() => {
     if (slideUlLocation > 0) {
       setslideUlLocation(0);
+    } else if (slideUlLocation < -500) {
+      setslideUlLocation(-140 * 3);
     }
   }, [slideUlLocation]);
 
@@ -205,19 +198,17 @@ export default function Profile() {
               <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
             </ProfileIntro>
             <div className="profile-navbar">
-              <FollowButton type="button" onClick={followButtonHandler}>
-                {userData.isfollow ? "언팔로우" : "팔로우"}
-              </FollowButton>
+              <GreenMdButton contents={userData.isfollow ? "언팔로우" : "팔로우"} type="button" onClick={followButtonHandler}></GreenMdButton>
               <ShareButton type="button">
                 <img src={share} alt="공유하기" />
               </ShareButton>
             </div>
           </ProfileSection>
           <ProductSection onMouseDown={mouseStart} onDrag={mouseEnd}>
-            <LinkStyle to="" style={{ userDrag: "none" }}>
+            <LinkStyle to={`/productlist/${userData.accountname}`} style={{ userDrag: "none" }}>
               판매 중인 상품
             </LinkStyle>
-            <ProductUl style={{ transform: `translateX(${slideUlLocation}px)` }}>
+            <ProductUl className="slide-ul" style={{ transform: `translateX(${slideUlLocation}px)` }}>
               <Products userAccountName={userData.accountname} />
             </ProductUl>
           </ProductSection>

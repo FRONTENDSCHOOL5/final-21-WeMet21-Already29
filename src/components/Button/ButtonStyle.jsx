@@ -1,43 +1,47 @@
 import styled from "styled-components";
 
 const GreenBigBtn = styled.button`
-  width: 20.125rem;
-  height: 2.75rem;
-  border-radius: 10px;
+  width: 32.2rem;
+  height: 4.4rem;
+  border-radius: 1rem;
   border: none;
   color: var(--white-color);
   font-size: var(--font-md-size);
   background-color: var(--main-color);
+  text-align: center;
 `;
 
 const GreenMdBtn = styled.button`
-  width: 7.5rem;
-  height: 2.125rem;
-  border-radius: 10px;
+  width: 12rem;
+  height: 3.4rem;
+  border-radius: 1rem;
   border: none;
   color: var(--white-color);
   font-size: var(--font-md-size);
   background-color: var(--main-color);
+  text-align: center;
 `;
 
 const GreenSmBtn = styled.button`
-  width: 5.625rem;
-  height: 2rem;
-  border-radius: 10px;
+  width: 9rem;
+  height: 3.2rem;
+  border-radius: 1rem;
   border: none;
   color: var(--white-color);
   font-size: var(--font-md-size);
   background-color: var(--main-color);
+  text-align: center;
 `;
 
 const GreenSsBtn = styled.button`
-  width: 3.5rem;
-  height: 1.75rem;
-  border-radius: 10px;
+  width: 5.6rem;
+  height: 2.8rem;
+  border-radius: 1rem;
   border: none;
   color: var(--white-color);
   font-size: var(--font-sm-size);
   background-color: var(--main-color);
+  text-align: center;
 `;
 
 const WhiteBigBtn = styled(GreenBigBtn)`

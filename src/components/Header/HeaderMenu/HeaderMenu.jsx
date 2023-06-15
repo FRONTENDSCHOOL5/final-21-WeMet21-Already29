@@ -1,6 +1,6 @@
 import React from 'react';
 import StyledTopBasicNav from './TopNavbarStyle';
-import iconSearch from '../../assets/images/icon-search.svg';
+import iconSearch from '../../../assets/images/icon-search.svg';
 
 export function TopMainNav(props) {
   const goSearch = () => {

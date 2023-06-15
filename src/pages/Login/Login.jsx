@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Loginh1, LoginForm, StyleInput, LoginButton, NavStyle, Label, FormBox } from "./LoginStyle";
+import { Loginh1, LoginForm, StyleInput, LoginButton, NavStyle, Label, FormBox, StyleLink } from "./LoginStyle";
+import { Link } from "react-router-dom"; // eslint-disable-line no-unused-vars
 
 export default function Login() {
   // https://api.mandarin.weniv.co.kr/
@@ -65,7 +66,7 @@ export default function Login() {
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
           <p style={{ color: "red", fontSize: "0.7rem" }}></p>
           <LoginButton type="submit" ref={button}>
-            로그인
+            <StyleLink to={`/homefeed`}>로그인</StyleLink>
           </LoginButton>
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>

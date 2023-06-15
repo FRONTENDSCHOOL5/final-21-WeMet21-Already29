@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Loginh1 = styled.h1`
   margin-top: 54px;
@@ -41,6 +42,10 @@ const LoginButton = styled.button`
   padding: 15px;
 `;
 
+const StyleLink = styled(Link)`
+  color: white;
+`;
+
 const NavStyle = styled(NavLink)`
   display: block;
   list-style: none;
@@ -63,4 +68,4 @@ const FormBox = styled.div`
   height: 926px;
 `;
 
-export { Loginh1, LoginForm, StyleInput, LoginButton, NavStyle, Label, FormBox };
+export { Loginh1, LoginForm, StyleInput, LoginButton, NavStyle, Label, FormBox, StyleLink };

@@ -75,4 +75,3 @@ const UnactiveSmBtn = styled(GreenSmBtn)`
 `;
 
 export { GreenBigBtn, GreenMdBtn, GreenSmBtn, GreenSsBtn, WhiteBigBtn, WhiteMdBtn, WhiteSsBtn, UnactiveBigBtn, UnactiveMdBtn, UnactiveSmBtn };
-

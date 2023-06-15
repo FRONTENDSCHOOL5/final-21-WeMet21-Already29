@@ -1,5 +1,5 @@
 import React from 'react';
-import StyledTopBasicNav from './TopNavbarStyle';
+import StyledTopBasicNav from './HeaderMenuStyle';
 import iconSearch from '../../../assets/images/icon-search.svg';
 
 export function TopMainNav(props) {

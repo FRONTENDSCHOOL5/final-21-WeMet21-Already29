@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Ul = styled.ul`
   li {
     width: 100%;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 
     a {
       margin: 10px 0;
@@ -31,6 +31,7 @@ const Ul = styled.ul`
     .product-price {
       color: var(--main-color);
       font-weight: bold;
+      font-size: 1.8rem;
     }
   }
 

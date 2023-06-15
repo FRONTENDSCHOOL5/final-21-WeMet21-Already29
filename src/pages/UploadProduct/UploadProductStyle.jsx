@@ -22,13 +22,13 @@ const ImgPlace = styled.div`
 `;
 
 const InputLabel = styled.label`
-  margin-bottom: 10px;
   font-size: 1.2rem;
 `;
 
 const Input = styled.input`
   width: 100%;
   padding-bottom: 8px;
+  margin: 10px 0;
   border: 0;
   box-shadow: 0 1px 0 0 var(--line-gray-color);
   outline: none;

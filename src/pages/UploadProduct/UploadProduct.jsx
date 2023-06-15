@@ -167,14 +167,14 @@ export default function UploadProduct() {
       </Button>
       <Page>
         <form id="abc" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
+          <span>이미지 등록</span>
           <ImgPlace>
-            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
             <InputLabel htmlFor="productImg">
-              <span className="a11y-hidden">상품 이미지 등록</span>
               <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>
                 <img src={iconAlbum} alt="앨범 아이콘" />
               </ImgUploadButton>
             </InputLabel>
+            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
           </ImgPlace>
 
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />

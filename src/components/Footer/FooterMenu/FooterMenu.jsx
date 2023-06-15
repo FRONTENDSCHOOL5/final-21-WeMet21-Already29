@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { StyledTabMenu, StlyedNavLink } from './TabMenuStyle';
+import { StyledTabMenu, StlyedNavLink } from './FooterMenuStyle';
 import homeIcon from '../../../assets/images/home.png'; 
 import homeIconActive from '../../../assets/images/home-fill.png';
 import storeIcon from '../../../assets/images/store.png';

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { StyledTabMenu, StlyedNavLink } from './TabMenuStyle';
-import homeIcon from '../../assets/images/home.png'; 
-import homeIconActive from '../../assets/images/home-fill.png';
-import storeIcon from '../../assets/images/store.png';
-import storeIconActive from '../../assets/images/store-fill.png';
-import uploadIcon from '../../assets/images/edit.png';
-import uploadIconActive from '../../assets/images/edit-fill.png'
-import profileIcon from '../../assets/images/user.png';
-import profileIconActive from '../../assets/images/user-fill.png';
+import homeIcon from '../../../assets/images/home.png'; 
+import homeIconActive from '../../../assets/images/home-fill.png';
+import storeIcon from '../../../assets/images/store.png';
+import storeIconActive from '../../../assets/images/store-fill.png';
+import uploadIcon from '../../../assets/images/edit.png';
+import uploadIconActive from '../../../assets/images/edit-fill.png'
+import profileIcon from '../../../assets/images/user.png';
+import profileIconActive from '../../../assets/images/user-fill.png';
 
 const TabMenu = () => {
   const location = useLocation();

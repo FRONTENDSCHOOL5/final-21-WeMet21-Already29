@@ -1,8 +1,8 @@
 import React from "react";
 import { GreenBigBtn, GreenMdBtn, GreenSmBtn, GreenSsBtn, WhiteBigBtn, WhiteMdBtn, WhiteSsBtn, UnactiveBigBtn, UnactiveMdBtn, UnactiveSmBtn } from "./ButtonStyle";
 
-export function GreenBigButton({ contents }) {
-  return <GreenBigBtn>{contents}</GreenBigBtn>;
+export function GreenBigButton({ contents, disabled }) {
+  return <GreenBigBtn disabled={disabled}>{contents}</GreenBigBtn>;
 }
 
 export function GreenMdButton({ contents }) {

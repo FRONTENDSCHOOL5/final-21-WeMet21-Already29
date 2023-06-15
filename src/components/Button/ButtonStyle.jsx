@@ -8,6 +8,11 @@ const GreenBigBtn = styled.button`
   color: var(--white-color);
   font-size: var(--font-md-size);
   background-color: var(--main-color);
+  color: ${({ colorType }) => (colorType ? "red;" : "var(--white-color);")};
+
+  &:disabled {
+    background-color: rgb(5, 139, 46, 0.5);
+  }
 `;
 
 const GreenMdBtn = styled.button`

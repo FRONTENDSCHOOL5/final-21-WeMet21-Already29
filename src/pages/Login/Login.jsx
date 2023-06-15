@@ -1,13 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Loginh1, LoginForm, StyleInput, LoginButton, NavStyle, Label, FormBox, StyleLink } from "./LoginStyle";
-import { Link } from "react-router-dom"; // eslint-disable-line no-unused-vars
+import { Loginh1, LoginForm, StyleInput, NavStyle, Label, FormBox } from "./LoginStyle";
+import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
+import { GreenBigButton } from "../../components/Button/Button";
 
-export default function Login() {
+export default function Login({ props }) {
   // https://api.mandarin.weniv.co.kr/
 
   const [userEmail, setUserEmail] = useState(""),
     [userPassword, setUserPassword] = useState("");
   const button = useRef(null);
+  const [warningMessage, setWarningMessage] = useState("");
+
+  // useNavigate
+
+  const navigate = useNavigate();
 
   const inputHandler = (e) => {
     if (e.target.type === "email") {
@@ -19,13 +25,15 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (userEmail && userPassword) {
-      button.current.style.backgroundColor = "#058b2e";
-      button.current.disabled = false;
-      console.log(button.current.disabled);
-    } else {
-      button.current.style.backgroundColor = "rgb(5, 139, 46, 0.5)";
-      button.current.disabled = true;
+    if (button.current) {
+      if (userEmail && userPassword) {
+        button.current.style.backgroundColor = "#058b2e";
+        button.current.disabled = false;
+        console.log(button.current.disabled);
+      } else {
+        button.current.style.backgroundColor = "rgb(5, 139, 46, 0.5)";
+        button.current.disabled = true;
+      }
     }
   }, [userEmail, userPassword]);
 
@@ -44,13 +52,15 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((json) => {
-        button.current.parentNode.querySelector("p").textContent = json.message;
+        // button.current.parentNode.querySelector("p").textContent = json.message;
+        setWarningMessage(json.message);
 
         // console.log(json.user.token);
         // localStorage.setItem("token", json.user.token);
         if (json.user) {
           console.log(json);
           localStorage.setItem("token", json.user.token);
+          navigate("./homefeed");
         }
       });
   };
@@ -64,10 +74,8 @@ export default function Login() {
           <StyleInput type="email" id="user-email" onChange={inputHandler} value={userEmail} />
           <Label htmlFor="user-password">비밀번호</Label>
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
-          <p style={{ color: "red", fontSize: "0.7rem" }}></p>
-          <LoginButton type="submit" ref={button}>
-            <StyleLink to={`/homefeed`}>로그인</StyleLink>
-          </LoginButton>
+          <p style={{ color: "red", fontSize: "0.7rem" }}>{warningMessage}</p>
+          <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword)}></GreenBigButton>
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>
       </FormBox>

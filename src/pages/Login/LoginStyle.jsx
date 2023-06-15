@@ -30,7 +30,7 @@ const StyleInput = styled.input`
   }
 `;
 
-const LoginButton = styled.button`
+const GreenBigButton = styled.button`
   border-radius: 30px;
   color: #fff;
   padding: 20px 0;
@@ -68,4 +68,4 @@ const FormBox = styled.div`
   height: 926px;
 `;
 
-export { Loginh1, LoginForm, StyleInput, LoginButton, NavStyle, Label, FormBox, StyleLink };
+export { Loginh1, LoginForm, StyleInput, GreenBigButton, NavStyle, Label, FormBox, StyleLink };

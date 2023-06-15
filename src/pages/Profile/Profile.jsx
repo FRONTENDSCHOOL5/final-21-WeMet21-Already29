@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 
 import share from "../../assets/images/share.png";
 import { GreenMdButton } from "../../components/Button/Button";
+import { FollowCountSpan, LinkStyle, ProductSection, ProductUl, ProfileHeader, ProfileIntro, ProfileSection, ShareButton } from "./ProfileStyle";
 
 export default function Profile() {
   const userAccountName = "testtestabc";

@@ -30,7 +30,7 @@ export default function Products(props) {
         productDatas.map((item) => {
           return (
             <li key={item.id}>
-              <Link to={`/product/detail/${item.id}`} draggable={false}>
+              <Link to={`/product/detail/${item.id}`}>
                 <div className="product-img-section">
                   <img src={item.itemImage} alt="상품 이미지" className="product-img" />
                 </div>

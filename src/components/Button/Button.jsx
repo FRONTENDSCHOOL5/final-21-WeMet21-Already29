@@ -5,8 +5,8 @@ export function GreenBigButton({ contents }) {
   return <GreenBigBtn>{contents}</GreenBigBtn>;
 }
 
-export function GreenMdButton({ contents }) {
-  return <GreenMdBtn>{contents}</GreenMdBtn>;
+export function GreenMdButton({ contents, onClick }) {
+  return <GreenMdBtn onClick={onClick}>{contents}</GreenMdBtn>;
 }
 
 export function GreenSmButton({ contents }) {

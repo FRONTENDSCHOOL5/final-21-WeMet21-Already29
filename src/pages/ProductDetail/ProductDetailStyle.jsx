@@ -31,6 +31,17 @@ const ProductPrice = styled.p`
 `;
 
 const ProductDetailSection = styled.section`
+  .distributor {
+    border: 2px solid var(--line-gray-color);
+    text-align: center;
+    border-radius: 5px;
+    padding: 13px;
+    margin: 10px 0;
+    background-color: var(--white-color);
+    color: var(--gray-color);
+    font-size: 1.4rem;
+  }
+
   span {
     color: var(--gray-color);
   }

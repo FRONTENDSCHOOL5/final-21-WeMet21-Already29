@@ -42,8 +42,6 @@ export default function ProductDetail() {
       });
   }, []);
 
-  console.log(product);
-
   return (
     <ProductPage>
       {product ? (
@@ -58,8 +56,8 @@ export default function ProductDetail() {
               <span>원</span>
             </ProductPrice>
             <span>{uploadDateCalculate(product.updatedAt)}</span>
-            <p>
-              구매링크<a href={product.link}>{product.link}</a>
+            <p className="distributor">
+              구매링크 : <a href={product.link}>{product.link}</a>
             </p>
           </ProductDetailSection>
           <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>

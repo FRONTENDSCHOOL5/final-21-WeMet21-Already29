@@ -30,18 +30,6 @@ const StyleInput = styled.input`
   }
 `;
 
-const GreenBigButton = styled.button`
-  border-radius: 30px;
-  color: #fff;
-  padding: 20px 0;
-  font-size: 0.9rem;
-  border: none;
-  cursor: pointer;
-  height: 44px;
-  margin-top: 20px;
-  padding: 15px;
-`;
-
 const StyleLink = styled(Link)`
   color: white;
 `;
@@ -64,8 +52,8 @@ const FormBox = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 428px;
-  height: 926px;
+  width: 390px;
+  height: 100vh;
 `;
 
-export { Loginh1, LoginForm, StyleInput, GreenBigButton, NavStyle, Label, FormBox, StyleLink };
+export { Loginh1, LoginForm, StyleInput, NavStyle, Label, FormBox, StyleLink };

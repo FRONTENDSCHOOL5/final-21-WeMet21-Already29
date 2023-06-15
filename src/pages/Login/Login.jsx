@@ -9,7 +9,7 @@ export default function Login() {
   const [userEmail, setUserEmail] = useState(""),
     [userPassword, setUserPassword] = useState("");
   const button = useRef(null);
-  const [warningMessage, setWarningMessage] = useState("");
+  const [warningMessage, setWarningMessage] = useState(""); // 경고문구도 state, 바뀌는 부분!!
 
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ export default function Login() {
         button.current.disabled = false;
         console.log(button.current.disabled);
       } else {
-        button.current.style.backgroundColor = "rgb(5, 139, 46, 0.5)";
+        button.current.style.background = "red"; // 에러
         button.current.disabled = true;
       }
     }
@@ -67,9 +67,11 @@ export default function Login() {
         if (json.user) {
           console.log(json);
           localStorage.setItem("token", json.user.token);
-          navigate("./homefeed");
+          // 페이지 이동!!
+          navigate("/homefeed");
         }
-      });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -81,7 +83,7 @@ export default function Login() {
           <StyleInput type="email" id="user-email" onChange={inputHandler} value={userEmail} />
           <Label htmlFor="user-password">비밀번호</Label>
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
-          <p style={{ color: "red", fontSize: "0.7rem", marginBottom: "0.625rem" }}>{warningMessage}</p>
+          <p style={{ color: "red", fontSize: "0.7rem", marginBottom: "0.938rem" }}>{warningMessage}</p>
           <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword && validateEmail(userEmail))}></GreenBigButton>
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>

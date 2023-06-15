@@ -33,6 +33,13 @@ const Ul = styled.ul`
       font-weight: bold;
       font-size: 1.8rem;
     }
+
+    span {
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      color: var(--gray-color);
+    }
   }
 
   li + li {

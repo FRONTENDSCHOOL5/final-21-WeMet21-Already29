@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
-import styled from "styled-components";
 import { followButtonHandler } from "../../utils/followButtonHandler";
 
 export default function ProductDetail() {
@@ -75,7 +74,7 @@ export default function ProductDetail() {
               </div>
             </Link>
             <button type="button" onClick={followButtonHandler}>
-              팔로우
+              {productAuthor.isfollow ? "언팔로우" : "팔로우"}
             </button>
           </AuthorInfo>
         </>

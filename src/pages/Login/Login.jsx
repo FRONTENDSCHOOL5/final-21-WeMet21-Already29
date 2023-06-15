@@ -3,7 +3,7 @@ import { Loginh1, LoginForm, StyleInput, NavStyle, Label, FormBox } from "./Logi
 import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
 import { GreenBigButton } from "../../components/Button/Button";
 
-export default function Login({ props }) {
+export default function Login() {
   // https://api.mandarin.weniv.co.kr/
 
   const [userEmail, setUserEmail] = useState(""),
@@ -11,9 +11,12 @@ export default function Login({ props }) {
   const button = useRef(null);
   const [warningMessage, setWarningMessage] = useState("");
 
-  // useNavigate
-
   const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const inputHandler = (e) => {
     if (e.target.type === "email") {
@@ -26,7 +29,7 @@ export default function Login({ props }) {
 
   useEffect(() => {
     if (button.current) {
-      if (userEmail && userPassword) {
+      if (userEmail && userPassword && validateEmail(userEmail)) {
         button.current.style.backgroundColor = "#058b2e";
         button.current.disabled = false;
         console.log(button.current.disabled);
@@ -39,6 +42,10 @@ export default function Login({ props }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (!validateEmail(userEmail)) {
+      setWarningMessage("Please enter a valid email address.");
+      return;
+    }
     fetch("https://api.mandarin.weniv.co.kr/user/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -74,8 +81,8 @@ export default function Login({ props }) {
           <StyleInput type="email" id="user-email" onChange={inputHandler} value={userEmail} />
           <Label htmlFor="user-password">비밀번호</Label>
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
-          <p style={{ color: "red", fontSize: "0.7rem" }}>{warningMessage}</p>
-          <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword)}></GreenBigButton>
+          <p style={{ color: "red", fontSize: "0.7rem", marginBottom: "0.625rem" }}>{warningMessage}</p>
+          <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword && validateEmail(userEmail))}></GreenBigButton>
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>
       </FormBox>

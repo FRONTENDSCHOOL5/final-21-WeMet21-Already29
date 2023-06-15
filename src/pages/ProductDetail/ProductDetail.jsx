@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
 import { followButtonHandler } from "../../utils/followButtonHandler";
+import uploadDateCalculate from "../../utils/uploadDateCalculate";
 
 export default function ProductDetail() {
   const param = useParams();
@@ -41,7 +42,7 @@ export default function ProductDetail() {
       });
   }, []);
 
-  console.log(productAuthor);
+  console.log(product);
 
   return (
     <ProductPage>
@@ -56,7 +57,7 @@ export default function ProductDetail() {
               {new Intl.NumberFormat().format(product.price)}
               <span>원</span>
             </ProductPrice>
-
+            <p>{uploadDateCalculate(product.updatedAt)}</p>
             <p>
               구매링크<a href={product.link}>{product.link}</a>
             </p>

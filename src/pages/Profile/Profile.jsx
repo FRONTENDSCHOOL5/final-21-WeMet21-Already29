@@ -3,8 +3,9 @@ import Products from "../../components/Products";
 import Loading from "../../components/Loading";
 
 import share from "../../assets/images/share.png";
-import { GreenMdButton } from "../../components/Button/Button";
+import { GreenBigButton, GreenMdButton } from "../../components/Button/Button";
 import { FollowCountSpan, LinkStyle, ProductSection, ProductUl, ProfileHeader, ProfileIntro, ProfileSection, ShareButton } from "./ProfileStyle";
+import { followButtonHandler } from "../../utils/followButtonHandler";
 
 export default function Profile() {
   const userAccountName = "testtestabc";
@@ -23,19 +24,6 @@ export default function Profile() {
     })
       .then((res) => res.json())
       .then((json) => setUserData(json.profile));
-  };
-
-  const followButtonHandler = () => {
-    console.log("submit");
-    fetch(`https://api.mandarin.weniv.co.kr/profile/${userData.accountname}/follow`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => alert(json.message));
   };
 
   useEffect(() => {
@@ -85,7 +73,13 @@ export default function Profile() {
               <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
             </ProfileIntro>
             <div className="profile-navbar">
-              <GreenMdButton type="button" onClick={followButtonHandler} contents={userData.isfollow ? "언팔로우" : "팔로우"}></GreenMdButton>
+              <GreenBigButton
+                type="button"
+                onClick={() => {
+                  return followButtonHandler(userAccountName);
+                }}
+                contents={userData.isfollow ? "언팔로우" : "팔로우"}
+              ></GreenBigButton>
               <ShareButton type="button">
                 <img src={share} alt="공유하기" />
               </ShareButton>

@@ -12,11 +12,11 @@ function App() {
 
       <BrowserRouter>
         <Link to="/uploadProduct">상품 올리기</Link>
-        <Link to="/profile">프로필</Link>
+        <Link to="/profile/testtestabc">프로필</Link>
         <Routes>
           <Route path="/uploadProduct" element={<UploadProduct />}></Route>
           <Route path="/productlist/:id" element={<ProductList />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/profile/:id" element={<Profile />}></Route>
           <Route path="/product/*" element={<Outlet />}>
             <Route path="detail/:id" element={<ProductDetail />}></Route>
             <Route path="modify/:id" element={<UploadProduct />}></Route>

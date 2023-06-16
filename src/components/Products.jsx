@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Loading from "./Loading";
 import uploadDateCalculate from "../utils/uploadDateCalculate";
 
 export default function Products(props) {

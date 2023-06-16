@@ -1,5 +1,7 @@
 import React from "react";
-import StyledTopBasicNav from "./HeaderStyle";
+import { GreenSmButton } from "../Button/Button";
+import { iconArrowLeft } from "./HeaderStyle";
+import { StyledTopBasicNav, ImgIcon } from "./HeaderStyle";
 
 export default function TopMainNav(props) {
   const goSearch = () => {
@@ -8,7 +10,8 @@ export default function TopMainNav(props) {
 
   return (
     <StyledTopBasicNav>
-      <span>{props.value}</span>
+      <ImgIcon src={iconArrowLeft} alt="iconArrowLeft" />
+      <GreenSmButton onClick={goSearch} contents="업로드"></GreenSmButton>
     </StyledTopBasicNav>
   );
 }

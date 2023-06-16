@@ -10,4 +10,8 @@ const UploadInput = styled.input``;
 
 const Img = styled.img``;
 
-export { Upload, Form, UploadInput, Img };
+const Label = styled.label`
+ cursor:pointer;
+`;
+
+export { Upload, Form, UploadInput, Img, Label };

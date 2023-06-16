@@ -1,12 +1,13 @@
 import GlobalStyle from "./style/GlobalStyle";
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <Routes></Routes>
+        <Login />
       </BrowserRouter>
     </>
   );

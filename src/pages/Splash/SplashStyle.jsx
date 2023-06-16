@@ -12,6 +12,7 @@ const StyledSplashPage = styled.main`
     font-size: 35px;
     font-family: 'HambakSnow';
     box-shadow: -1px 0 30px -1px #f2f2f2, 1px 0 30px -1px #f2f2f2;
+    margin: 0 auto;
 
     h1 {
       text-shadow: 2px 2px 4px #5f5f5fbe;
@@ -24,6 +25,10 @@ const StyledSplashPage = styled.main`
       height: 621px;
       left: -1px;
       bottom: -365px;
+    }
+    
+    .footer-logo img {
+      margin-left: 730px;
     }
 
     .main-logo {

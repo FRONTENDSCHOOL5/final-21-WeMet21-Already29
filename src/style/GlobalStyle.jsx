@@ -4,7 +4,9 @@ import reset from "styled-reset";
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+  html{
+    font-size: 10px;
+  }
 
   html {
     font-size: 10px;
@@ -35,6 +37,7 @@ const GlobalStyle = createGlobalStyle`
   #root{
     width: min(80vw, 500px);
     margin: 0 auto;
+    height: 100vh;
   }
 
   .a11y-hidden {

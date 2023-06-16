@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import charaterLogo from '../../assets/images/character-logo.png'
-
-import StyledIntroLoginPage from './styled';
+import StyledIntroLoginPage from './IntroLoginStyle';
 
 function IntroLoginPage() {
   return (
@@ -20,7 +19,7 @@ function IntroLoginPage() {
         <section className="login-join-section">
           <ul className="sns-login">
             <li className="sns-login-li">
-            <button className="facebook-login">
+            <button className="email-login">
               <Link to="/login" span className='email-text'>이메일로 로그인</Link>
             </button>
             </li>

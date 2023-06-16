@@ -5,17 +5,18 @@ import Loading from "../../components/Loading";
 import share from "../../assets/images/share.png";
 import { GreenBigButton, GreenMdButton } from "../../components/Button/Button";
 import { FollowCountSpan, LinkStyle, ProductSection, ProductUl, ProfileHeader, ProfileIntro, ProfileSection, ShareButton } from "./ProfileStyle";
-import { followButtonHandler } from "../../utils/followButtonHandler";
+import { followButtonHandler, unfollowButtonHandler } from "../../utils/followButtonHandler";
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
-  const userAccountName = "testtestabc";
+  const params = useParams();
   const [userData, setUserData] = useState(null);
   const [mouseStartPosition, setMouseStartPosition] = useState(0);
   const [mouseEndPosition, setMouseEndPosition] = useState(0);
   const [slideUlLocation, setslideUlLocation] = useState(0);
 
   const fetchUserData = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/profile/${userAccountName}`, {
+    fetch(`https://api.mandarin.weniv.co.kr/profile/${params.id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -41,7 +42,6 @@ export default function Profile() {
   useEffect(() => {
     setslideUlLocation(mouseStartPosition + mouseEndPosition);
   }, [mouseEndPosition]);
-  console.log(slideUlLocation);
 
   useEffect(() => {
     if (slideUlLocation > 0) {
@@ -76,7 +76,11 @@ export default function Profile() {
               <GreenBigButton
                 type="button"
                 onClick={() => {
-                  return followButtonHandler(userAccountName);
+                  if (userData.isfollow) {
+                    return unfollowButtonHandler(params.id);
+                  } else if (!userData.isfollow) {
+                    return followButtonHandler(params.id);
+                  }
                 }}
                 contents={userData.isfollow ? "언팔로우" : "팔로우"}
               ></GreenBigButton>

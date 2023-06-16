@@ -24,6 +24,8 @@ export const ProfileHeader = styled.div`
     width: 110px;
     height: 110px;
     margin: 0 4rem;
+    border-radius: 50%;
+    object-fit: cover;
   }
 `;
 
@@ -114,4 +116,5 @@ export const ProductSection = styled.section`
   overflow: hidden;
   border: 1px solid var(--line-gray-color);
   padding: 16px 0 23px 30px;
+  margin-bottom: 6px;
 `;

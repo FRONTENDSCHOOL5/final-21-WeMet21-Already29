@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Loginh1, LoginForm, StyleInput, NavStyle, Label, FormBox } from "./LoginStyle";
 import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
-import { GreenBigButton } from "../../components/Button/Button";
+import { GreenBigButton, UnactiveBigButton } from "../../components/Button/Button";
 
 export default function Login() {
   // https://api.mandarin.weniv.co.kr/
@@ -13,23 +13,32 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const inputHandler = (e) => {
     if (e.target.type === "email") {
       setUserEmail(e.target.value);
+      if (validateEmail(e.target.value)) {
+        setWarningMessage("사용 가능한 이메일 입니다.");
+      } else {
+        setWarningMessage("");
+      }
     }
     if (e.target.type === "password") {
       setUserPassword(e.target.value);
+      if (e.target.value.length < 6) {
+        setWarningMessage("비밀번호는 6자리 이상이어야 합니다.");
+      } else {
+        setWarningMessage("");
+      }
     }
+  };
+
+  const validateEmail = (email) => {
+    return true;
   };
 
   useEffect(() => {
     if (button.current) {
-      if (userEmail && userPassword && validateEmail(userEmail)) {
+      if (userEmail && userPassword) {
         button.current.style.backgroundColor = "#058b2e";
         button.current.disabled = false;
         console.log(button.current.disabled);
@@ -38,14 +47,11 @@ export default function Login() {
         button.current.disabled = true;
       }
     }
-  }, [userEmail, userPassword]);
+  }, [userEmail, userPassword, warningMessage]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!validateEmail(userEmail)) {
-      setWarningMessage("Please enter a valid email address.");
-      return;
-    }
+
     fetch("https://api.mandarin.weniv.co.kr/user/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -84,7 +90,7 @@ export default function Login() {
           <Label htmlFor="user-password">비밀번호</Label>
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
           <p style={{ color: "red", fontSize: "0.7rem", marginBottom: "0.938rem" }}>{warningMessage}</p>
-          <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword && validateEmail(userEmail))}></GreenBigButton>
+          {userEmail && userPassword ? <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword && !warningMessage)} /> : <UnactiveBigButton type="submit" contents={"로그인"} />}
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>
       </FormBox>

@@ -11,6 +11,7 @@ const ProductImageWrapper = styled.section`
   height: 400px;
   align-items: center;
   border: 1px solid var(--main-color);
+  overflow: hidden;
 `;
 
 const ProductTitle = styled.h2`

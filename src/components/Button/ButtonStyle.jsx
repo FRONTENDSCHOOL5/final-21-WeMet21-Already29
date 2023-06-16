@@ -8,6 +8,7 @@ const GreenBigBtn = styled.button`
   color: var(--white-color);
   font-size: var(--font-md-size);
   background-color: var(--main-color);
+  text-align: center;
 `;
 
 const GreenMdBtn = styled.button`

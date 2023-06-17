@@ -10,8 +10,8 @@ export default function TopMainNav(props) {
 
   return (
     <StyledTopBasicNav>
-      <ImgIcon src={iconArrowLeft} alt="iconArrowLeft" />
-      <GreenSmButton onClick={goSearch} contents="업로드"></GreenSmButton>
+      <ImgIcon src={iconArrowLeft} alt='iconArrowLeft' />
+      <GreenSmButton onClick={props.handlePostUpload} contents='업로드'></GreenSmButton>
     </StyledTopBasicNav>
   );
 }

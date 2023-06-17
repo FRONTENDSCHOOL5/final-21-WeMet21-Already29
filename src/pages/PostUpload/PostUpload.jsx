@@ -63,7 +63,7 @@ export default function PostUpload() {
 
   return (
     <>
-      <Header />
+      <Header handlePostUpload={handlePostUpload} />
       <Upload>
         <h2 className='a11y-hidden'>게시글 작성</h2>
         <Form method='post'>

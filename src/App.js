@@ -1,12 +1,14 @@
 import GlobalStyle from "./style/GlobalStyle";
-import PostUpload from "./pages/PostUpload/PostUpload"
+import { BrowserRouter } from "react-router-dom";
+import PostUpload from "./pages/PostUpload/PostUpload";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <PostUpload/> 
-      
+      <BrowserRouter>
+        <PostUpload />
+      </BrowserRouter>
     </>
   );
 }

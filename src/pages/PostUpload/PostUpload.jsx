@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/HeaderMenu/HeaderMenu";
 import { Upload, Form, UploadInput, Img, Label, Textarea } from "./PostUploadStyle";
 import profileImg from "../../assets/images/profileImg.svg";
@@ -7,6 +7,14 @@ import uploadFile from "../../assets/images/uploadFile.svg";
 export default function PostUpload() {
   const [imagePost, setImagePost] = useState("");
   const [postContent, setPostContent] = useState("");
+  const [imageURL, setImageURL] = useState("");
+
+  useEffect(() => {
+    if (imagePost) {
+      setImageURL(imagePost);
+    }
+    console.log("Image URL:", imageURL);
+  }, [imagePost, imageURL]);
 
   const handleImageInput = async (event) => {
     const formData = new FormData();
@@ -20,6 +28,9 @@ export default function PostUpload() {
       const data = await response.json();
       console.log(data);
       setImagePost("https://api.mandarin.weniv.co.kr/" + data.filename);
+      // const imageURL = "https://api.mandarin.weniv.co.kr/";
+      // console.log(imageURL);
+      // setImagePost(imageURL);
     } catch (error) {
       console.error(error);
     }
@@ -84,22 +95,22 @@ export default function PostUpload() {
 
   return (
     <>
-    <Header handlePostUpload={handlePostUpload} />
-    <Upload>
-      <h2 className='a11y-hidden'>게시글 작성</h2>
-        <Img src={profileImg} alt='profileImg' />
-      <Form method='post'>
-        <label htmlFor='txt-sync' className='a11y-hidden'>
-          게시글 입력창입니다.
-        </label>
-        <Textarea id='txt-sync' cols='40' rows='10' maxLength='140' placeholder='게시글 입력하기...' className='upload-txt' value={postContent} onChange={handleContentChange}></Textarea>
-        <Label htmlFor='file-sync' className='file-sync'>
-          <img src={uploadFile} alt='uploadFile' />
-        </Label>
-        <UploadInput type='file' id='file-sync' accept='.png, .jpg, .jpeg' multiple  onClick={handleImageInput} onChange={(e) => insertImg(e)} hidden />
-      </Form>
-      <div className='img-container'>{imagePost && <img src={imagePost} alt='Uploaded' />}</div>
-    </Upload>
-  </>
+      <Header handlePostUpload={handlePostUpload} />
+      <Upload>
+        <h2 className="a11y-hidden">게시글 작성</h2>
+        <Form method="post">
+          <Img src={profileImg} alt="profileImg" />
+          <label htmlFor="txt-sync" className="a11y-hidden">
+            게시글 입력창입니다.
+          </label>
+          <Textarea id="txt-sync" cols="40" rows="10" maxLength="140" placeholder="게시글 입력하기..." className="upload-txt" value={postContent} onChange={handleContentChange}></Textarea>
+          <Label htmlFor="file-sync" className="file-sync">
+            <img src={uploadFile} alt="uploadFile" />
+          </Label>
+          <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple onChange={handleImageInput} hidden />
+        </Form>
+        <div className="img-container">{imageURL && <img src={imageURL} alt="Uploaded" />}</div>
+      </Upload>
+    </>
   );
 }

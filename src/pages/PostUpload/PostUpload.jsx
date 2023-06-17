@@ -27,10 +27,10 @@ export default function PostUpload() {
       });
       const data = await response.json();
       console.log(data);
-      // setImagePost("https://api.mandarin.weniv.co.kr/" + data.filename);
-      const imageURL = "https://api.mandarin.weniv.co.kr/";
-      console.log(imageURL);
-      setImagePost(imageURL);
+      setImagePost("https://api.mandarin.weniv.co.kr/" + data.filename);
+      // const imageURL = "https://api.mandarin.weniv.co.kr/";
+      // console.log(imageURL);
+      // setImagePost(imageURL);
     } catch (error) {
       console.error(error);
     }

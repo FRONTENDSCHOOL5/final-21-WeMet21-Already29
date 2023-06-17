@@ -7,14 +7,16 @@ import uploadFile from "../../assets/images/uploadFile.svg";
 export default function PostUpload() {
   const [imagePost, setImagePost] = useState("");
   const [postContent, setPostContent] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
 
-  useEffect(() => {
-    if (imagePost) {
-      setImageURL(imagePost);
-    }
-    console.log("Image URL:", imageURL);
-  }, [imagePost, imageURL]);
+  // const [imageURL, setImageURL] = useState("");
+
+  // useEffect(() => {
+  //   if (imagePost) {
+  //     setImageURL(imagePost);
+  //   }
+  //   console.log("Image URL:", imageURL);
+  // }, [imagePost, imageURL]);
 
   const handleImageInput = async (event) => {
     const formData = new FormData();
@@ -28,26 +30,28 @@ export default function PostUpload() {
       const data = await response.json();
       console.log(data);
       setImagePost("https://api.mandarin.weniv.co.kr/" + data.filename);
-      // const imageURL = "https://api.mandarin.weniv.co.kr/";
-      // console.log(imageURL);
-      // setImagePost(imageURL);
+
+      setPreviewImage(URL.createObjectURL(event.target.files[0])); // 미리보기 이미지 URL 설정
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handlePostUpload = async () => {
+  const handlePostUpload = async (event) => {
     if (!postContent || !imagePost) {
       console.log("내용 또는 이미지를 입력해주세요.");
       return;
     }
 
-    const formData = JSON.stringify({
-      post: {
-        content: postContent,
-        image: imagePost,
-      },
-    });
+    // const formData = JSON.stringify({
+    //   post: {
+    //     content: postContent,
+    //     image: imagePost,
+    //   },
+    // });
+
+    const formData = new FormData();
+    formData.append("file", imagePost);
 
     const token = localStorage.getItem("token");
 
@@ -57,7 +61,7 @@ export default function PostUpload() {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGQ2ZWYzYjJjYjIwNTY2MzM4MGNkNCIsImV4cCI6MTY5MjE3NDY3MCwiaWF0IjoxNjg2OTkwNjcwfQ.b3lsoIO_deSjwV_rWEmxq4-xI4iCT9S4pNV_uvzBvMA`
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGQ2ZWYzYjJjYjIwNTY2MzM4MGNkNCIsImV4cCI6MTY5MjE3NDY3MCwiaWF0IjoxNjg2OTkwNjcwfQ.b3lsoIO_deSjwV_rWEmxq4-xI4iCT9S4pNV_uvzBvMA`,
         },
         body: formData,
       });
@@ -72,34 +76,13 @@ export default function PostUpload() {
     setPostContent(event.target.value);
   };
 
-  const [previewImg, setPreviewImg] = useState([]);
-
-
-  
-
-  const insertImg = (e) => {
-    let reader = new FileReader();
-
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-
-      reader.onloadend = () => {
-        const previewImgUrl = reader.result;
-
-        if (previewImgUrl) {
-          setPreviewImg([...previewImg, previewImgUrl]);
-        }
-      };
-    }
-  };
-
   return (
     <>
       <Header handlePostUpload={handlePostUpload} />
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
+        <Img src={profileImg} alt="profileImg" />
         <Form method="post">
-          <Img src={profileImg} alt="profileImg" />
           <label htmlFor="txt-sync" className="a11y-hidden">
             게시글 입력창입니다.
           </label>
@@ -109,7 +92,10 @@ export default function PostUpload() {
           </Label>
           <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple onChange={handleImageInput} hidden />
         </Form>
-        <div className="img-container">{imageURL && <img src={imageURL} alt="Uploaded" />}</div>
+        <div className="img-container">
+          {previewImage && <img src={previewImage} alt="Preview" />} 미리보기 이미지 렌더링
+          {imagePost && <img src={imagePost} alt="Uploaded" />} 업로드된 이미지 렌더링
+        </div>
       </Upload>
     </>
   );

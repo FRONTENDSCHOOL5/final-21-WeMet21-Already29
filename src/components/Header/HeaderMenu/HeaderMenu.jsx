@@ -1,17 +1,16 @@
 import React from "react";
-import { GreenSmButton } from "../Button/Button";
-import { iconArrowLeft } from "./HeaderStyle";
-import { StyledTopBasicNav, ImgIcon } from "./HeaderStyle";
+import StyledTopBasicNav from "./HeaderMenuStyle";
+import iconSearch from "../../../assets/images/icon-search.svg";
 
-export default function TopMainNav(props) {
+export function TopMainNav(props) {
   const goSearch = () => {
     window.location.href = "/search";
   };
 
   return (
     <StyledTopBasicNav>
-      <ImgIcon src={iconArrowLeft} alt="iconArrowLeft" />
-      <GreenSmButton onClick={props.handlePostUpload} contents="업로드"></GreenSmButton>
+      <span>{props.value}</span>
+      <img src={iconSearch} alt="검색" onClick={goSearch} />
     </StyledTopBasicNav>
   );
 }

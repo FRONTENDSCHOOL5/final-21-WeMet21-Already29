@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyledHomeFeedPage, TabMenuWrap } from './HomeFeedStyle';
-import TabMenu from '../../components/TabMenu/TabMenu';
-import { TopMainNav } from '../../components/Navbar/TopNavbar';
+import TabMenu from '../../components/Footer/FooterMenu/FooterMenu';
+import { TopMainNav } from '../../components/Header/HeaderMenu/HeaderMenu';
 import { GreenBigButton } from '../../components/Button/Button';
 import TopImg from '../../assets/images/main-logo.png'
 import MainSearch from '../../assets/images/search-big.png'

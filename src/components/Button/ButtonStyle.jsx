@@ -9,6 +9,7 @@ const GreenBigBtn = styled.button`
   font-size: var(--font-md-size);
   background-color: var(--main-color);
   text-align: center;
+  cursor: pointer;
 `;
 
 const GreenMdBtn = styled.button`
@@ -20,6 +21,7 @@ const GreenMdBtn = styled.button`
   font-size: var(--font-md-size);
   background-color: var(--main-color);
   text-align: center;
+  cursor: pointer;
 `;
 
 const GreenSmBtn = styled.button`
@@ -31,6 +33,7 @@ const GreenSmBtn = styled.button`
   font-size: var(--font-md-size);
   background-color: var(--main-color);
   text-align: center;
+  cursor: pointer;
 `;
 
 const GreenSsBtn = styled.button`
@@ -42,6 +45,7 @@ const GreenSsBtn = styled.button`
   font-size: var(--font-sm-size);
   background-color: var(--main-color);
   text-align: center;
+  cursor: pointer;
 `;
 
 const WhiteBigBtn = styled(GreenBigBtn)`

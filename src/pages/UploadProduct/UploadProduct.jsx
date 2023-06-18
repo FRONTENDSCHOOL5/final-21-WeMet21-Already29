@@ -179,11 +179,38 @@ export default function UploadProduct() {
 
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />
           <InputLabel htmlFor="productNameInput">상품명</InputLabel>
-          <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required></Input>
+          <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required />
           <InputLabel htmlFor="productPriceInput">가격</InputLabel>
-          <Input type="number" id="productPriceInput" value={productPrice} onChange={inputValueHandler} placeholder="숫자만 입력 가능합니다." pattern="[0-9]*" required></Input>
+          <Input
+            type="number"
+            onWheel={(e) => {
+              // 마우스휠로 값 변경되는 것 방지
+              e.target.blur();
+              // 포커스 잃지 않게
+              setTimeout(() => {
+                e.target.focus();
+              }, 0);
+            }}
+            onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+            id="productPriceInput"
+            value={productPrice}
+            onChange={inputValueHandler}
+            placeholder="숫자만 입력 가능합니다."
+            pattern="[0-9]*"
+            required
+            min={100}
+            max={999999999}
+          />
           <InputLabel htmlFor="productUrlInput">판매 링크</InputLabel>
-          <Input type="url" id="productUrlInput" value={productLink} onChange={inputValueHandler} placeholder="URL을 입력해주세요." required></Input>
+          <Input
+            type="url"
+            id="productUrlInput"
+            // pattern="//^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?$/;/"
+            value={productLink}
+            onChange={inputValueHandler}
+            placeholder="URL을 입력해주세요."
+            required
+          />
         </form>
       </Page>
     </>

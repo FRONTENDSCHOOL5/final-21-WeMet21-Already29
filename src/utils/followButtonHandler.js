@@ -9,8 +9,8 @@ export const followButtonHandler = (accountname) => {
 };
 
 export const unfollowButtonHandler = (accountname) => {
-  fetch(`https://api.mandarin.weniv.co.kr/profile/${accountname}/unfollow`, {
-    method: "DELETE",
+  fetch(`https://api.mandarin.weniv.co.kr/profile/${accountname}/follow`, {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-type": "application/json",

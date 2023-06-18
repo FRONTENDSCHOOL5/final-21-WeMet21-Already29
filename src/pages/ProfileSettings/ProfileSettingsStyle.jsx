@@ -11,16 +11,20 @@ export const ProfileTile = styled.section`
   margin-top: 4rem;
   font-size: var(--font-lg-size);
 `;
+
 export const ProfileInfo = styled.section`
   margin-top: 1.2rem;
   color: var(--gray-color);
   font-size: var(--font-md-size);
 `;
+
 export const EditWrap = styled.section`
   margin: 3rem 0;
   cursor: pointer;
 `;
+
 export const UploadButton = styled.section``;
+
 export const EditForm = styled.form`
   display: flex;
   flex-direction: column;

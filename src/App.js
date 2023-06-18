@@ -5,6 +5,7 @@ import UploadProduct from "./pages/UploadProduct/UploadProduct";
 import ProductList from "./pages/ProductList/ProductList";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import Login from "./pages/Login/Login";
+import HomeFeed from "./pages/HomeFeed/HomeFeed";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Link to="/profile/testtestabc">프로필</Link>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/homefeed" element={<HomeFeed />}></Route>
           <Route path="/uploadProduct" element={<UploadProduct />}></Route>
           <Route path="/productlist/:id" element={<ProductList />}></Route>
           <Route path="/profile/:id" element={<Profile />}></Route>

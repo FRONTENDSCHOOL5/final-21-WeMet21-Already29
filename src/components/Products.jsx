@@ -4,6 +4,7 @@ import uploadDateCalculate from "../utils/uploadDateCalculate";
 
 export default function Products(props) {
   const userAccountName = props.userAccountName;
+  const [timeView, setTimeView] = useState(false);
   const [productDatas, setProductDatas] = useState(null);
 
   async function fetchUserProducts() {
@@ -15,13 +16,14 @@ export default function Products(props) {
       },
     });
     const json = await res.json();
-
+    console.log(json);
     const userProductItems = json.product;
     setProductDatas(userProductItems);
   }
 
   useEffect(() => {
     fetchUserProducts();
+    setTimeView(props.timeView);
   }, []);
 
   return (
@@ -38,7 +40,7 @@ export default function Products(props) {
                     <h3 className="product-title">{item.itemName}</h3>
                     <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
                   </div>
-                  <span>{uploadDateCalculate(item.updatedAt)}</span>
+                  {timeView ? <span>{uploadDateCalculate(item.updatedAt)}</span> : ""}
                 </Link>
               </li>
             );

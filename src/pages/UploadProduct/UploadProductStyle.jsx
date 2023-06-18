@@ -37,8 +37,15 @@ const Input = styled.input`
     color: #bdbdbd;
     font-size: 1.4rem;
   }
+
   &:focus {
     box-shadow: 0 2px 0 0 var(--main-color);
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 

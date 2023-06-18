@@ -1,4 +1,4 @@
-import Products from "../../components/Products";
+import Products from "../../components/Products/Products";
 import { Ul } from "./ProductListStyle";
 import { useParams } from "react-router-dom";
 

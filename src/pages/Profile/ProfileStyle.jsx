@@ -79,40 +79,6 @@ export const LinkStyle = styled(NavLink)`
   }
 `;
 
-export const ProductUl = styled.ul`
-  width: max-content;
-  margin-top: 16px;
-
-  li {
-    display: inline-block;
-    width: 140px;
-  }
-
-  li + li {
-    margin: 0 10px;
-  }
-
-  .product-img {
-    border-radius: 10px;
-    object-fit: cover;
-    aspect-ratio: 1/1;
-  }
-
-  .product-title {
-    margin: 5px 0;
-    font-size: 1.4rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .product-price {
-    color: var(--main-color);
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-`;
-
 export const ProductSection = styled.section`
   overflow: hidden;
   border: 1px solid var(--line-gray-color);

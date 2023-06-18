@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import Products from "../../components/Products";
+import React, { useEffect, useState } from "react";
+import Products from "../../components/Products/Products";
 import Loading from "../../components/Loading";
 import share from "../../assets/images/share.png";
 import { GreenMdButton } from "../../components/Button/Button";
-import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProductUl, ProfileHeader, ProfileIntro, ProfileSection, ShareButton } from "./ProfileStyle";
+import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileSection, ShareButton } from "./ProfileStyle";
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
 import { useParams } from "react-router-dom";
 import Post from "../../components/Post/Post";
@@ -13,9 +13,6 @@ import album from "../../assets/images/icon-post-album-on.png";
 export default function Profile() {
   const params = useParams();
   const [userData, setUserData] = useState(null);
-  const [mouseStartPosition, setMouseStartPosition] = useState(0);
-  const [mouseEndPosition, setMouseEndPosition] = useState(0);
-  const [slideUlLocation, setslideUlLocation] = useState(0);
   const [isfollow, setIsFollow] = useState(null);
   const [isAlbum, setIsAlbum] = useState(false);
   const [haveProduct, setHaveProduct] = useState(false);
@@ -83,26 +80,6 @@ export default function Profile() {
     fetchPost();
   }, []);
 
-  const mouseStart = (e) => {
-    setMouseStartPosition(0 - e.pageX + slideUlLocation);
-  };
-
-  const mouseEnd = (e) => {
-    if (e.pageX > 0) setMouseEndPosition(e.pageX);
-  };
-
-  useEffect(() => {
-    setslideUlLocation(mouseStartPosition + mouseEndPosition);
-  }, [mouseEndPosition]);
-
-  useEffect(() => {
-    if (slideUlLocation > 0) {
-      setslideUlLocation(0);
-    } else if (slideUlLocation < -500) {
-      setslideUlLocation(-140 * 3);
-    }
-  }, [slideUlLocation]);
-
   return (
     <>
       {userData ? (
@@ -133,13 +110,11 @@ export default function Profile() {
           </ProfileSection>
 
           {haveProduct ? (
-            <ProductSection onMouseDown={mouseStart} onDrag={mouseEnd}>
+            <ProductSection>
               <LinkStyle to={`/productlist/${userData.accountname}`} style={{ userDrag: "none" }}>
                 판매 중인 상품
               </LinkStyle>
-              <ProductUl style={{ transform: `translateX(${slideUlLocation}px)` }}>
-                <Products userAccountName={userData.accountname} />
-              </ProductUl>
+              <Products userAccountName={userData.accountname} swiper={true} />
             </ProductSection>
           ) : (
             ""

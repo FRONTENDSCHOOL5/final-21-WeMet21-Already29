@@ -27,6 +27,7 @@ export default function SignUp() {
     }
   };
 
+  // 이메일 유효성 검사
   const handleEmailValid = async (event) => {
     const value = event.target.value;
 

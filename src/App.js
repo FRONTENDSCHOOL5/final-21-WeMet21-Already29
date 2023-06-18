@@ -1,13 +1,11 @@
 import GlobalStyle from "./style/GlobalStyle";
-import { BrowserRouter, Routes } from "react-router-dom";
+import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <BrowserRouter>
-        <Routes></Routes>
-      </BrowserRouter>
+      <ProfileSettings />
     </>
   );
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
-import { followButtonHandler } from "../../utils/followButtonHandler";
+import { followButtonHandler } from "../../utils/followUpButttonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
 
 export default function ProductDetail() {
@@ -22,7 +22,7 @@ export default function ProductDetail() {
       })
         .then((res) => res.json())
         .then((json) => {
-          navigator("/productlist");
+          navigator(`/productlist/${productAuthor.accountname}`);
         });
     }
   };
@@ -72,7 +72,7 @@ export default function ProductDetail() {
                 <p>@ {productAuthor.accountname}</p>
               </div>
             </Link>
-            <button type="button" onClick={followButtonHandler}>
+            <button type="button" onClick={followButtonHandler(productAuthor.accountname)}>
               {productAuthor.isfollow ? "언팔로우" : "팔로우"}
             </button>
           </AuthorInfo>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const ProfileSection = styled.section`
@@ -18,6 +18,7 @@ export const ProfileHeader = styled.div`
 
   p {
     color: var(--gray-color);
+    line-height: 1.5;
   }
 
   img {
@@ -93,7 +94,7 @@ export const ProductUl = styled.ul`
 
   .product-img {
     border-radius: 10px;
-    object-fit: contain;
+    object-fit: cover;
     aspect-ratio: 1/1;
   }
 
@@ -117,4 +118,48 @@ export const ProductSection = styled.section`
   border: 1px solid var(--line-gray-color);
   padding: 16px 0 23px 30px;
   margin-bottom: 6px;
+`;
+
+export const PostSection = styled.section`
+  border: 1px solid var(--line-gray-color);
+  padding: 16px;
+  padding-top: 0;
+  li {
+    list-style: none;
+  }
+  li + li {
+    margin-top: 32px;
+  }
+`;
+
+export const PostSectionHeader = styled.header`
+  position: sticky;
+  width: 100%;
+  border-bottom: 1px solid var(--line-gray-color);
+  margin: 10px 0;
+  button {
+    margin-left: auto;
+    width: 26px;
+    height: 26px;
+    border: 0;
+    padding: 0;
+    background-color: initial;
+  }
+`;
+
+export const Posts = styled.div`
+  ${(props) =>
+    props.isAlbum &&
+    css`
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      img {
+        object-fit: cover;
+        height: 110px;
+      }
+      li + li {
+        margin: 0;
+      }
+    `};
 `;

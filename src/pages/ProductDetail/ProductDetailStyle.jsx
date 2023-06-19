@@ -55,7 +55,7 @@ const AuthorInfo = styled.section`
   align-items: center;
   font-size: 1.6rem;
   position: fixed;
-  width: min(500px, 80vw);
+  width: min(390px, 80vw);
   bottom: 0;
   background-color: var(--white-color);
   border-top: 1px solid var(--line-gray-color);

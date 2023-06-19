@@ -84,7 +84,7 @@ export default function Post(props) {
                         {post.commentCount}
                       </p>
                     </PostMenuWrap>
-                    <time dateTime={post.updatedAt.slice(0, 10)}>{post.updatedAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
+                    <time dateTime={post.createdAt.slice(0, 10)}>{post.createdAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
                   </ProductContent>
                 </>
               </li>

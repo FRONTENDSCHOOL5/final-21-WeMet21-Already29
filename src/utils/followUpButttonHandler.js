@@ -17,3 +17,5 @@ export const unfollowButtonHandler = (accountname) => {
     },
   });
 };
+
+// 반환 값은 promise 객체입니다.

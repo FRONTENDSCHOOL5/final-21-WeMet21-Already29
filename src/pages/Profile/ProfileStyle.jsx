@@ -10,6 +10,12 @@ export const ProfileSection = styled.section`
   padding: 30px 0 26px;
   margin-bottom: 6px;
   border: 1px solid var(--line-gray-color);
+
+  .profile-navbar {
+    button:nth-child(2) {
+      margin-left: 18px;
+    }
+  }
 `;
 
 export const ProfileHeader = styled.div`
@@ -55,7 +61,13 @@ export const ProfileIntro = styled.div`
   }
 `;
 
+export const ProfileNavBar = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
 export const ShareButton = styled.button`
+  background-color: var(--white-color);
   border-radius: 50%;
   border: 1px solid var(--line-gray-color);
   width: 34px;
@@ -99,12 +111,13 @@ export const PostSection = styled.section`
 `;
 
 export const PostSectionHeader = styled.header`
-  position: sticky;
-  width: 100%;
   border-bottom: 1px solid var(--line-gray-color);
-  margin: 10px 0;
+  margin: 0 -16px 10px -16px;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
   button {
-    margin-left: auto;
     width: 26px;
     height: 26px;
     border: 0;
@@ -113,7 +126,7 @@ export const PostSectionHeader = styled.header`
   }
 `;
 
-export const Posts = styled.div`
+export const Posts = styled.ul`
   ${(props) =>
     props.isAlbum &&
     css`

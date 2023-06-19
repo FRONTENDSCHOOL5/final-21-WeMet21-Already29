@@ -3,12 +3,13 @@ import Products from "../../components/Products/Products";
 import Loading from "../../components/Loading";
 import share from "../../assets/images/share.png";
 import { GreenMdButton } from "../../components/Button/Button";
-import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileSection, ShareButton } from "./ProfileStyle";
+import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton } from "./ProfileStyle";
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Post from "../../components/Post/Post";
 import list from "../../assets/images/icon-post-list-on.png";
 import album from "../../assets/images/icon-post-album-on.png";
+import { WhiteMdButton } from "../../components/Button/Button";
 
 export default function Profile() {
   const params = useParams();
@@ -17,6 +18,8 @@ export default function Profile() {
   const [isAlbum, setIsAlbum] = useState(false);
   const [haveProduct, setHaveProduct] = useState(false);
   const [havePost, setHavePost] = useState(false);
+  const [followCount, setFollowCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
 
   const fetchUserData = () => {
     fetch(`https://api.mandarin.weniv.co.kr/profile/${params.id}`, {
@@ -28,9 +31,11 @@ export default function Profile() {
     })
       .then((res) => res.json())
       .then((json) => {
-        // console.log(json);
+        console.log(json);
         setUserData(json.profile);
         setIsFollow(json.profile.isfollow);
+        setFollowCount(json.profile.followerCount);
+        setFollowingCount(json.profile.followingCount);
         return json;
       });
   };
@@ -66,11 +71,16 @@ export default function Profile() {
   };
 
   const followUphandler = async () => {
-    fetchUserData();
     if (isfollow) {
-      unfollowButtonHandler(userData.accountname);
+      const res = await unfollowButtonHandler(userData.accountname);
+      const json = await res.json();
+      setIsFollow(json.profile.isfollow);
+      setFollowCount(json.profile.followerCount);
     } else {
-      followButtonHandler(userData.accountname);
+      const res = await followButtonHandler(userData.accountname);
+      const json = await res.json();
+      setIsFollow(json.profile.isfollow);
+      setFollowCount(json.profile.followerCount);
     }
   };
 
@@ -78,7 +88,7 @@ export default function Profile() {
     fetchUserData();
     fetchProducts();
     fetchPost();
-  }, []);
+  }, [params]);
 
   return (
     <>
@@ -87,12 +97,12 @@ export default function Profile() {
           <ProfileSection>
             <ProfileHeader className="profile-header">
               <p>
-                <FollowCountSpan>{userData.followerCount}</FollowCountSpan>
+                <FollowCountSpan>{followCount}</FollowCountSpan>
                 followers
               </p>
               <img src={userData.image} alt="프로필 사진" />
               <p>
-                <FollowCountSpan>{userData.followingCount}</FollowCountSpan>
+                <FollowCountSpan>{followingCount}</FollowCountSpan>
                 followings
               </p>
             </ProfileHeader>
@@ -101,12 +111,26 @@ export default function Profile() {
               <p className="account-name">@ {userData.accountname}</p>
               <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
             </ProfileIntro>
-            <div className="profile-navbar">
-              <GreenMdButton type="button" onClick={followUphandler} contents={isfollow ? "언팔로우" : "팔로우"}></GreenMdButton>
-              <ShareButton type="button">
-                <img src={share} alt="공유하기" />
-              </ShareButton>
-            </div>
+            <ProfileNavBar>
+              {localStorage.getItem("username") === userData.username ? (
+                <>
+                  <Link to={``}>
+                    <WhiteMdButton type="button" contents="프로필 수정"></WhiteMdButton>
+                  </Link>
+
+                  <Link to="/uploadProduct">
+                    <WhiteMdButton type="button" contents="상품 등록"></WhiteMdButton>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {isfollow ? <WhiteMdButton onClick={followUphandler} contents={"언팔로우"}></WhiteMdButton> : <GreenMdButton type="button" onClick={followUphandler} contents={"팔로우"}></GreenMdButton>}
+                  <ShareButton type="button">
+                    <img src={share} alt="공유하기" />
+                  </ShareButton>
+                </>
+              )}
+            </ProfileNavBar>
           </ProfileSection>
 
           {haveProduct ? (

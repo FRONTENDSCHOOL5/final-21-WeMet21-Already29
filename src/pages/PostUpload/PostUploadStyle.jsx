@@ -4,7 +4,7 @@ const Upload = styled.section`
   border: 1px solid red;
   padding: 2rem 1.6rem;
   display: flex;
-  justify-content: space-between;
+
   align-items: start;
   gap: 1.2rem;
   position: relative;
@@ -16,6 +16,8 @@ const Form = styled.form``;
 const Textarea = styled.textarea`
   border: 0px;
   resize: none;
+  width: 100%;
+  height: 100%;
   margin-top: 1.2rem;
 
   &:focus {

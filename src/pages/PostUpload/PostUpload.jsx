@@ -7,7 +7,7 @@ import uploadFile from "../../assets/images/uploadFile.svg";
 export default function PostUpload() {
   // const [imagePath, setImagePath] = useState("");
   const [post, setPost] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null); // 추후에 다중 이미지로 작업할 때는 image를 배열로!
   const [previewImage, setPreviewImage] = useState(null);
   // const token = localStorage.getItem("token");
   // console.log(token);
@@ -27,7 +27,7 @@ export default function PostUpload() {
     // Set Preview Image
     const previewImageUrl = URL.createObjectURL(file);
     setPreviewImage(previewImageUrl);
-    console.log(previewImageUrl);
+    // console.log(previewImageUrl);
     // Upload Image to Sever
     const formData = new FormData();
     formData.append("image", file);
@@ -43,6 +43,7 @@ export default function PostUpload() {
       const data = await response.json();
       console.log(data);
       setImage(data);
+      // setPreviewImage(data);
     } catch (error) {
       console.error(error);
     }
@@ -64,7 +65,7 @@ export default function PostUpload() {
     try {
       const response = await fetch("https://api.mandarin.weniv.co.kr/post", {
         method: "POST",
-        body,
+        body: JSON.stringify(body),
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -72,7 +73,8 @@ export default function PostUpload() {
       });
       const data = await response.json();
       console.log(data);
-      setPost(data);
+      // 요청이 잘 되었을 경우: 프로필 페이지로 이동!!, 응답 데이터를 사용해야 하는지!
+      // setPost(data);
     } catch (error) {
       console.log(error);
     }
@@ -88,19 +90,35 @@ export default function PostUpload() {
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
         <Img src={profileImg} alt="profileImg" />
-        <Form method="post" enctype="multipart/form-data">
-          <label htmlFor="txt-sync" className="a11y-hidden">
-            게시글 입력창입니다.
-          </label>
-          <Textarea id="txt-sync" cols="40" rows="10" maxLength="140" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange}></Textarea>
-          <Label htmlFor="file-sync" className="file-sync">
-            <img src={uploadFile} alt="uploadFile" />
-          </Label>
-          <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
-        </Form>
-        <div className="img-container">
-          {previewImage && <img src={previewImage} alt="Preview" />}
-          {image && <img src={"https://api.mandarin.weniv.co.kr/" + image.filename} alt="Uploaded" />}
+        <div>
+          <Form>
+            <label htmlFor="txt-sync" className="a11y-hidden">
+              게시글 입력창입니다.
+            </label>
+            <Textarea
+              id="txt-sync"
+              // cols="40"
+              // rows="10"
+              maxLength="140"
+              placeholder="게시글 입력하기..."
+              className="upload-txt"
+              value={post}
+              onChange={handleContentChange}
+            ></Textarea>
+            <Label htmlFor="file-sync" className="file-sync">
+              <img src={uploadFile} alt="uploadFile" />
+            </Label>
+            <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
+          </Form>
+          <div className="img-container">
+            {/* {previewImage && (
+            <img
+              src={"https://api.mandarin.weniv.co.kr/" + previewImage.filename}
+              alt="Preview"
+            />
+          )} */}
+            {image && <img src={"https://api.mandarin.weniv.co.kr/" + image.filename} alt="Uploaded" />}
+          </div>
         </div>
       </Upload>
     </>

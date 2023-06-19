@@ -35,10 +35,6 @@ export default function PostUpload() {
       const response = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
         method: "POST",
         body: formData,
-        // 명세서 오류!
-        // headers: {
-        //   "Content-type": "multipart/form-data",
-        // },
       });
       const data = await response.json();
       console.log(data);

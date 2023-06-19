@@ -1,11 +1,14 @@
 import GlobalStyle from "./style/GlobalStyle";
-import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
+import { BrowserRouter } from "react-router-dom";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <ProfileSettings />
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
     </>
   );
 }

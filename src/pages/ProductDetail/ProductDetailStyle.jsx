@@ -76,12 +76,6 @@ const AuthorInfo = styled.section`
 
   button {
     margin-left: auto;
-    background-color: var(--main-color);
-    border: 0;
-    color: var(--white-color);
-    font-size: 1.4rem;
-    padding: 7px 32px;
-    border-radius: 10px;
     cursor: pointer;
   }
 `;

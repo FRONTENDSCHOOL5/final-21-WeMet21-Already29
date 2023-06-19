@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { SignUpContainer, Form, Input, H1, Label } from "./SignUpStyle";
 import { GreenBigButton, UnactiveBigButton } from "../../components/Button/Button";
 
@@ -68,7 +69,7 @@ export default function SignUp() {
           <Label htmlFor='user-password'>비밀번호</Label>
           <Input id={"user-password"} type={"password"} label={"비밀번호"} placeholder={"비밀번호를 설정해 주세요."} value={password} valid={passwordValid} alertMsg={setPasswordError} onChange={handlePasswordInput} />
           {passwordError && <p style={{ marginBottom: "3rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{passwordError}</p>}
-          {email && password ? <GreenBigButton type='submit' contents={"다음"} /> : <UnactiveBigButton type='submit' contents={"다음"} />}
+          <Link to="/ProfileSetting">{email && password ? <GreenBigButton type='submit' contents={"다음"} /> : <UnactiveBigButton type='submit' contents={"다음"} />} </Link>
         </Form>
       </SignUpContainer>
     </>

@@ -11,6 +11,7 @@ export default function Products(props) {
   const [swiper, setSwiper] = useState(false);
   const [timeView, setTimeView] = useState(false);
   const [productDatas, setProductDatas] = useState(null);
+  const [nameView, setNameView] = useState(false);
 
   async function fetchUserProducts() {
     const res = await fetch(`https://api.mandarin.weniv.co.kr/product/${userAccountName}`, {
@@ -30,50 +31,54 @@ export default function Products(props) {
     fetchUserProducts();
     setTimeView(props.timeView);
     setSwiper(props.swiper);
+    setNameView(props.nameView);
   }, []);
-
+  console.log(productDatas);
   return (
     <>
-      {productDatas && swiper ? (
-        <CustomSwiper slidesPerView={2.5} spaceBetween={10}>
-          {productDatas.map((item) => {
-            return (
-              <SwiperSlide key={item.id}>
-                <Link to={`/product/detail/${item.id}`}>
-                  <div className="product-img-section">
-                    <img src={item.itemImage} alt="상품 이미지" className="product-img" />
-                  </div>
-                  <div className="product-info-section">
-                    <h3 className="product-title">{item.itemName}</h3>
-                    <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
-                  </div>
-                  {timeView ? <span>{uploadDateCalculate(item.updatedAt)}</span> : ""}
-                </Link>
-              </SwiperSlide>
-            );
-          })}
-        </CustomSwiper>
-      ) : (
-        ""
-      )}
-      {productDatas && !swiper
-        ? productDatas.map((item) => {
-            return (
-              <li key={item.id}>
-                <Link to={`/product/detail/${item.id}`}>
-                  <div className="product-img-section">
-                    <img src={item.itemImage} alt="상품 이미지" className="product-img" />
-                  </div>
-                  <div className="product-info-section">
-                    <h3 className="product-title">{item.itemName}</h3>
-                    <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
-                  </div>
-                  {timeView ? <span>{uploadDateCalculate(item.updatedAt)}</span> : ""}
-                </Link>
-              </li>
-            );
-          })
-        : ""}
+      <h2>{nameView && productDatas ? productDatas[0].author.username + "님 판매상품" : ""}</h2>
+      <ul>
+        {productDatas && swiper ? (
+          <CustomSwiper slidesPerView={2.5} spaceBetween={10}>
+            {productDatas.map((item) => {
+              return (
+                <SwiperSlide key={item.id}>
+                  <Link to={`/product/detail/${item.id}`}>
+                    <div className="product-img-section">
+                      <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                    </div>
+                    <div className="product-info-section">
+                      <h3 className="product-title">{item.itemName}</h3>
+                      <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
+                    </div>
+                    {timeView ? <span>{uploadDateCalculate(item.updatedAt)}</span> : ""}
+                  </Link>
+                </SwiperSlide>
+              );
+            })}
+          </CustomSwiper>
+        ) : (
+          ""
+        )}
+        {productDatas && !swiper
+          ? productDatas.map((item) => {
+              return (
+                <li key={item.id}>
+                  <Link to={`/product/detail/${item.id}`}>
+                    <div className="product-img-section">
+                      <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                    </div>
+                    <div className="product-info-section">
+                      <h3 className="product-title">{item.itemName}</h3>
+                      <p className="product-price">{new Intl.NumberFormat().format(item.price)}원</p>
+                    </div>
+                    {timeView ? <span>{uploadDateCalculate(item.updatedAt)}</span> : ""}
+                  </Link>
+                </li>
+              );
+            })
+          : ""}
+      </ul>
     </>
   );
 }

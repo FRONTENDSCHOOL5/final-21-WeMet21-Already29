@@ -12,6 +12,8 @@ function Router() {
           <Route path="/Login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/homefeed" element={<HomeFeed />}></Route>
+          <Route path="/SignUp" element={<SignUp />}></Route>
+          <Route path="/ProfileSetting" element={<ProfileSetting />}></Route>
         </Routes>
     );
 }

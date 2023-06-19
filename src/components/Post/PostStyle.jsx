@@ -23,7 +23,7 @@ export const ProductHeader = styled.header`
 
 export const ProductContent = styled.section`
   margin-left: 54px;
-  p {
+  .post-text {
     font-size: 1.4rem;
     margin: 16px 0;
   }
@@ -32,8 +32,31 @@ export const ProductContent = styled.section`
     font-size: 1rem;
     color: var(--gray-color);
   }
-  img {
+  .post-image {
     border-radius: 10px;
     margin-bottom: 10px;
+  }
+`;
+
+export const PostMenuWrap = styled.div`
+  margin-bottom: 15px;
+
+  button {
+    border: 0;
+    padding: 0;
+    background-color: initial;
+  }
+  img {
+    width: 20px;
+  }
+  p {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 1.4rem;
+    color: var(--gray-color);
+    vertical-align: middle;
+  }
+  .comment-image {
+    margin-left: 12px;
   }
 `;

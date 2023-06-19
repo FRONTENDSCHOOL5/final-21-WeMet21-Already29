@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ProductContent, ProductHeader } from "./PostStyle";
+import { PostMenuWrap, ProductContent, ProductHeader } from "./PostStyle";
+import comment from "../../assets/images/icon-message-circle.png";
+import heart from "../../assets/images/uil_heart.png";
+import fillHeart from "../../assets/images/uil_fullHeart.png";
+import { heartButtonHandler } from "../../utils/heartButtonHandler";
 
 export default function Post(props) {
   const params = useParams();
+  // const [heartCount, setHeartCount] = useState({});
 
-  // console.log(props.listView);
   const [posts, setPosts] = useState(null);
-  useEffect(() => {
+  const fetchUserPost = () => {
     fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}/userpost`, {
       method: "GET",
       headers: {
@@ -16,10 +20,28 @@ export default function Post(props) {
       },
     })
       .then((res) => res.json())
-      .then((json) => setPosts(json.post));
+      .then((json) => {
+        setPosts(json.post);
+      });
+  };
+
+  useEffect(() => {
+    fetchUserPost();
   }, []);
 
-  console.log(posts);
+  const heartHandler = async (postId, postHeart) => {
+    if (postHeart) {
+      const res = await heartButtonHandler.minus(postId);
+      const json = await res.json();
+      console.log(json);
+    } else {
+      const res = await heartButtonHandler.plus(postId);
+      const json = await res.json();
+      console.log(json);
+    }
+    fetchUserPost();
+  };
+
   return (
     <>
       {posts && !props.isAlbum
@@ -38,9 +60,31 @@ export default function Post(props) {
                     </div>
                   </ProductHeader>
                   <ProductContent>
-                    <p>{post.content}</p>
-                    {post.image ? <img src={post.image} alt="게시글 이미지" /> : ""}
-                    <time>{post.updatedAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
+                    <p className="post-text">{post.content}</p>
+                    {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" /> : ""}
+                    <PostMenuWrap>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          heartHandler(post.id, post.hearted);
+                        }}
+                      >
+                        <img src={post.hearted ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
+                      </button>
+                      <p>
+                        <span className="a11y-hidden">좋아요 : </span>
+                        {post.heartCount}
+                      </p>
+
+                      <Link to={``}>
+                        <img src={comment} className="comment-image" alt="댓글 이미지" />
+                      </Link>
+                      <p>
+                        <span className="a11y-hidden">댓글 : </span>
+                        {post.commentCount}
+                      </p>
+                    </PostMenuWrap>
+                    <time dateTime={post.updatedAt.slice(0, 10)}>{post.updatedAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
                   </ProductContent>
                 </>
               </li>
@@ -55,7 +99,9 @@ export default function Post(props) {
             .map((post) => {
               return (
                 <li key={post.id}>
-                  <img src={post.image} alt="게시글 이미지" />
+                  <Link to={``}>
+                    <img src={post.image} alt="게시글 이미지" />
+                  </Link>
                 </li>
               );
             })

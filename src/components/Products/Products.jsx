@@ -35,7 +35,7 @@ export default function Products(props) {
   return (
     <>
       {productDatas && swiper ? (
-        <CustomSwiper slidesPerView={3.5} spaceBetween={8}>
+        <CustomSwiper slidesPerView={2.5} spaceBetween={10}>
           {productDatas.map((item) => {
             return (
               <SwiperSlide key={item.id}>

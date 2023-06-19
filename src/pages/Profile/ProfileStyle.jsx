@@ -82,7 +82,7 @@ export const LinkStyle = styled(NavLink)`
 export const ProductSection = styled.section`
   overflow: hidden;
   border: 1px solid var(--line-gray-color);
-  padding: 16px 0 23px 30px;
+  padding: 16px 3px 23px 20px;
   margin-bottom: 6px;
 `;
 

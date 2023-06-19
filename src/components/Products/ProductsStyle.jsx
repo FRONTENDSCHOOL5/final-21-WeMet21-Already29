@@ -5,6 +5,7 @@ export const CustomSwiper = styled(Swiper)`
   margin-top: 16px;
 
   .product-img {
+    width: 100%;
     border-radius: 10px;
     object-fit: cover;
     aspect-ratio: 1/1;

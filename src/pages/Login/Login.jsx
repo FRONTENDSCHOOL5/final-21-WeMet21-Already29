@@ -74,6 +74,7 @@ export default function Login() {
         if (json.user) {
           console.log(json);
           localStorage.setItem("token", json.user.token);
+          localStorage.setItem("username", json.user.username);
           // 페이지 이동!!
           navigate("/homefeed");
         } else {

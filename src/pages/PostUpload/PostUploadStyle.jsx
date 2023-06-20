@@ -11,14 +11,17 @@ const Upload = styled.section`
   height: calc(100vh - 8.8rem);
 `;
 
-const Form = styled.form``;
+const Form = styled.form`
+  width: 100%;
+`;
 
 const Textarea = styled.textarea`
   border: 0px;
   resize: none;
   width: 100%;
-  height: 100%;
+  height: auto;
   margin-top: 1.2rem;
+  overflow: hidden;
 
   &:focus {
     outline: 0;
@@ -34,9 +37,20 @@ const Textarea = styled.textarea`
   }
 `;
 
-const UploadInput = styled.input``;
+const Div = styled.div`
+  width: 30.4rem;
+  height: 30rem;
+  object-fit: cover;  
+  object-position:absolute;  
+`;
 
-const Img = styled.img``;
+const ImgDiv = styled.div`
+  width: 30.3rem;
+  height: 30.4rem;
+  border-radius: 1rem;
+  object-fit: cover; 
+  overflow:hidden;
+`;
 
 const Label = styled.label`
   cursor: pointer;
@@ -45,4 +59,8 @@ const Label = styled.label`
   bottom: 1.6rem;
 `;
 
-export { Upload, Form, UploadInput, Img, Label, Textarea };
+const UploadInput = styled.input``;
+
+const Img = styled.img``;
+
+export { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv };

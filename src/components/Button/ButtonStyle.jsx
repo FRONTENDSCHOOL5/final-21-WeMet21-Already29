@@ -47,16 +47,19 @@ const GreenSsBtn = styled.button`
 const WhiteBigBtn = styled(GreenBigBtn)`
   background-color: var(--white-color);
   color: var(--font-black-color);
+  border:1px solid var( --gray-color);
 `;
 
 const WhiteMdBtn = styled(GreenMdBtn)`
   background-color: var(--white-color);
   color: var(--font-black-color);
+  border:1px solid var( --gray-color);
 `;
 
 const WhiteSsBtn = styled(GreenSsBtn)`
   background-color: var(--white-color);
   color: var(--font-black-color);
+  border:1px solid var( --gray-color);
 `;
 
 const UnactiveBigBtn = styled(GreenBigBtn)`

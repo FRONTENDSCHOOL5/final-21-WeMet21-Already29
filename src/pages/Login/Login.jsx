@@ -17,9 +17,9 @@ export default function Login() {
     if (e.target.type === "email") {
       setUserEmail(e.target.value);
       if (validateEmail(e.target.value)) {
-        setWarningMessage("사용 가능한 이메일 입니다.");
-      } else {
         setWarningMessage("");
+      } else {
+        setWarningMessage("올바른 이메일 형식이 아닙니다.");
       }
     }
     if (e.target.type === "password") {
@@ -66,6 +66,7 @@ export default function Login() {
       .then((res) => res.json())
       .then((json) => {
         // button.current.parentNode.querySelector("p").textContent = json.message;
+        // setWarningMessage(json.message);
         setWarningMessage(json.message);
 
         // console.log(json.user.token);
@@ -76,6 +77,8 @@ export default function Login() {
           localStorage.setItem("username", json.user.username);
           // 페이지 이동!!
           navigate("/homefeed");
+        } else {
+          setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
         }
       })
       .catch((error) => console.log(error));

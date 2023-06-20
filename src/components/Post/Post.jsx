@@ -76,13 +76,13 @@ export default function Post(props) {
                         {post.heartCount}
                       </p>
 
-                      <Link to={``}>
+                      <Link to={`/post/${post.id}`}>
                         <img src={comment} className="comment-image" alt="댓글 이미지" />
+                        <p>
+                          <span className="a11y-hidden">댓글 : </span>
+                          {post.commentCount}
+                        </p>
                       </Link>
-                      <p>
-                        <span className="a11y-hidden">댓글 : </span>
-                        {post.commentCount}
-                      </p>
                     </PostMenuWrap>
                     <time dateTime={post.createdAt.slice(0, 10)}>{post.createdAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
                   </PostContent>
@@ -99,7 +99,7 @@ export default function Post(props) {
             .map((post) => {
               return (
                 <li key={post.id}>
-                  <Link to={``}>
+                  <Link to={`/post/${post.id}`}>
                     <img src={post.image} alt="게시글 이미지" />
                   </Link>
                 </li>

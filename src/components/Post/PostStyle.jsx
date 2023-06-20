@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProductHeader = styled.header`
+export const PostHeader = styled.header`
   display: flex;
   gap: 18px;
 
@@ -21,7 +21,7 @@ export const ProductHeader = styled.header`
   }
 `;
 
-export const ProductContent = styled.section`
+export const PostContent = styled.section`
   margin-left: 54px;
   .post-text {
     font-size: 1.4rem;

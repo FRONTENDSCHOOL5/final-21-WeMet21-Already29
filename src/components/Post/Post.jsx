@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { PostMenuWrap, ProductContent, ProductHeader } from "./PostStyle";
+import { PostHeader, PostMenuWrap, PostContent } from "./PostStyle";
 import comment from "../../assets/images/icon-message-circle.png";
 import heart from "../../assets/images/uil_heart.png";
 import fillHeart from "../../assets/images/uil_fullHeart.png";
@@ -49,7 +49,7 @@ export default function Post(props) {
             return (
               <li key={post.id}>
                 <>
-                  <ProductHeader>
+                  <PostHeader>
                     <img src={post.author.image} alt="게시글 작성자 프로필 사진" />
                     <div>
                       <h2>
@@ -58,8 +58,8 @@ export default function Post(props) {
                       </h2>
                       <p>@ {post.author.accountname}</p>
                     </div>
-                  </ProductHeader>
-                  <ProductContent>
+                  </PostHeader>
+                  <PostContent>
                     <p className="post-text">{post.content}</p>
                     {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" /> : ""}
                     <PostMenuWrap>
@@ -85,7 +85,7 @@ export default function Post(props) {
                       </p>
                     </PostMenuWrap>
                     <time dateTime={post.createdAt.slice(0, 10)}>{post.createdAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
-                  </ProductContent>
+                  </PostContent>
                 </>
               </li>
             );

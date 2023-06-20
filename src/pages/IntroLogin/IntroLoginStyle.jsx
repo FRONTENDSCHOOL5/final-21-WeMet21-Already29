@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledIntroLoginPage = styled.main`
-  height: 970px;
+  height: 100vh;
   width: 390px;
   position: relative;
   box-shadow: -1px 0 30px -1px #f2f2f2, 1px 0 30px -1px #f2f2f2;
@@ -14,12 +14,12 @@ const StyledIntroLoginPage = styled.main`
     left: 34px;
     top: 187px;
 
-    font-family: 'Noto Sans KR';
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 700;
     font-size: 40px;
     line-height: 30px;
-    
+
     display: flex;
     align-items: flex-end;
   }
@@ -31,7 +31,7 @@ const StyledIntroLoginPage = styled.main`
     left: 34px;
     top: 242px;
 
-    font-family: 'Noto Sans KR';
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -52,7 +52,7 @@ const StyledIntroLoginPage = styled.main`
     left: 34px;
     top: 242px;
 
-    font-family: 'Noto Sans KR';
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 350;
     font-size: 18px;
@@ -70,9 +70,8 @@ const StyledIntroLoginPage = styled.main`
     position: absolute;
     width: 322px;
     height: 237.74px;
-    left: calc(50% - 322px/2);
-    top: calc(50% - 237.74px/2 + 134.87px);
-    
+    left: calc(50% - 322px / 2);
+    top: calc(50% - 237.74px / 2 + 134.87px);
   }
 
   .login-join-section {
@@ -88,7 +87,7 @@ const StyledIntroLoginPage = styled.main`
   .sns-login-li img {
     width: 18px;
     height: 18px;
-    background-image: url('');
+    background-image: url("");
   }
 
   .sns-login-li {
@@ -101,11 +100,11 @@ const StyledIntroLoginPage = styled.main`
   }
 
   .sns-login-li button::before {
-    content: '';
+    content: "";
   }
-  
+
   .email-login {
-    border: 1px solid #0B0B0B;
+    border: 1px solid #0b0b0b;
     border-radius: 10px;
     width: 322px;
     height: 44px;
@@ -114,7 +113,7 @@ const StyledIntroLoginPage = styled.main`
     cursor: pointer;
     text-align: center;
   }
-  
+
   .email-login:hover {
     display: block;
     background-color: rgba(5, 139, 46, 1);
@@ -124,8 +123,8 @@ const StyledIntroLoginPage = styled.main`
   .email-text {
     text-align: center;
     margin-left: 10px;
-    
-    font-family: 'Noto Sans KR';
+
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -145,14 +144,14 @@ const StyledIntroLoginPage = styled.main`
   .emailJoin {
     text-align: center;
     margin-left: 10px;
-    font-family: 'Noto Sans KR';
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
   }
 
   .emailLogin {
-    font-family: 'Noto Sans KR';
+    font-family: "Noto Sans KR";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -160,7 +159,7 @@ const StyledIntroLoginPage = styled.main`
   }
 
   .emailLogin::after {
-    content: '';
+    content: "";
     width: 1px;
     margin: 0 12px;
   }

@@ -4,12 +4,23 @@ import { Container, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId
 import axios from "axios";
 
 export default function PostItem({ modalOpen }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   function moveDetail() {
-    navigate("/detailpost");
+    //  navigate("/detailpost");
   }
   const [postInfo, setPostInfo] = useState([]);
   const [authorInfo, setAuthorInfo] = useState([]);
+  const [today, setToday] = useState('');
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    setToday(formattedDate);
+  }, []);
 
   useEffect(() => {
     getUserInfo();
@@ -72,7 +83,7 @@ export default function PostItem({ modalOpen }) {
                   {item.commentCount}
                 </BtnComment>
               </PostBtnBox>
-              <PostDate>{item.updatedAt}</PostDate>
+              <PostDate>{today}</PostDate>
             </PostInfoBox>
           </PostContent>
           <BtnMore onClick={modalOpen}></BtnMore>

@@ -5,6 +5,7 @@ const Container = styled.li`
   position: relative;
   width: 100%;
   margin-bottom: 20px;
+  color: white;
 `;
 
 const PostUser = styled.div`
@@ -37,6 +38,7 @@ const PostContent = styled.div`
   margin: 17px 0;
   font-size: 14px;
   line-height: 17px;
+  color: black;
 `;
 
 const PostImg = styled.img`

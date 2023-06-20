@@ -58,6 +58,7 @@ const AuthorInfo = styled.section`
   bottom: 0;
   background-color: var(--white-color);
   border-top: 1px solid var(--line-gray-color);
+  box-sizing: border-box;
 
   img {
     width: 50px;

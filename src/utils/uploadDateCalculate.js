@@ -1,11 +1,10 @@
-const curr = new Date();
-const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
-const koreaTimeDiff = 9 * 60 * 60 * 1000;
-const nowKoreaTime = new Date(utc + koreaTimeDiff).toISOString();
-const nowDateArray = nowKoreaTime.split("T")[0].split("-");
-const nowTimeArray = nowKoreaTime.split("T")[1].slice(0, 8).split(":");
-
 export default function uploadDateCalculate(updateDate) {
+  const curr = new Date();
+  const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
+  const koreaTimeDiff = 9 * 60 * 60 * 1000;
+  const nowKoreaTime = new Date(utc + koreaTimeDiff).toISOString();
+  const nowDateArray = nowKoreaTime.split("T")[0].split("-");
+  const nowTimeArray = nowKoreaTime.split("T")[1].slice(0, 8).split(":");
   // 유저가 게시글을 업데이트 한 [년, 월, 일]순으로 배열에 저장됨
   const updateDateArray = updateDate.split("T")[0].split("-");
   // 유저가 게시글을 업데이트 한 [시, 분, 초]순으로 배열에 저장됨

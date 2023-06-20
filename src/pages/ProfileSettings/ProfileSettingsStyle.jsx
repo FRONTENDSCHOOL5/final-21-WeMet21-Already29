@@ -18,12 +18,33 @@ export const ProfileInfo = styled.section`
   font-size: var(--font-md-size);
 `;
 
-export const EditWrap = styled.section`
-  margin: 3rem 0;
+export const Img = styled.img`
+  border:1px solid red;
+  border-radius:50%;
+  overflow:hidden;
+  width:11rem;
   cursor: pointer;
+  position:relative;
+  
 `;
 
-export const UploadButton = styled.section``;
+export const ImgUploadBtn = styled.button`
+  width:11rem;
+  height:11rem;
+  margin:3rem 0;
+  position:relative;
+`;
+
+export const ImgIcon = styled.img`
+  width:5rem;
+  position:absolute;
+  bottom:0%;
+  right:0%;
+`;
+
+export const UploadInput = styled.input`
+  
+`;
 
 export const EditForm = styled.form`
   display: flex;
@@ -33,7 +54,7 @@ export const EditForm = styled.form`
 export const Label = styled.label`
   font-size: 1.2rem;
   color: var(--gray-color);
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; 
 `;
 
 export const Input = styled.input`

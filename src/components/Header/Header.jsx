@@ -47,13 +47,12 @@ export default function Header({ type, children, submitText, submitFunc }) {
         {children && <h2>{children}</h2>}
       </HeaderUI>
     ),
-    // type: submitHeader | submitText : string | submitFunc : function
     submitHeader: (
       <HeaderUI>
         <HeaderButton onClick={() => navigate(-1)}>
           <img src={backImage} alt="뒤로 가기" />
         </HeaderButton>
-        <GreenSmButton contents={submitText} onClick={() => submitFunc && submitFunc()}></GreenSmButton>
+        {children}
       </HeaderUI>
     ),
   };

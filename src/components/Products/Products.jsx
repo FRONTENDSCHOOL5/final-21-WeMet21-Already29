@@ -36,7 +36,7 @@ export default function Products(props) {
   console.log(productDatas);
   return (
     <>
-      <h2>{nameView && productDatas ? productDatas[0].author.username + "님 판매상품" : ""}</h2>
+      <h2>{nameView && productDatas && productDatas.length !== 0 ? productDatas[0].author.username + "님 판매상품" : ""}</h2>
       <ul>
         {productDatas && swiper ? (
           <CustomSwiper slidesPerView={2.5} spaceBetween={10}>
@@ -78,6 +78,7 @@ export default function Products(props) {
               );
             })
           : ""}
+        {productDatas && productDatas.length === 0 ? "상품이 없습니다" : ""}
       </ul>
     </>
   );

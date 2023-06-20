@@ -5,28 +5,27 @@ import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, Pr
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
 import { GreenMdButton, WhiteMdButton } from "../../components/Button/Button";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import ModalContext from "../../contexts/ModalContext/ModalContext";
 
 export default function ProductDetail() {
   const param = useParams();
   const [product, setProduct] = useState(null);
   const [productAuthor, setProductAuthor] = useState(null);
-  const [isfollow, setIsFollow] = useState(null);
   const navigator = useNavigate();
 
   const deleteProductHandler = () => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
-      fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          navigator(`/productlist/${productAuthor.accountname}`);
-        });
-    }
+    fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        navigator(`/productlist/${productAuthor.accountname}`);
+      });
   };
 
   useEffect(() => {
@@ -43,19 +42,6 @@ export default function ProductDetail() {
         setProductAuthor(json.product.author);
       });
   }, []);
-
-  const unfollowHandler = async () => {
-    const res = await unfollowButtonHandler(productAuthor.accountname);
-    const json = await res.json();
-    console.log(json);
-    setIsFollow(json.profile.isfollow);
-  };
-  const followHandler = async () => {
-    const res = await followButtonHandler(productAuthor.accountname);
-    const json = await res.json();
-    console.log(json);
-    setIsFollow(json.profile.isfollow);
-  };
 
   return (
     <ProductPage>
@@ -75,20 +61,47 @@ export default function ProductDetail() {
               구매링크 : <a href={product.link}>{product.link}</a>
             </p>
           </ProductDetailSection>
-          <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
-          <button type="button" onClick={deleteProductHandler}>
-            삭제하기
-          </button>
-          <AuthorInfo>
-            <Link to={`/profile/${productAuthor.accountname}`}>
-              <img src={productAuthor.image} alt="상점 프로필 사진" />
-              <div>
-                <p>{productAuthor.username}</p>
-                <p>@ {productAuthor.accountname}</p>
-              </div>
-            </Link>
-            {isfollow ? <WhiteMdButton contents={"언팔로우"} onClick={unfollowHandler}></WhiteMdButton> : <GreenMdButton contents={"팔로우"} onClick={followHandler}></GreenMdButton>}
-          </AuthorInfo>
+          {product.author.username === localStorage.getItem("username") ? (
+            <>
+              <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
+              <ModalContext.Consumer>
+                {({ isModalOpen, setModalOpen }) => (
+                  <>
+                    <button type="button" onClick={() => setModalOpen(true)}>
+                      삭제하기
+                    </button>
+                    {isModalOpen && (
+                      <AlertModal
+                        submitText="삭제"
+                        onSubmit={() => {
+                          deleteProductHandler();
+                          setModalOpen(false);
+                        }}
+                        onCancel={() => setModalOpen(false)}
+                      >
+                        삭제하시겠습니까?
+                      </AlertModal>
+                    )}
+                  </>
+                )}
+              </ModalContext.Consumer>
+            </>
+          ) : (
+            ""
+          )}
+          {productAuthor.username !== localStorage.getItem("username") ? (
+            <AuthorInfo>
+              <Link to={`/profile/${productAuthor.accountname}`}>
+                <img src={productAuthor.image} alt="상점 프로필 사진" />
+                <div>
+                  <p>{productAuthor.username}</p>
+                  <p>@ {productAuthor.accountname}</p>
+                </div>
+              </Link>
+            </AuthorInfo>
+          ) : (
+            ""
+          )}
         </>
       ) : (
         <Loading />

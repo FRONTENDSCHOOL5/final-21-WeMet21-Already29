@@ -10,6 +10,7 @@ import Post from "../../components/Post/Post";
 import list from "../../assets/images/icon-post-list-on.png";
 import album from "../../assets/images/icon-post-album-on.png";
 import { WhiteMdButton } from "../../components/Button/Button";
+import Header from "../../components/Header/Header";
 
 export default function Profile() {
   const params = useParams();
@@ -92,6 +93,7 @@ export default function Profile() {
 
   return (
     <>
+      <Header type="basic"></Header>
       {userData ? (
         <main>
           <ProfileSection>

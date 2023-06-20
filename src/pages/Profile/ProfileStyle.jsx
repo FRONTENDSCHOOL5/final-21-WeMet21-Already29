@@ -10,6 +10,7 @@ export const ProfileSection = styled.section`
   padding: 30px 0 26px;
   margin-bottom: 6px;
   border: 1px solid var(--line-gray-color);
+  border-top: 0;
 
   .profile-navbar {
     button:nth-child(2) {

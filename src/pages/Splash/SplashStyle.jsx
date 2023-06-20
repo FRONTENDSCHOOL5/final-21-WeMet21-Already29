@@ -27,8 +27,13 @@ const StyledSplashPage = styled.main`
       bottom: -365px;
     }
     
-    .footer-logo img {
-      margin-left: 730px;
+    .footer-logo {
+      width: 438px;
+      height: 438px;
+      position: relative;
+      display: block;
+      margin: 0 auto;
+      margin-top: -50px;
     }
 
     .main-logo {

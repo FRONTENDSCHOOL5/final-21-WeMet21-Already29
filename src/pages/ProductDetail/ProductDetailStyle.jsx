@@ -56,12 +56,16 @@ const AuthorInfo = styled.section`
   font-size: 1.6rem;
   position: fixed;
   width: min(390px, 80vw);
+  box-sizing: border-box;
   bottom: 0;
   background-color: var(--white-color);
   border-top: 1px solid var(--line-gray-color);
 
   img {
     width: 50px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
   }
   a {
     display: flex;

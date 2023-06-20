@@ -19,13 +19,13 @@ export const ProfileInfo = styled.section`
 `;
 
 export const Img = styled.img`
-  border:1px solid red;
+  width:11rem;
+  height:11rem;
   border-radius:50%;
-  overflow:hidden;
   width:11rem;
   cursor: pointer;
-  position:relative;
-  
+  position:relative;  
+  object-fit:cover;
 `;
 
 export const ImgUploadBtn = styled.button`

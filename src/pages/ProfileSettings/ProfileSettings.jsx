@@ -8,7 +8,7 @@ import uploadIcon from "../../assets/images/uploadFile.png";
 export default function ProfileSettings() {
   const uploadInputRef = useRef(null);
   const [post, setPost] = useState("");
-  const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태 추가
+  const [imageUrl, setImageUrl] = useState(uploadFile); // 이미지 URL 상태 추가
 
   const [image, setImage] = useState(null); // 추후에 다중 이미지로 작업할 때는 image를 배열로!
   const [name, setName] = useState("");
@@ -44,7 +44,7 @@ export default function ProfileSettings() {
       const path = url + data.filename // 3. 이미지 주소
       profile.src = path; // 4. path에 저장해 놓은 값을 불러옴 (실질적 이미지 보여주는 작업)
 
-      setImageUrl(path); // 이미지 URL 업데이트
+      setImageUrl(path); // 이미지 URL 업데이트 (업로드한 파일 받아오는 곳)
       setImage(data);
       // console.log(data);
     } catch (error) {
@@ -113,12 +113,12 @@ export default function ProfileSettings() {
         <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>
         <Label htmlFor="file-sync" className="file-sync"  onClick={handleImgClick}>
           <ImgUploadBtn>
-            <Img src={uploadFile} alt="uploadFile" />  
+            <Img src={imageUrl} alt="uploadFile" />  
             <ImgIcon src={uploadIcon} alt="업로드아이콘" />   
           </ImgUploadBtn>
         </Label>
         <UploadInput ref={uploadInputRef} id='profile' type="file"  accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />         
-        {imageUrl && <img src={imageUrl} alt="프로필 사진" />}
+        {/* {imageUrl && <img src={imageUrl} alt="프로필 사진" />} */}
         <EditForm onSubmit={handleSubmit}>
           <Label htmlFor='user-name'>사용자이름</Label>
           <Input id={"user-name"} type={"text"} label={"사용자이름"} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required />

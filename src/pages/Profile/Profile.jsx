@@ -5,12 +5,16 @@ import share from "../../assets/images/share.png";
 import { GreenMdButton } from "../../components/Button/Button";
 import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton } from "./ProfileStyle";
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useNavigation, useParams } from "react-router-dom";
 import Post from "../../components/Post/Post";
 import list from "../../assets/images/icon-post-list-on.png";
 import album from "../../assets/images/icon-post-album-on.png";
 import { WhiteMdButton } from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
+import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
+import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
+import ModalContext from "../../contexts/ModalContext/ModalContext";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 
 export default function Profile() {
   const params = useParams();
@@ -21,6 +25,7 @@ export default function Profile() {
   const [havePost, setHavePost] = useState(false);
   const [followCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const navigator = useNavigate();
 
   const fetchUserData = () => {
     fetch(`https://api.mandarin.weniv.co.kr/profile/${params.id}`, {
@@ -85,15 +90,53 @@ export default function Profile() {
     }
   };
 
+  const logoutHandler = () => {
+    navigator("/");
+  };
+
   useEffect(() => {
     fetchUserData();
     fetchProducts();
     fetchPost();
   }, [params]);
-
+  console.log("helo");
   return (
     <>
-      <Header type="basic"></Header>
+      <BottomSheetContext.Consumer>
+        {({ isBottomSheetOpen, setBottomSheetOpen }) => (
+          <>
+            {userData && localStorage.getItem("username") === userData.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
+            {isBottomSheetOpen && (
+              <>
+                <BottomSheet>
+                  <ModalContext.Consumer>
+                    {({ isModalOpen, setModalOpen }) => (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setModalOpen(true);
+                          setBottomSheetOpen(false);
+                        }}
+                      >
+                        로그아웃
+                      </button>
+                    )}
+                  </ModalContext.Consumer>
+                </BottomSheet>
+              </>
+            )}
+          </>
+        )}
+      </BottomSheetContext.Consumer>
+      <ModalContext.Consumer>
+        {({ isModalOpen, setModalOpen }) =>
+          isModalOpen && (
+            <AlertModal submitText="로그아웃" onSubmit={() => logoutHandler()} onCancel={() => setModalOpen(false)}>
+              로그아웃하시겠어요?
+            </AlertModal>
+          )
+        }
+      </ModalContext.Consumer>
       {userData ? (
         <main>
           <ProfileSection>

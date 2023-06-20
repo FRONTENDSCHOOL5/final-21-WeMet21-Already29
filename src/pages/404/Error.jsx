@@ -6,7 +6,7 @@ import { Page } from "./ErrorStyle";
 
 // children으로 전달해주시면 에러 메시지가 바뀝니다.
 // props로 img 전달해주시면 이미지가 바뀝니다.
-export default function Error404({ children, img }) {
+export default function Error({ children, img }) {
   const navigator = useNavigate();
   return (
     <Page>

@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const PostHeader = styled.header`
   display: flex;
   gap: 18px;
+  padding: 0 16px;
+  margin-top: 20px;
 
   img {
     border-radius: 50%;
@@ -22,7 +24,7 @@ export const PostHeader = styled.header`
 `;
 
 export const PostContent = styled.section`
-  margin-left: 54px;
+  padding: 0 16px;
   .post-text {
     font-size: 1.4rem;
     margin: 16px 0;

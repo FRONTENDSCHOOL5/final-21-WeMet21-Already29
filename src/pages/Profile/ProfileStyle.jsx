@@ -101,19 +101,14 @@ export const ProductSection = styled.section`
 
 export const PostSection = styled.section`
   border: 1px solid var(--line-gray-color);
-  padding: 16px;
   padding-top: 0;
   li {
     list-style: none;
-  }
-  li + li {
-    margin-top: 32px;
   }
 `;
 
 export const PostSectionHeader = styled.header`
   border-bottom: 1px solid var(--line-gray-color);
-  margin: 0 -16px 10px -16px;
   padding: 10px 16px;
   display: flex;
   justify-content: flex-end;

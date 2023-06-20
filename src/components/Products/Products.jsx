@@ -5,6 +5,7 @@ import { SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { CustomSwiper } from "./ProductsStyle";
+import Header from "../Header/Header";
 
 export default function Products(props) {
   const userAccountName = props.userAccountName;
@@ -36,7 +37,7 @@ export default function Products(props) {
   console.log(productDatas);
   return (
     <>
-      <h2>{nameView && productDatas ? productDatas[0].author.username + "님 판매상품" : ""}</h2>
+      {nameView && productDatas && productDatas.length !== 0 ? <Header type="back">{productDatas[0].author.username}님 판매상품</Header> : ""}
       <ul>
         {productDatas && swiper ? (
           <CustomSwiper slidesPerView={2.5} spaceBetween={10}>

@@ -5,6 +5,7 @@ import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, Pr
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
 import { GreenMdButton, WhiteMdButton } from "../../components/Button/Button";
+import Header from "../../components/Header/Header";
 
 export default function ProductDetail() {
   const param = useParams();
@@ -59,6 +60,7 @@ export default function ProductDetail() {
 
   return (
     <ProductPage>
+      <Header type="basic"></Header>
       {product ? (
         <>
           <ProductImageWrapper>

@@ -10,7 +10,6 @@ const ProductImageWrapper = styled.section`
   display: flex;
   height: 400px;
   align-items: center;
-  border: 1px solid var(--main-color);
   overflow: hidden;
 `;
 

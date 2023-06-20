@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/HeaderMenu/HeaderMenu";
-import { Upload, Form, UploadInput, Img, Label, Textarea } from "./PostUploadStyle";
+import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv } from "./PostUploadStyle";
 import profileImg from "../../assets/images/profileImg.svg";
 import uploadFile from "../../assets/images/uploadFile.svg";
 
@@ -69,25 +69,37 @@ export default function PostUpload() {
     setPost(event.target.value);
   };
 
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+    }
+  }, [post]);
+  
+  
+
+
   return (
     <>
       <Header handlePostUpload={handleUpload} />
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
         <Img src={profileImg} alt="profileImg" />
-        <div>
+        <Div>
           <Form>
             <label htmlFor="txt-sync" className="a11y-hidden">
               게시글 입력창입니다.
             </label>
-            <Textarea id="txt-sync" maxLength="140" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange}></Textarea>
+            <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange}  ref={textareaRef}></Textarea>
             <Label htmlFor="file-sync" className="file-sync">
               <img src={uploadFile} alt="uploadFile" />
             </Label>
             <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
           </Form>
-          <div className="img-container">{image && <img src={"https://api.mandarin.weniv.co.kr/" + image.filename} alt="Uploaded" />}</div>
-        </div>
+          <ImgDiv className="img-container">{image && <img src={"https://api.mandarin.weniv.co.kr/" + image.filename} alt="Uploaded" />}</ImgDiv>
+        </Div>
       </Upload>
     </>
   );

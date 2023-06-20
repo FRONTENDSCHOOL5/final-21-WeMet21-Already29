@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
-import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
-import { GreenMdButton, WhiteMdButton } from "../../components/Button/Button";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 
@@ -38,9 +36,11 @@ export default function ProductDetail() {
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setProduct(json.product);
         setProductAuthor(json.product.author);
-      });
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   return (

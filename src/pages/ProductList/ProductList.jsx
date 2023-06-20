@@ -1,16 +1,13 @@
-import Products from "../../components/Products";
-import { useRef } from "react";
-import { Ul } from "./ProductListStyle";
+import Products from "../../components/Products/Products";
+import { ProductListSection } from "./ProductListStyle";
+import { useParams } from "react-router-dom";
 
 export default function ProductList() {
-  const userAccountName = "testtestabc";
-  const slideUl = useRef(null);
+  const userAccountName = useParams();
 
   return (
-    <section>
-      <Ul ref={slideUl}>
-        <Products userAccountName={userAccountName} />
-      </Ul>
-    </section>
+    <ProductListSection>
+      <Products timeView={true} nameView={true} userAccountName={userAccountName.id} />
+    </ProductListSection>
   );
 }

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon } from "./ProfileSettingsStyle";
-import { GreenBigButton, UnactiveBigButton } from "../../components/Button/Button";
-import uploadFile from "../../assets/images/basicProfileImg.png";
-import uploadIcon from "../../assets/images/uploadFile.png";
+import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon } from "./SignUpProfileStyle";
+import { GreenBigButton, UnactiveBigButton } from "../../../components/Button/Button";
+import uploadFile from "../../../assets/images/basicProfileImg.png";
+import uploadIcon from "../../../assets/images/uploadFile.png";
 
 export default function ProfileSettings() {
   const uploadInputRef = useRef(null);
@@ -24,6 +23,7 @@ export default function ProfileSettings() {
   };
 
   useEffect(() => {
+
   }, [post, image]);
 
   //프로필 사진 업로드
@@ -105,6 +105,53 @@ export default function ProfileSettings() {
     }
   };
 
+  // 회원가입 api 요청 보내기
+
+  const url = 'https://api.mandarin.weniv.co.kr';
+  const join = async (username, email, password, accountname, intro, src) => {
+    const reqPath = '/user';
+
+    const userData = {
+      user: {
+        username: username,
+        email: email,
+        password: password,
+        accountname: accountname,
+      },
+    };
+    userData.user.intro = intro || '';
+    
+    if (src !== "") {
+      const formData = new FormData();
+      formData.append('image', image);
+      const reqPath = '/image/uploadfile';
+      const reqUrl = url + reqPath;
+      const res = await fetch(reqUrl, {
+        method: 'POST',
+        body: formData,
+      });
+      const json = await res.json();
+      userData.user.image = 'https://api.mandarin.weniv.co.kr/' + json.filename;
+    }
+
+    const reqUrl = url + reqPath;
+    const res = await fetch(reqUrl, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const json = await res.json();
+    console.log(json);
+  };
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    join();
+  };
+
   
 
   return (
@@ -130,9 +177,7 @@ export default function ProfileSettings() {
           {idError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
           <Label htmlFor='user-introduce'>소개</Label>
           <Input id={"user-introduce"} type={"text"} label={"소개"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required />
-          <Link to ="/">
-            {name && id && introduce ? <GreenBigButton type='submit' contents={"입9팔9 즐기러 가기"} /> : <UnactiveBigButton type='submit' contents={"입9팔9 즐기러 가기"} />}
-          </Link>
+            {name && id && introduce ? <GreenBigButton onClick={handleForm} type='submit' contents={"입9팔9 즐기러 가기"} /> : <UnactiveBigButton type='submit' contents={"입9팔9 즐기러 가기"} />}        
         </EditForm>
       </ProfileSection>
     </>

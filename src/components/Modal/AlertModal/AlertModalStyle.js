@@ -10,7 +10,7 @@ export const ModalBackDrop = styled.div`
   z-index: 999;
 `;
 
-export const ModalWrapper = styled.section`
+export const ModalWrapper = styled.article`
   font-size: 1.6rem;
   position: relative;
   text-align: center;

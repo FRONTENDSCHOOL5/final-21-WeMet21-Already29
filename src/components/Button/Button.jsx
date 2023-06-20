@@ -80,3 +80,5 @@ export function UnactiveSmButton({ contents, onClick }) {
     </>
   );
 }
+
+export default GreenMdBtn;

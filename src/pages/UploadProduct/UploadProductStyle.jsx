@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Page = styled.main`
-  margin: 0 34px;
+  margin: 10px 34px 0;
 `;
 
 const ImgPlace = styled.div`

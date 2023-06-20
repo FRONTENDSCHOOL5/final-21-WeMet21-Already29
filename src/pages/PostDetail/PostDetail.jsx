@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 // import { useParams } from "react-router";
 import profileImg from "../../assets/images/profileImg.png";
-import { Upload, Form, UploadInput, Label, Img } from "./PostDetailStyle";
+import { Upload, CommentInput, Div, Form, UploadInput, Label, Img, CommnetDiv, SmallDiv } from "./PostDetailStyle";
 
 export default function PostDetail() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [isCommentNotEmpty, setIsCommentNotEmpty] = useState(false);
+
   // const [post, setPost] = useState([]);
 
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGQ2ZWYzYjJjYjIwNTY2MzM4MGNkNCIsImV4cCI6MTY5MjM2NDA5MywiaWF0IjoxNjg3MTgwMDkzfQ.vuyXTUmBLvvHsyizMnm1Wh7tT9vbbothySPTUZqZ5ho";
@@ -29,6 +31,11 @@ export default function PostDetail() {
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
+
+  // 코멘트 작성시 게시버튼 변화
+  useEffect(() => {
+    setIsCommentNotEmpty(comment.trim() !== "");
+  }, [comment]);
 
   // 댓글 리스트
   const getCommentList = () => {
@@ -88,6 +95,7 @@ export default function PostDetail() {
     }
   };
 
+ 
   useEffect(() => {
     getCommentList();
   }, []);
@@ -97,26 +105,31 @@ export default function PostDetail() {
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
 
-        <div>
+        <Div>
           <Form onSubmit={handleCommentSubmit}>
-            <Label htmlFor="file-sync" className="file-sync"></Label>
-            <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
-            <Img src={profileImg} alt="profileImg" />
-            <input className="instaPost_input" type="text" placeholder="댓글 달기..." value={comment} onChange={handleCommentChange} />
-            <button type="submit">게시</button>
-            <div>
+            
+            <CommnetDiv>
               {comments.length > 0 &&
                 comments.map((comment, index) => (
-                  <div key={index}>
-                    <Img src={comment.author.image} alt="profileImg" />
-                    <p>{comment.author.username}</p>
-                    <p>{comment.content}</p>
-                    <p>{calculateElapsedTime(comment.createdAt)}</p>
-                  </div>
+              <SmallDiv key={index}>
+                <div>
+                <Img src={comment.author.image} alt="profileImg" />
+                </div>
+                <p style={{fontSize:"1.4rem", fontWeight:"500"}}>{comment.author.username}</p>
+                <p className='time'>{calculateElapsedTime(comment.createdAt)}</p>
+                <p style={{fontSize:"1.4rem", color:"#333"}}>{comment.content}</p>
+              </SmallDiv>
                 ))}
-            </div>
+            </CommnetDiv>
+            <CommentInput>  
+              <Label htmlFor="file-sync" className="file-sync"></Label>
+              <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
+              <Img src={profileImg} alt="profileImg" />
+              <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
+              <button className={isCommentNotEmpty ? "uploadBtn active" : "uploadBtn"} type="submit">게시</button>
+            </CommentInput>
           </Form>
-        </div>
+        </Div>
       </Upload>
     </>
   );

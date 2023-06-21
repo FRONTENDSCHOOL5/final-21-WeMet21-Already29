@@ -133,8 +133,6 @@ export const Posts = styled.ul`
         object-fit: cover;
         height: 110px;
       }
-      li + li {
-        margin: 0;
-      }
     `};
+  margin-bottom: 90px;
 `;

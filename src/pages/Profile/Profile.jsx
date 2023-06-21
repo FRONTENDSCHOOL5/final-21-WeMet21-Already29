@@ -16,6 +16,7 @@ import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import Button from "../../components/Button/Button";
 import ShareModal from "../../components/ShareModal/ShareModal";
 import styled from "styled-components";
+import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
 
 const WhiteButton = styled.button`
   border: 0;
@@ -235,6 +236,7 @@ export default function Profile() {
               ""
             )}
           </main>
+          <Navigation />
           {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
         </>
       ) : (

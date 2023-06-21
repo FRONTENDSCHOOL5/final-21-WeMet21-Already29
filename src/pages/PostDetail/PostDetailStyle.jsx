@@ -11,6 +11,13 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const Text = styled.div`
+  line-height: 2rem; 
+  font-size:1.4rem; 
+  color:#333333; 
+  margin-left: 4.8rem;
+`;
+
 const CommnetDiv = styled.div`
   padding: 2rem 1.6rem;
   overflow-y: auto;
@@ -21,7 +28,7 @@ const CommnetDiv = styled.div`
   };
 
   &::-webkit-scrollbar-thumb {
-    background-color: #c4c4c4; /* 스크롤 막대 색상 */
+    background-color: #e2e2e2; /* 스크롤 막대 색상 */
     border-radius: 3px;
   };
 
@@ -35,7 +42,6 @@ const SmallDiv = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  gap: 1.2rem;
   margin-bottom: 1.6rem;
   position: relative;
 
@@ -122,4 +128,4 @@ const Img = styled.img`
 `;
 
 
-export { Upload, Form, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img  };
+export { Upload, Form, Text, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img  };

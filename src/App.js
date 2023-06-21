@@ -1,12 +1,15 @@
 import GlobalStyle from "./style/GlobalStyle";
-import SignUp from "./pages/SignUp/SignUp"
+import { BrowserRouter } from "react-router-dom";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <SignUp />
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
     </>
   );
-};
+}
 export default App;

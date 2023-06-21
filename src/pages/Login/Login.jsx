@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Loginh1, LoginForm, StyleInput, NavStyle, Label, FormBox } from "./LoginStyle";
 import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
-import { GreenBigButton, UnactiveBigButton } from "../../components/Button/Button";
+import BtnStyle from "../../components/Button/Button";
 
 export default function Login() {
   // https://api.mandarin.weniv.co.kr/
@@ -94,7 +94,14 @@ export default function Login() {
           <Label htmlFor="user-password">비밀번호</Label>
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
           <p style={{ color: "red", fontSize: "0.7rem", marginBottom: "0.938rem" }}>{warningMessage}</p>
-          {userEmail && userPassword ? <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword && !warningMessage)} /> : <UnactiveBigButton type="submit" contents={"로그인"} />}
+
+          {userEmail && userPassword ? (
+            <BtnStyle type="submit" colorType={true} disabled={!(userEmail && userPassword && !warningMessage)}>
+              로그인
+            </BtnStyle>
+          ) : (
+            <BtnStyle type="submit">로그인</BtnStyle>
+          )}
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>
       </FormBox>

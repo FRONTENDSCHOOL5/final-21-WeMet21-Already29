@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import GlobalStyle from "./style/GlobalStyle";
-import Router from "./routes/Router";
+import { BrowserRouter } from "react-router-dom";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
@@ -8,6 +9,9 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Router />
+      </BrowserRouter>
+      <BrowserRouter>
+        <Login />
       </BrowserRouter>
     </>
   );

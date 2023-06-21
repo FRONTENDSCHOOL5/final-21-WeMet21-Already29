@@ -100,8 +100,11 @@ export default function ShareModal({ setShareModalOpen }) {
     <ShareBackdrop
       onClick={(e) => {
         const componentClass = ShareBackdrop.styledComponentId;
-        const targetClass = e.target.className.slice(0, componentClass.length);
-        componentClass === targetClass && setShareModalOpen(false);
+        const targetClass = e.target.className;
+        if (typeof targetClass === "string") {
+          const sliceTargetClass = targetClass.slice(0, componentClass.length);
+          componentClass === sliceTargetClass && setShareModalOpen(false);
+        }
       }}
     >
       <ShareModalWrap>

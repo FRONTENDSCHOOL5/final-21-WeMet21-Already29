@@ -3,12 +3,12 @@ import StyledSearch from './SearchPageStyle'
 import Header from '../../components/Header/Header';
 import TabMenu from '../../components/Footer/FooterMenu/FooterMenu';
 import UserList from '../../components/UserList/UserList';
-import useAuthContext from '../../hooks/useAuthContext';
+//import useAuthContext from '../../hooks/useAuthContext';
 
 function Search() {
   const [searchList, setSearchList] = useState([]);
   const [keyword, setKeyword] = useState('');
-  const { auth } = useAuthContext();
+  //const { auth } = useAuthContext();
 
   useEffect(() => {
     if (keyword) {
@@ -33,7 +33,7 @@ function Search() {
       };
       GetUserInfo();
     }
-  }, [auth.token, keyword]);
+  }, [keyword]);
 
   useEffect(() => {
     const loading = setTimeout(() => {

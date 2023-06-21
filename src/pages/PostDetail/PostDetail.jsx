@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import profileImg from "../../assets/images/profileImg.png";
 import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import {  Upload, Form, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img } from "./PostDetailStyle";
+import {  Upload, Form, Text, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img } from "./PostDetailStyle";
 
 export default function PostDetail() {
   const [comment, setComment] = useState("");
@@ -163,7 +163,7 @@ export default function PostDetail() {
                 <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
                   <img src={IconMoreVertical} alt="" />
                 </VerticalBtn>
-                <p style={{fontSize:"1.4rem", color:"#333", marginLeft: "4.8rem"}}>{comment.content}</p>
+                <Text>{comment.content}</Text>
                 {comment.author.username === username && (
                       <div>
                       </div>

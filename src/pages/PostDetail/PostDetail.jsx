@@ -213,7 +213,7 @@ export default function PostDetail() {
                     >
                       게시물 삭제
                     </button>
-                    <Link to={""} />
+                    <Link to={`../modify/${post.id}`}>수정</Link>
                   </BottomSheet>
                 )
               }

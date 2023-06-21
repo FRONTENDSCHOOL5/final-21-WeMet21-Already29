@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router";
 import profileImg from "../../assets/images/profileImg.png";
-import { Upload, CommentInput, Div, Form, UploadInput, Label, Img, CommnetDiv, SmallDiv, Namediv } from "./PostDetailStyle";
+import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import {  Upload, Form, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img } from "./PostDetailStyle";
 
 export default function PostDetail() {
   const [comment, setComment] = useState("");
@@ -148,15 +149,9 @@ export default function PostDetail() {
     <>
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
-
         <div>
-          <Form onSubmit={handleCommentSubmit}>
-            <Label htmlFor="file-sync" className="file-sync"></Label>
-            <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
-            <Img src={profileImg} alt="profileImg" />
-            <input className="instaPost_input" type="text" placeholder="댓글 달기..." value={comment} onChange={handleCommentChange} />
-            <button type="submit">게시</button>
-            <div>
+          <Form onSubmit={handleCommentSubmit}>           
+            <CommnetDiv>
               {comments.length > 0 &&
                 comments.map((comment, index) => (
               <SmallDiv key={index}>
@@ -165,17 +160,25 @@ export default function PostDetail() {
                   <p style={{fontSize:"1.4rem", fontWeight:"500"}}>{comment.author.username}</p>
                   <p className='time'>{calculateElapsedTime(comment.createdAt)}</p>
                 </Namediv>
+                <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
+                  <img src={IconMoreVertical} alt="" />
+                </VerticalBtn>
                 <p style={{fontSize:"1.4rem", color:"#333", marginLeft: "4.8rem"}}>{comment.content}</p>
+                {comment.author.username === username && (
+                      <div>
+                      </div>
+                    )}  
               </SmallDiv>
                 ))}
             </CommnetDiv>
             <CommentInput>  
               <Label htmlFor="file-sync" className="file-sync"></Label>
-              <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
+              <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
               <Img src={profileImg} alt="profileImg" />
               <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
-              <button style={{cursor:"pointer"}} className={isCommentNotEmpty ? "uploadBtn active" : "uploadBtn"} type="submit">게시</button>
+              <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">게시</button>
             </CommentInput>
+            {isModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setIsModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
           </Form>
         </div>
       </Upload>

@@ -10,6 +10,7 @@ const BtnStyle = styled.button`
   font-weight: ${(props) => props.fontWeight || '500'};
   border-radius: ${(props) => props.borderRadius || '1rem'};
   border: ${(props) => props.border || 'none'};
+  text-align: center;
   cursor: pointer;
 
   ${(props) =>

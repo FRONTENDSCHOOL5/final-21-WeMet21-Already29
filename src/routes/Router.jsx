@@ -34,7 +34,8 @@ function Router() {
         </Routes>
       </ModalContext.Provider>
     </BottomSheetContext.Provider>
-  );
+    );
+
 }
 
 export default Router;

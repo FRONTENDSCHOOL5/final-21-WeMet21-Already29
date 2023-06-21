@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
   #root{
     width: min(80vw, 390px);
     margin: 0 auto;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   img{

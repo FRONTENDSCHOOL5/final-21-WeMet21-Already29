@@ -1,53 +1,35 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const fadeInOut = keyframes`
     0% {opacity: 0;} 
     100%{opacity:1;}
 `;
 
+const Earth = keyframes`
+  0%{transform:translateY(100px)}
+  100%{transform:translateY(0)}
+`;
+
 const StyledSplashPage = styled.main`
-    height: 970px;
-    width: 390px;
-    background-color: white;
-    font-size: 35px;
-    font-family: 'HambakSnow';
-    box-shadow: -1px 0 30px -1px #f2f2f2, 1px 0 30px -1px #f2f2f2;
-    margin: 0 auto;
+  background-color: white;
+  box-shadow: -1px 0 30px -1px #f2f2f2, 1px 0 30px -1px #f2f2f2;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+  gap: 300px;
 
-    h1 {
-      text-shadow: 2px 2px 4px #5f5f5fbe;
-      margin-left: 150px;
-    }
+  .main-logo {
+    animation: ${fadeInOut} 1s ease-out forwards;
+    width: 203px;
+    margin-right: 38px;
+  }
 
-    footer {
-      position: absolute;
-      width: 650px;
-      height: 621px;
-      left: -1px;
-      bottom: -365px;
-    }
-    
-    .footer-logo img {
-      margin-left: 730px;
-    }
-
-    .main-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .main-logo img {
-      margin-top: 254px;
-      width: 144px;
-      height: 144px;
-    }
-
-    .main-logo,
-    .main-logo img {
-      animation: ${fadeInOut} 1s ease-out forwards;
-    }
+  .earth-image {
+    animation: ${Earth} 1s ease-in-out;
+  }
 `;
 
 export default StyledSplashPage;

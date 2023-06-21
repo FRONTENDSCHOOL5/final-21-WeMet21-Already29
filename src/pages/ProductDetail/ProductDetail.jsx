@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
-import { followButtonHandler } from "../../utils/followButtonHandler";
+import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
+import { GreenMdButton, WhiteMdButton } from "../../components/Button/Button";
 
 export default function ProductDetail() {
   const param = useParams();
   const [product, setProduct] = useState(null);
   const [productAuthor, setProductAuthor] = useState(null);
+  const [isfollow, setIsFollow] = useState(null);
   const navigator = useNavigate();
 
   const deleteProductHandler = () => {
@@ -22,7 +24,7 @@ export default function ProductDetail() {
       })
         .then((res) => res.json())
         .then((json) => {
-          navigator("/productlist");
+          navigator(`/productlist/${productAuthor.accountname}`);
         });
     }
   };
@@ -41,6 +43,19 @@ export default function ProductDetail() {
         setProductAuthor(json.product.author);
       });
   }, []);
+
+  const unfollowHandler = async () => {
+    const res = await unfollowButtonHandler(productAuthor.accountname);
+    const json = await res.json();
+    console.log(json);
+    setIsFollow(json.profile.isfollow);
+  };
+  const followHandler = async () => {
+    const res = await followButtonHandler(productAuthor.accountname);
+    const json = await res.json();
+    console.log(json);
+    setIsFollow(json.profile.isfollow);
+  };
 
   return (
     <ProductPage>
@@ -72,9 +87,7 @@ export default function ProductDetail() {
                 <p>@ {productAuthor.accountname}</p>
               </div>
             </Link>
-            <button type="button" onClick={followButtonHandler}>
-              {productAuthor.isfollow ? "언팔로우" : "팔로우"}
-            </button>
+            {isfollow ? <WhiteMdButton contents={"언팔로우"} onClick={unfollowHandler}></WhiteMdButton> : <GreenMdButton contents={"팔로우"} onClick={followHandler}></GreenMdButton>}
           </AuthorInfo>
         </>
       ) : (

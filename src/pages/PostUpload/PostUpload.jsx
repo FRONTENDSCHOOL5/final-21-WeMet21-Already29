@@ -1,18 +1,54 @@
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
-import Button from "../../components/Button/Button"; 
+import Button from "../../components/Button/Button";
 import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv } from "./PostUploadStyle";
 import profileImg from "../../assets/images/profileImg.svg";
 import uploadFile from "../../assets/images/uploadFile.svg";
+import { useParams } from "react-router-dom";
 
 export default function PostUpload() {
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const parmas = useParams();
 
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGQ2ZWYzYjJjYjIwNTY2MzM4MGNkNCIsImV4cCI6MTY5MjI2OTM0NCwiaWF0IjoxNjg3MDg1MzQ0fQ.vmWyAAhOQ4qGGHLS-P5Jhp-kChRGeDmlcaWSvZ9i874";
 
-  useEffect(() => {}, [post, image, previewImage]);
+  useEffect(() => {
+    if (parmas.id) {
+      fetch(`https://api.mandarin.weniv.co.kr/post/${parmas.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json);
+          setPost(json.post.content);
+          setImage(json.post.image && json.post.image);
+        });
+    }
+  }, []);
+
+  const modifyPostHandler = () => {
+    fetch(`https://api.mandarin.weniv.co.kr/post/${parmas.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        post: {
+          content: post,
+          image: image,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => console.log(json));
+  };
 
   const handleFile = async (event) => {
     const file = event.target.files[0];
@@ -29,8 +65,8 @@ export default function PostUpload() {
         body: formData,
       });
       const data = await response.json();
-      console.log(data);
-      setImage(data);
+      console.log(data.filename);
+      setImage(`https://api.mandarin.weniv.co.kr/${data.filename}`);
       // setPreviewImage(data);
     } catch (error) {
       console.error(error);
@@ -78,18 +114,11 @@ export default function PostUpload() {
       textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
     }
   }, [post]);
-  
-  
-
 
   return (
     <>
       <Header type="submitHeader" handlePostUpload={handleUpload}>
-        <Button 
-          width="12rem"
-          height="3.4rem"
-          margin="0"
-          type="submit" onClick={handleUpload}>
+        <Button width="12rem" height="3.4rem" margin="0" type="submit" onClick={parmas.id ? modifyPostHandler : handleUpload}>
           업로드
         </Button>
       </Header>
@@ -101,13 +130,13 @@ export default function PostUpload() {
             <label htmlFor="txt-sync" className="a11y-hidden">
               게시글 입력창입니다.
             </label>
-            <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange}  ref={textareaRef}></Textarea>
+            <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange} ref={textareaRef}></Textarea>
             <Label htmlFor="file-sync" className="file-sync">
               <img src={uploadFile} alt="uploadFile" />
             </Label>
             <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
           </Form>
-          <ImgDiv className="img-container">{image && <img src={"https://api.mandarin.weniv.co.kr/" + image.filename} alt="Uploaded" />}</ImgDiv>
+          <ImgDiv className="img-container">{image && <img src={image} alt="Uploaded" />}</ImgDiv>
         </Div>
       </Upload>
     </>

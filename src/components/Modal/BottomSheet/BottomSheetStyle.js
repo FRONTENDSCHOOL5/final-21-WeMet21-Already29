@@ -7,7 +7,7 @@ export const BottomSheetBackDrop = styled.div`
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 999;
+  z-index: 99;
 `;
 
 export const BottomSheetWrapper = styled.article`
@@ -19,10 +19,10 @@ export const BottomSheetWrapper = styled.article`
   width: 390px;
   overflow: hidden;
   font-size: 1.4rem;
-  z-index: 1000;
   background-color: #fff;
   padding-top: 20px;
   -webkit-user-drag: element;
+  z-index: 100;
 
   button,
   a {

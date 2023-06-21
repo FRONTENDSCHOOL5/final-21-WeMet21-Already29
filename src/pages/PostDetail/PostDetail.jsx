@@ -131,8 +131,8 @@ export default function PostDetail() {
         console.log(result);
 
         if (result.status === "200") {
-          setIsModalOpen(false); // 모달 닫기
-          getCommentList(); // 다시 댓글 리스트 가져오기 -> 재렌더링
+          setIsModalOpen(false);
+          getCommentList();
         } else {
           throw new Error("댓글 삭제 실패");
         }

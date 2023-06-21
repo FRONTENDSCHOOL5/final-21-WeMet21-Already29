@@ -33,7 +33,9 @@ export const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
   border-top: 1px solid var(--line-gray-color);
-  bottom: 0;
+  bottom: 0px;
+  align-items: center;
+  overflow: hidden;
 
   button {
     width: 50%;

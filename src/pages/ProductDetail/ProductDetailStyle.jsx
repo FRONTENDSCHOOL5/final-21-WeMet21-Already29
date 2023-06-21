@@ -10,7 +10,6 @@ const ProductImageWrapper = styled.section`
   display: flex;
   height: 400px;
   align-items: center;
-  border: 1px solid var(--main-color);
   overflow: hidden;
 `;
 
@@ -60,6 +59,7 @@ const AuthorInfo = styled.section`
   bottom: 0;
   background-color: var(--white-color);
   border-top: 1px solid var(--line-gray-color);
+  box-sizing: border-box;
 
   img {
     width: 50px;

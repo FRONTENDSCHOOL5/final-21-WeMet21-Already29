@@ -3,8 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
-import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import Header from "../../components/Header/Header";
+import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
+import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 
 export default function ProductDetail() {
   const param = useParams();
@@ -45,6 +48,11 @@ export default function ProductDetail() {
 
   return (
     <ProductPage>
+      <BottomSheetContext.Consumer>
+        {({ setBottomSheetOpen }) => {
+          return <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header>;
+        }}
+      </BottomSheetContext.Consumer>
       {product ? (
         <>
           <ProductImageWrapper>
@@ -61,47 +69,58 @@ export default function ProductDetail() {
               구매링크 : <a href={product.link}>{product.link}</a>
             </p>
           </ProductDetailSection>
-          {product.author.username === localStorage.getItem("username") ? (
-            <>
-              <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
-              <ModalContext.Consumer>
-                {({ isModalOpen, setModalOpen }) => (
-                  <>
-                    <button type="button" onClick={() => setModalOpen(true)}>
-                      삭제하기
-                    </button>
-                    {isModalOpen && (
-                      <AlertModal
-                        submitText="삭제"
-                        onSubmit={() => {
-                          deleteProductHandler();
-                          setModalOpen(false);
-                        }}
-                        onCancel={() => setModalOpen(false)}
-                      >
-                        삭제하시겠습니까?
-                      </AlertModal>
-                    )}
-                  </>
+          <BottomSheetContext.Consumer>
+            {({ isBottomSheetOpen, setBottomSheetOpen }) => (
+              <>
+                {isBottomSheetOpen && (
+                  <BottomSheet>
+                    <ModalContext.Consumer>
+                      {({ setModalOpen }) => {
+                        return (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setModalOpen(true);
+                              setBottomSheetOpen(false);
+                            }}
+                          >
+                            삭제하기
+                          </button>
+                        );
+                      }}
+                    </ModalContext.Consumer>
+                    <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
+                  </BottomSheet>
                 )}
-              </ModalContext.Consumer>
-            </>
-          ) : (
-            ""
-          )}
-          {productAuthor.username !== localStorage.getItem("username") ? (
-            <AuthorInfo>
-              <Link to={`/profile/${productAuthor.accountname}`}>
-                <img src={productAuthor.image} alt="상점 프로필 사진" />
-                <div>
-                  <p>{productAuthor.username}</p>
-                  <p>@ {productAuthor.accountname}</p>
-                </div>
-              </Link>
-            </AuthorInfo>
-          ) : (
-            ""
-          )}
+              </>
+            )}
+          </BottomSheetContext.Consumer>
+          <ModalContext.Consumer>
+            {({ isModalOpen, setModalOpen }) => {
+              return (
+                isModalOpen && (
+                  <AlertModal
+                    submitText="삭제"
+                    onSubmit={() => {
+                      deleteProductHandler();
+                    }}
+                    onCancel={() => setModalOpen(false)}
+                  >
+                    상품을 삭제할까요?
+                  </AlertModal>
+                )
+              );
+            }}
+          </ModalContext.Consumer>
+          <AuthorInfo>
+            <Link to={`/profile/${productAuthor.accountname}`}>
+              <img src={productAuthor.image} alt="상점 프로필 사진" />
+              <div>
+                <p>{productAuthor.username}</p>
+                <p>@ {productAuthor.accountname}</p>
+              </div>
+            </Link>
+          </AuthorInfo>
         </>
       ) : (
         <Loading />

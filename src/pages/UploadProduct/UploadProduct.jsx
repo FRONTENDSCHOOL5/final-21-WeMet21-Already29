@@ -4,6 +4,7 @@ import iconAlbum from "../../assets/images/icon-image.svg";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, ImgPlace, ImgUploadButton, Input, InputLabel, Page } from "./UploadProductStyle";
+import Header from "../../components/Header/Header";
 
 export default function UploadProduct() {
   const imgPre = useRef(null),
@@ -120,8 +121,8 @@ export default function UploadProduct() {
     }
     const formData = new FormData();
     const userImg = e.target.files[0];
-    if (userImg.size > 1000000) {
-      alert("1MB 미만의 이미지 파일만 업로드 가능합니다.");
+    if (userImg.size > 10000000) {
+      alert("10MB 미만의 이미지 파일만 업로드 가능합니다.");
       return;
     }
 
@@ -162,9 +163,11 @@ export default function UploadProduct() {
 
   return (
     <>
-      <Button type="submit" form="abc" ref={submitBtn}>
-        저장
-      </Button>
+      <Header type="submitHeader">
+        <Button type="submit" form="abc" ref={submitBtn}>
+          저장
+        </Button>
+      </Header>
       <Page>
         <form id="abc" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
           <span>이미지 등록</span>

@@ -25,9 +25,10 @@ const GlobalStyle = createGlobalStyle`
     --font-red-color:#EB5757;
     --font-black-color: #0B0B0B;
 
-    --font-lg-size: 2.4rem; 
-    --font-md-size: 1.4rem;  
-    --font-sm-size: 1.2rem; 
+    --font-lg-size: 2.4rem; //24px 
+    --font-md-size: 1.4rem; //14px 
+    --font-sm-size: 1.2rem; //12px 
+
 
     --font-Bold: 700;
     --font-Medium: 500;

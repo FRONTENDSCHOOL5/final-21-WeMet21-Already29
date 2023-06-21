@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore  } from "./PostItemStyle";
 import axios from "axios";
 
 export default function PostItem({ modalOpen }) {
-  // const navigate = useNavigate();
-  function moveDetail() {
-    //  navigate("/detailpost");
-  }
   const [postInfo, setPostInfo] = useState([]);
   const [authorInfo, setAuthorInfo] = useState([]);
-  const [today, setToday] = useState('');
+  
+  function formatDate(dateString) {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
 
-  useEffect(() => {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-    setToday(formattedDate);
-  }, []);
+    return `${year}년 ${month}월 ${day}일`;
+  }
 
   useEffect(() => {
     getUserInfo();
@@ -72,7 +65,7 @@ export default function PostItem({ modalOpen }) {
                   />
                   {item.heartCount}
                 </BtnLike>
-                <BtnComment onClick={moveDetail}>
+                <BtnComment>
                   <BtnImg
                     src={
                       require("../../../assets/images/icon-message-circle-1.svg")
@@ -83,7 +76,7 @@ export default function PostItem({ modalOpen }) {
                   {item.commentCount}
                 </BtnComment>
               </PostBtnBox>
-              <PostDate>{today}</PostDate>
+              <PostDate>{formatDate(item.updatedAt)}</PostDate>
             </PostInfoBox>
           </PostContent>
           <BtnMore onClick={modalOpen}></BtnMore>
@@ -92,4 +85,3 @@ export default function PostItem({ modalOpen }) {
     </>
   );
 }
-

@@ -1,10 +1,10 @@
-import React from 'react';
-import StyledTopBasicNav from './HeaderMenuStyle';
-import iconSearch from '../../../assets/images/icon-search.svg';
+import React from "react";
+import StyledTopBasicNav from "./HeaderMenuStyle";
+import iconSearch from "../../../assets/images/icon-search.svg";
 
 export function TopMainNav(props) {
   const goSearch = () => {
-    window.location.href = '/search';
+    window.location.href = "/search";
   };
 
   return (

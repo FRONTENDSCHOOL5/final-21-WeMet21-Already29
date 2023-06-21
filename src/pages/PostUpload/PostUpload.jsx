@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import Header from "../../components/HeaderMenu/HeaderMenu";
+import Header from "../../components/Header/Header";
+import Button from "../../components/Button/Button"; 
 import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv } from "./PostUploadStyle";
 import profileImg from "../../assets/images/profileImg.svg";
 import uploadFile from "../../assets/images/uploadFile.svg";
@@ -83,7 +84,15 @@ export default function PostUpload() {
 
   return (
     <>
-      <Header handlePostUpload={handleUpload} />
+      <Header type="submitHeader" handlePostUpload={handleUpload}>
+        <Button 
+          width="12rem"
+          height="3.4rem"
+          margin="0"
+          type="submit" onClick={handleUpload}>
+          업로드
+        </Button>
+      </Header>
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
         <Img src={profileImg} alt="profileImg" />

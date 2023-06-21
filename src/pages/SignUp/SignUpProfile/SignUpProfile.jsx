@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon } from "./SignUpProfileStyle";
-// import { GreenBigButton, UnactiveBigButton } from "../../../components/Button/Button";
+import BtnStyle from "../../../components/Button/Button";
 import uploadFile from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 
@@ -178,6 +178,14 @@ export default function ProfileSettings() {
           <Label htmlFor='user-introduce'>소개</Label>
           <Input id={"user-introduce"} type={"text"} label={"소개"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required />
             {/* {name && id && introduce ? <GreenBigButton onClick={handleForm} type='submit' contents={"입9팔9 즐기러 가기"} /> : <UnactiveBigButton type='submit' contents={"입9팔9 즐기러 가기"} />}         */}
+            {name && id && introduce? (
+            <BtnStyle onClick={handleForm} type='submit'>
+              입9팔9 즐기러 가기
+            </BtnStyle>
+          ) : (
+            <BtnStyle onClick={handleForm} type='submit' disabled>
+              입9팔9 즐기러 가기
+            </BtnStyle>)}
         </EditForm>
       </ProfileSection>
     </>

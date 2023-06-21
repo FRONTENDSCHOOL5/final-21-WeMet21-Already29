@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import Products from "../../components/Products/Products";
 import Loading from "../../components/Loading";
 import share from "../../assets/images/share.png";
-import { GreenMdButton } from "../../components/Button/Button";
 import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton } from "./ProfileStyle";
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
-import { Link, useNavigate, useNavigation, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Post from "../../components/Post/Post";
 import list from "../../assets/images/icon-post-list-on.png";
 import album from "../../assets/images/icon-post-album-on.png";
-import { WhiteMdButton } from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import Button from "../../components/Button/Button";
+import ShareModal from "../../components/ShareModal/ShareModal";
 
 export default function Profile() {
   const params = useParams();
@@ -25,6 +25,7 @@ export default function Profile() {
   const [havePost, setHavePost] = useState(false);
   const [followCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const [ShareModalOpen, setShareModalOpen] = useState(false);
   const navigator = useNavigate();
 
   const fetchUserData = () => {
@@ -99,7 +100,7 @@ export default function Profile() {
     fetchProducts();
     fetchPost();
   }, [params]);
-  console.log("helo");
+
   return (
     <>
       <BottomSheetContext.Consumer>
@@ -138,83 +139,86 @@ export default function Profile() {
         }
       </ModalContext.Consumer>
       {userData ? (
-        <main>
-          <ProfileSection>
-            <ProfileHeader className="profile-header">
-              <p>
-                <FollowCountSpan>{followCount}</FollowCountSpan>
-                followers
-              </p>
-              <img src={userData.image} alt="프로필 사진" />
-              <p>
-                <FollowCountSpan>{followingCount}</FollowCountSpan>
-                followings
-              </p>
-            </ProfileHeader>
-            <ProfileIntro>
-              <h2 className="user-name">{userData.username}</h2>
-              <p className="account-name">@ {userData.accountname}</p>
-              <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
-            </ProfileIntro>
-            <ProfileNavBar>
-              {localStorage.getItem("username") === userData.username ? (
-                <>
-                  <Link to={``}>
-                    <WhiteMdButton type="button" contents="프로필 수정"></WhiteMdButton>
-                  </Link>
+        <>
+          <main>
+            <ProfileSection>
+              <ProfileHeader className="profile-header">
+                <p>
+                  <FollowCountSpan>{followCount}</FollowCountSpan>
+                  followers
+                </p>
+                <img src={userData.image} alt="프로필 사진" />
+                <p>
+                  <FollowCountSpan>{followingCount}</FollowCountSpan>
+                  followings
+                </p>
+              </ProfileHeader>
+              <ProfileIntro>
+                <h2 className="user-name">{userData.username}</h2>
+                <p className="account-name">@ {userData.accountname}</p>
+                <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
+              </ProfileIntro>
+              <ProfileNavBar>
+                {localStorage.getItem("username") === userData.username ? (
+                  <>
+                    <Link to={``}>
+                      <Button type="button" contents="프로필 수정"></Button>
+                    </Link>
 
-                  <Link to="/uploadProduct">
-                    <WhiteMdButton type="button" contents="상품 등록"></WhiteMdButton>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  {isfollow ? <WhiteMdButton onClick={followUphandler} contents={"언팔로우"}></WhiteMdButton> : <GreenMdButton type="button" onClick={followUphandler} contents={"팔로우"}></GreenMdButton>}
-                  <ShareButton type="button">
-                    <img src={share} alt="공유하기" />
-                  </ShareButton>
-                </>
-              )}
-            </ProfileNavBar>
-          </ProfileSection>
+                    <Link to="/uploadProduct">
+                      <Button type="button" contents="상품 등록"></Button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    {isfollow ? <Button onClick={followUphandler} contents={"언팔로우"}></Button> : <Button type="button" onClick={followUphandler} contents={"팔로우"}></Button>}
+                    <ShareButton type="button" onClick={() => setShareModalOpen(true)}>
+                      <img src={share} alt="공유하기" />
+                    </ShareButton>
+                  </>
+                )}
+              </ProfileNavBar>
+            </ProfileSection>
 
-          {haveProduct ? (
-            <ProductSection>
-              <LinkStyle to={`/productlist/${userData.accountname}`} style={{ userDrag: "none" }}>
-                판매 중인 상품
-              </LinkStyle>
-              <Products userAccountName={userData.accountname} swiper={true} />
-            </ProductSection>
-          ) : (
-            ""
-          )}
-          {havePost ? (
-            <PostSection>
-              <PostSectionHeader>
-                <h2 className="a11y-hidden">게시물</h2>
-                <button
-                  onClick={() => {
-                    setIsAlbum(false);
-                  }}
-                >
-                  <img src={list} alt="리스트로 보기" style={{ opacity: isAlbum ? 0.5 : 1 }} />
-                </button>
-                <button
-                  onClick={() => {
-                    setIsAlbum(true);
-                  }}
-                >
-                  <img src={album} alt="앨범으로 보기" style={{ opacity: isAlbum ? 1 : 0.5 }} />
-                </button>
-              </PostSectionHeader>
-              <Posts isAlbum={isAlbum}>
-                <Post isAlbum={isAlbum} />
-              </Posts>
-            </PostSection>
-          ) : (
-            ""
-          )}
-        </main>
+            {haveProduct ? (
+              <ProductSection>
+                <LinkStyle to={`/productlist/${userData.accountname}`} style={{ userDrag: "none" }}>
+                  판매 중인 상품
+                </LinkStyle>
+                <Products userAccountName={userData.accountname} swiper={true} />
+              </ProductSection>
+            ) : (
+              ""
+            )}
+            {havePost ? (
+              <PostSection>
+                <PostSectionHeader>
+                  <h2 className="a11y-hidden">게시물</h2>
+                  <button
+                    onClick={() => {
+                      setIsAlbum(false);
+                    }}
+                  >
+                    <img src={list} alt="리스트로 보기" style={{ opacity: isAlbum ? 0.5 : 1 }} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAlbum(true);
+                    }}
+                  >
+                    <img src={album} alt="앨범으로 보기" style={{ opacity: isAlbum ? 1 : 0.5 }} />
+                  </button>
+                </PostSectionHeader>
+                <Posts isAlbum={isAlbum}>
+                  <Post isAlbum={isAlbum} />
+                </Posts>
+              </PostSection>
+            ) : (
+              ""
+            )}
+          </main>
+          {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
+        </>
       ) : (
         <>
           <Loading />

@@ -1,0 +1,129 @@
+import React, { useEffect } from "react";
+import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from "react-share";
+import CopyToClipboard from "react-copy-to-clipboard";
+import styled from "styled-components";
+import KaKaoImage from "../../assets/images/kakao_share.webp";
+import CloseImage from "../../assets/images/Union.png";
+import useScript from "../../hooks/useScript";
+
+const CloseButton = styled.button`
+  border: 0;
+  padding: 0;
+  background-color: initial;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  padding: 5px;
+
+  img {
+    width: 25px;
+    filter: invert(30%);
+  }
+`;
+
+const ShareModalWrap = styled.article`
+  background-color: var(--white-color);
+  text-align: center;
+  position: absolute;
+  width: 350px;
+  padding: 35px 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+`;
+
+const ShareItemWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const ShareBackdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 10;
+`;
+const UrlShareButton = styled.button`
+  user-select: none;
+  border: 0;
+  padding: 0;
+  background-color: var(--main-color);
+  color: var(--white-color);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: 700;
+`;
+const KakaoShareButton = styled.a`
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+`;
+const KakaoIcon = styled.img`
+  width: 62px;
+  height: 62px;
+`;
+
+export default function ShareModal({ setShareModalOpen }) {
+  const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
+  const currentUrl = window.location.href;
+  // kakao sdk 초기화하기
+  // status가 변경될 때마다 실행되며, status가 ready일 때 초기화를 시도합니다.
+  useEffect(() => {
+    if (status === "ready" && window.Kakao) {
+      // 중복 initialization 방지
+      if (!window.Kakao.isInitialized()) {
+        // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+        window.Kakao.init("7491e21fe4cdbdc373705bed5acf85bd");
+      }
+    }
+  }, [status]);
+
+  const handleKakaoButton = () => {
+    window.Kakao.Link.sendScrap({
+      requestUrl: currentUrl,
+    });
+  };
+
+  return (
+    <ShareBackdrop
+      onClick={(e) => {
+        const componentClass = ShareBackdrop.styledComponentId;
+        const targetClass = e.target.className.slice(0, componentClass.length);
+        componentClass === targetClass && setShareModalOpen(false);
+      }}
+    >
+      <ShareModalWrap>
+        <h2>공유하기</h2>
+        <ShareItemWrap>
+          <FacebookShareButton url={"https://test.com"}>
+            <FacebookIcon round={true} />
+          </FacebookShareButton>
+          <TwitterShareButton url={"https://test.com"}>
+            <TwitterIcon round={true} />
+          </TwitterShareButton>
+          <CopyToClipboard text={"https://test.com"}>
+            <UrlShareButton>URL</UrlShareButton>
+          </CopyToClipboard>
+          <KakaoShareButton onClick={handleKakaoButton} tabIndex={0}>
+            <KakaoIcon src={KaKaoImage} />
+          </KakaoShareButton>
+        </ShareItemWrap>
+        <CloseButton type="button" onClick={() => setShareModalOpen(false)}>
+          <img src={CloseImage} alt="닫기" />
+        </CloseButton>
+      </ShareModalWrap>
+    </ShareBackdrop>
+  );
+}

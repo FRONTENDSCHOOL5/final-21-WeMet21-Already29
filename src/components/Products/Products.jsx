@@ -79,6 +79,7 @@ export default function Products(props) {
               );
             })
           : ""}
+        {productDatas && productDatas.length === 0 ? "상품이 없습니다" : ""}
       </ul>
     </>
   );

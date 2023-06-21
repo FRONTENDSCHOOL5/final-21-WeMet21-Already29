@@ -10,6 +10,7 @@ export const ProfileSection = styled.section`
   padding: 30px 0 26px;
   margin-bottom: 6px;
   border: 1px solid var(--line-gray-color);
+  border-top: 0;
 
   .profile-navbar {
     button:nth-child(2) {
@@ -100,19 +101,14 @@ export const ProductSection = styled.section`
 
 export const PostSection = styled.section`
   border: 1px solid var(--line-gray-color);
-  padding: 16px;
   padding-top: 0;
   li {
     list-style: none;
-  }
-  li + li {
-    margin-top: 32px;
   }
 `;
 
 export const PostSectionHeader = styled.header`
   border-bottom: 1px solid var(--line-gray-color);
-  margin: 0 -16px 10px -16px;
   padding: 10px 16px;
   display: flex;
   justify-content: flex-end;
@@ -137,8 +133,6 @@ export const Posts = styled.ul`
         object-fit: cover;
         height: 110px;
       }
-      li + li {
-        margin: 0;
-      }
     `};
+  margin-bottom: 90px;
 `;

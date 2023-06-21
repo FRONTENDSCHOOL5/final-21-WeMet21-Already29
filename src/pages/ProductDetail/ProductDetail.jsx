@@ -39,9 +39,11 @@ export default function ProductDetail() {
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setProduct(json.product);
         setProductAuthor(json.product.author);
-      });
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   return (

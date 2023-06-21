@@ -3,6 +3,7 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
 import HomeFeed from "../pages/HomeFeed/HomeFeed";
+import SearchPage from "../pages/Search/SearchPage";
 import ModalContext from "../contexts/ModalContext/ModalContext";
 import BottomSheetContext from "../contexts/ModalContext/BottomSheetContext";
 import UploadProduct from "../pages/UploadProduct/UploadProduct";
@@ -21,9 +22,9 @@ function Router() {
           <Route path="/Login" element={<Login />}></Route>
           <Route path="/" element={<StartSplash />}></Route>
           {/* <Route path="/signup" element={<SignUp />}></Route> */}
-          <Route path="/homefeed" element={<HomeFeed />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/homefeed" element={<HomeFeed />}></Route>
+          <Route path="/search" element={<SearchPage />}></Route>
           <Route path="/uploadProduct" element={<UploadProduct />}></Route>
           <Route path="/productlist/:id" element={<ProductList />}></Route>
           <Route path="/profile/:id" element={<Profile />}></Route>

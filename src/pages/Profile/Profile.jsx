@@ -15,6 +15,18 @@ import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import Button from "../../components/Button/Button";
 import ShareModal from "../../components/ShareModal/ShareModal";
+import styled from "styled-components";
+
+const WhiteButton = styled.button`
+  border: 0;
+  padding: 0;
+  width: 12rem;
+  height: 3.4rem;
+  background-color: var(--white-color);
+  border: 1px solid #767676;
+  border-radius: 10px;
+  color: var(--gray-color);
+`;
 
 export default function Profile() {
   const params = useParams();
@@ -162,16 +174,22 @@ export default function Profile() {
                 {localStorage.getItem("username") === userData.username ? (
                   <>
                     <Link to={``}>
-                      <Button type="button" contents="프로필 수정"></Button>
+                      <WhiteButton type="button">프로필 수정</WhiteButton>
                     </Link>
 
                     <Link to="/uploadProduct">
-                      <Button type="button" contents="상품 등록"></Button>
+                      <WhiteButton type="button">상품 등록</WhiteButton>
                     </Link>
                   </>
                 ) : (
                   <>
-                    {isfollow ? <Button onClick={followUphandler} contents={"언팔로우"}></Button> : <Button type="button" onClick={followUphandler} contents={"팔로우"}></Button>}
+                    {isfollow ? (
+                      <WhiteButton onClick={followUphandler}>언팔로우</WhiteButton>
+                    ) : (
+                      <Button type="button" onClick={followUphandler} width="12rem" height="3.4rem">
+                        팔로우
+                      </Button>
+                    )}
                     <ShareButton type="button" onClick={() => setShareModalOpen(true)}>
                       <img src={share} alt="공유하기" />
                     </ShareButton>

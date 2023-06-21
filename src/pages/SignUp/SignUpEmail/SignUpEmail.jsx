@@ -81,10 +81,14 @@ export default function SignUpEmail({
           <Label htmlFor='user-password'>비밀번호</Label>
           <Input id={"user-password"} type={"password"} label={"비밀번호"} placeholder={"비밀번호를 설정해 주세요."} value={password} valid={passwordValid} alertMsg={setPasswordError} onChange={handlePasswordInput} />
           {passwordError && <p style={{ marginBottom: "3rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{passwordError}</p>}
-          {/* {email && password ? <GreenBigButton onClick={handleForm} type='submit' contents={"다음"} /> : <UnactiveBigButton type='submit' contents={"다음"} />}  */}
-          <BtnStyle>
-            다음
-          </BtnStyle>
+          {emailValid && passwordValid ? (
+            <BtnStyle onClick={handleForm} type='submit'>
+              다음
+            </BtnStyle>
+          ) : (
+            <BtnStyle onClick={handleForm} type='submit' disabled>
+              다음
+            </BtnStyle>)}
         </Form>
       </SignUpContainer>
     </>

@@ -66,7 +66,7 @@ const CommnetDiv = styled.div`
   border:1px solid red;
   padding: 2rem 1.6rem;
   overflow-y: auto;
-  max-height: 23.6rem;
+  height:23.6rem;
 
   &::-webkit-scrollbar {
     width:0.9rem;
@@ -84,9 +84,9 @@ const CommnetDiv = styled.div`
 
 const SmallDiv = styled.div`
   display:flex;
-  flex-direction: row;
+  flex-direction:column;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   gap:1.2rem;
   margin-bottom:1.6rem;
 
@@ -98,6 +98,14 @@ const SmallDiv = styled.div`
     content:"·";
     margin-right:0.5rem;
   }
+`;
+
+const Namediv = styled.div`
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  gap: 1.2rem;
+  /* border:1px solid green; */
 `;
 
 const Textarea = styled.textarea`
@@ -135,4 +143,4 @@ const Label = styled.label`
   bottom: 1.6rem;
 `;
 
-export { Upload, CommentInput, Div, Form, UploadInput, Img, Label, Textarea, CommnetDiv, SmallDiv };
+export { Upload, CommentInput, Div, Form, UploadInput, Img, Label, Textarea, CommnetDiv, SmallDiv, Namediv };

@@ -198,7 +198,7 @@ export default function Profile() {
                 <LinkStyle to={`/product/list/${userData.accountname}`} style={{ userDrag: "none" }}>
                   판매 중인 상품
                 </LinkStyle>
-                <Products userAccountName={userData.accountname} swiper={true} />
+                <Products userAccountName={userData.accountname} />
               </ProductSection>
             ) : (
               ""

@@ -12,8 +12,6 @@ export default function PostUpload() {
   const [previewImage, setPreviewImage] = useState(null);
   const parmas = useParams();
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGQ2ZWYzYjJjYjIwNTY2MzM4MGNkNCIsImV4cCI6MTY5MjI2OTM0NCwiaWF0IjoxNjg3MDg1MzQ0fQ.vmWyAAhOQ4qGGHLS-P5Jhp-kChRGeDmlcaWSvZ9i874";
-
   useEffect(() => {
     if (parmas.id) {
       fetch(`https://api.mandarin.weniv.co.kr/post/${parmas.id}`, {
@@ -85,14 +83,13 @@ export default function PostUpload() {
       },
     };
     console.log(body);
-    console.log(token);
     try {
       const response = await fetch("https://api.mandarin.weniv.co.kr/post", {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.get("token")}`,
         },
       });
       const data = await response.json();

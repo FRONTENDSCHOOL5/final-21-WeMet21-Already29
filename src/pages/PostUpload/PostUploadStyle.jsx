@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
 const Upload = styled.section`
-  border: 1px solid red;
   padding: 2rem 1.6rem;
   display: flex;
-
   align-items: start;
   gap: 1.2rem;
   position: relative;
@@ -40,16 +38,16 @@ const Textarea = styled.textarea`
 const Div = styled.div`
   width: 30.4rem;
   height: 30rem;
-  object-fit: cover;  
-  object-position:absolute;  
+  object-fit: cover;
+  object-position: absolute;
 `;
 
 const ImgDiv = styled.div`
   width: 30.3rem;
   height: 30.4rem;
   border-radius: 1rem;
-  object-fit: cover; 
-  overflow:hidden;
+  object-fit: cover;
+  overflow: hidden;
 `;
 
 const Label = styled.label`

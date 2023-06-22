@@ -93,18 +93,19 @@ export default function Profile() {
   }, [params]);
 
   useEffect(() => {
-    if (!posts) {
+    setTimeout(() => {
       getData(page)
         .then((res) => res.json())
-        .then((json) => {
-          setPosts(json.post);
-          console.log(...json.post);
-        });
-    } else {
-      getData(page)
-        .then((res) => res.json())
-        .then((json) => setPosts((prev) => [...prev, ...json.post]));
-    }
+        .then((json) =>
+          setPosts((prev) => {
+            if (prev) {
+              return [...prev, ...json.post];
+            } else {
+              return json.post;
+            }
+          })
+        );
+    }, 100);
   }, [page]);
 
   return (
@@ -224,7 +225,7 @@ export default function Profile() {
               <Posts isAlbum={isAlbum}>
                 <UserPost posts={posts} isAlbum={isAlbum} />
               </Posts>
-              <div ref={pageEnd}>왜안돼</div>
+              <div ref={pageEnd}></div>
             </PostSection>
           </main>
 

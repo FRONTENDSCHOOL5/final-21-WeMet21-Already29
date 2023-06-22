@@ -284,11 +284,12 @@ export default function PostDetail() {
                       <p style={{ fontSize: "1.4rem", fontWeight: "500" }}>{comment.author.username}</p>
                       <p className="time">{calculateElapsedTime(comment.createdAt)}</p>
                     </Namediv>
-                    <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
-                      <img src={IconMoreVertical} alt="" />
-                    </VerticalBtn>
+                    {comment.author.username === username && (
+                      <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
+                        <img src={IconMoreVertical} alt="" />
+                      </VerticalBtn>
+                    )}
                     <Text>{comment.content}</Text>
-                    {comment.author.username === username && <div></div>}
                   </SmallDiv>
                 ))}
             </CommnetDiv>

@@ -26,7 +26,6 @@ export default function ProfileSettings({email, password}) {
   };
 
   useEffect(() => {
-
   }, [post, image]);
 
   //프로필 사진 업로드
@@ -40,8 +39,8 @@ export default function ProfileSettings({email, password}) {
 
     reader.readAsDataURL(event.target.files[0]);
     
-    const profile = document.querySelector("#profile"); //1. 접근 (이미지 요소가 변수 안에 담김)
-    const url = "https://api.mandarin.weniv.co.kr/" // 2. url요청해오기 
+    const profile = document.querySelector("#profile"); 
+    const url = "https://api.mandarin.weniv.co.kr/" 
     
     const formData = new FormData();
     formData.append("image", file);
@@ -53,10 +52,8 @@ export default function ProfileSettings({email, password}) {
       const data =  await response.json();
 
       console.log(data)
-      const path = url + data.filename // 3. 이미지 주소
-  // 4. path에 저장해 놓은 값을 불러옴 (실질적 이미지 보여주는 작업)
-      setImageUrl(path); // 이미지 URL 업데이트 (업로드한 파일 받아오는 곳)
-      // console.log(data);
+      const path = url + data.filename 
+      setImageUrl(path);
     } catch (error) {
       console.error(error);
     }
@@ -114,8 +111,7 @@ export default function ProfileSettings({email, password}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();  
-    if (name && id && introduce && idValid) {
-     
+    if (name && id && introduce && idValid) {     
     }
   };
 
@@ -150,15 +146,13 @@ export default function ProfileSettings({email, password}) {
     }
   };
 
-  const handleForm = (e) => {
+  const handleForm = async (e) => {
     e.preventDefault();
-    join();
     if (name && id && introduce && idValid) {
-      navigate("/homefeed"); 
+      await join(); // 이미지 업로드 및 회원가입 API 요청
+      navigate("/homefeed"); // 페이지 이동
     }
-  };
-
-  
+  };  
 
   return (
     <>
@@ -183,8 +177,6 @@ export default function ProfileSettings({email, password}) {
           {idError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
           <Label htmlFor='user-introduce'>소개</Label>
           <Input id={"user-introduce"} type={"text"} label={"소개"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required />
-            {/* {name && id && introduce ? <GreenBigButton onClick={handleForm} type='submit' contents={"입9팔9 즐기러 가기"} /> : <UnactiveBigButton type='submit' contents={"입9팔9 즐기러 가기"} />}         */}
-       
             {name && id && introduce? (
             <BtnStyle onClick={handleForm} type='submit'>
               입9팔9 즐기러 가기

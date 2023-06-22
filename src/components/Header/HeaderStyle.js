@@ -5,6 +5,7 @@ export const HeaderUI = styled.header`
   position: sticky;
   top: 0px;
   background-color: #fff;
+  z-index: 10;
   justify-content: space-between;
   padding: 12px 10px;
   max-height: 48px;

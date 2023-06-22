@@ -24,6 +24,7 @@ export const ModalWrapper = styled.article`
   height: 110px;
   box-shadow: 0 0 2px var(--gray-color);
   overflow: hidden;
+  z-index: 998;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -32,7 +33,9 @@ export const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
   border-top: 1px solid var(--line-gray-color);
-  bottom: 0;
+  bottom: 0px;
+  align-items: center;
+  overflow: hidden;
 
   button {
     width: 50%;

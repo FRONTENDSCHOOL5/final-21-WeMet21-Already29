@@ -1,80 +1,33 @@
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
-const GreenBigBtn = styled.button`
-  width: 32.2rem;
-  height: 4.4rem;
-  border-radius: 1rem;
-  border: none;
-  color: var(--white-color);
-  font-size: var(--font-md-size);
-  background-color: var(--main-color);
+const BtnStyle = styled.button`
+  width: ${(props) => props.width || '32.2rem'};
+  height: ${(props) => props.height || '4.4rem'};
+  margin: ${(props) => props.margin || '0px auto'};
+  color: ${(props) => props.color || 'var(--white-color)'};
+  background: ${(props) => props.bgColor || 'var(--main-color)'};
+  font-size: ${(props) => props.fontSize || '1.4rem'};
+  font-weight: ${(props) => props.fontWeight || '500'};
+  border-radius: ${(props) => props.borderRadius || '1rem'};
+  border: ${(props) => props.border || 'none'};
   text-align: center;
+  cursor: pointer;
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: var(--unactive-color);
+      cursor: default;
+    `};
+
+  ${(props) =>
+    props.active &&
+    css`
+      background-color: var(--white-color);
+      color: var(--gray-color);
+      border: 1px solid var(--gray-color);
+      cursor: pointer;
+    `};
 `;
 
-const GreenMdBtn = styled.button`
-  width: 12rem;
-  height: 3.4rem;
-  border-radius: 1rem;
-  border: none;
-  color: var(--white-color);
-  font-size: var(--font-md-size);
-  background-color: var(--main-color);
-  text-align: center;
-`;
-
-const GreenSmBtn = styled.button`
-  width: 9rem;
-  height: 3.2rem;
-  border-radius: 1rem;
-  border: none;
-  color: var(--white-color);
-  font-size: var(--font-md-size);
-  background-color: var(--main-color);
-  text-align: center;
-`;
-
-const GreenSsBtn = styled.button`
-  width: 5.6rem;
-  height: 2.8rem;
-  border-radius: 1rem;
-  border: none;
-  color: var(--white-color);
-  font-size: var(--font-sm-size);
-  background-color: var(--main-color);
-  text-align: center;
-`;
-
-const WhiteBigBtn = styled(GreenBigBtn)`
-  background-color: var(--white-color);
-  color: var(--font-black-color);
-  border:1px solid var( --gray-color);
-`;
-
-const WhiteMdBtn = styled(GreenMdBtn)`
-  background-color: var(--white-color);
-  color: var(--font-black-color);
-  border:1px solid var( --gray-color);
-`;
-
-const WhiteSsBtn = styled(GreenSsBtn)`
-  background-color: var(--white-color);
-  color: var(--font-black-color);
-  border:1px solid var( --gray-color);
-`;
-
-const UnactiveBigBtn = styled(GreenBigBtn)`
-  background-color: var(--unactive-color);
-  color: var(--white-color);
-`;
-
-const UnactiveMdBtn = styled(GreenMdBtn)`
-  background-color: var(--unactive-color);
-  color: var(--white-color);
-`;
-
-const UnactiveSmBtn = styled(GreenSmBtn)`
-  background-color: var(--unactive-color);
-  color: var(--white-color);
-`;
-
-export { GreenBigBtn, GreenMdBtn, GreenSmBtn, GreenSsBtn, WhiteBigBtn, WhiteMdBtn, WhiteSsBtn, UnactiveBigBtn, UnactiveMdBtn, UnactiveSmBtn };
+export default BtnStyle;

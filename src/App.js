@@ -7,6 +7,7 @@ function App() {
     <>
       <GlobalStyle />
       <BrowserRouter>
+        {/* <Login /> */}
         <Router />
       </BrowserRouter>
     </>

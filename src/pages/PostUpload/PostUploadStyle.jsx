@@ -46,8 +46,13 @@ const ImgDiv = styled.div`
   width: 30.3rem;
   height: 30.4rem;
   border-radius: 1rem;
-  object-fit: cover;
   overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const Label = styled.label`

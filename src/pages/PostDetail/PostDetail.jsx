@@ -8,12 +8,12 @@ import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import { useParams } from "react-router";
-import { PostMenuWrap, ProductContent, ProductHeader } from "../../components/Post/PostStyle";
+import { PostMenuWrap, PostContent, PostHeader } from "../../components/Post/PostStyle";
 import commentImg from "../../assets/images/icon-message-circle.png";
 import heart from "../../assets/images/uil_heart.png";
 import fillHeart from "../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../utils/heartButtonHandler";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -21,6 +21,7 @@ export default function PostDetail() {
   const [comments, setComments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [targetCommentId, setTargetCommentId] = useState("");
+  const navigate = useNavigate();
 
   const params = useParams();
 
@@ -221,7 +222,15 @@ export default function PostDetail() {
             <ModalContext.Consumer>
               {({ isModalOpen, setModalOpen }) =>
                 isModalOpen && (
-                  <AlertModal submitText="삭제" onSubmit={deletePostHandler} onCancel={() => setModalOpen(false)}>
+                  <AlertModal
+                    submitText="삭제"
+                    onSubmit={() => {
+                      deletePostHandler();
+                      navigate(`/profile/${post.author.accountname}`);
+                      setModalOpen(false);
+                    }}
+                    onCancel={() => setModalOpen(false)}
+                  >
                     게시글을 삭제할까요?
                   </AlertModal>
                 )
@@ -233,7 +242,7 @@ export default function PostDetail() {
       <main>
         {post && (
           <>
-            <ProductHeader>
+            <PostHeader style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${post.author.accountname}`)}>
               <img src={post.author.image} alt="게시글 작성자 프로필 사진" />
               <div>
                 <h2>
@@ -242,8 +251,8 @@ export default function PostDetail() {
                 </h2>
                 <p>@ {post.author.accountname}</p>
               </div>
-            </ProductHeader>
-            <ProductContent>
+            </PostHeader>
+            <PostContent>
               <p className="post-text">{post.content}</p>
               {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" /> : ""}
               <PostMenuWrap>
@@ -268,7 +277,7 @@ export default function PostDetail() {
                 </p>
               </PostMenuWrap>
               <time dateTime={post.createdAt.slice(0, 10)}>{post.createdAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
-            </ProductContent>
+            </PostContent>
           </>
         )}
       </main>
@@ -280,8 +289,10 @@ export default function PostDetail() {
                 comments.map((comment, index) => (
                   <SmallDiv key={index}>
                     <Namediv>
-                      <Img src={comment.author.image} alt="profileImg" />
-                      <p style={{ fontSize: "1.4rem", fontWeight: "500" }}>{comment.author.username}</p>
+                      <Img src={comment.author.image} alt="profileImg" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)} />
+                      <p style={{ fontSize: "1.4rem", fontWeight: "500", cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)}>
+                        {comment.author.username}
+                      </p>
                       <p className="time">{calculateElapsedTime(comment.createdAt)}</p>
                     </Namediv>
                     {comment.author.username === username && (

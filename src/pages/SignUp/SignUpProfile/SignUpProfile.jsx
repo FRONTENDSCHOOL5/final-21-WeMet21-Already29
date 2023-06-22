@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon } from "./SignUpProfileStyle";
+import { useNavigate } from "react-router-dom";
 import BtnStyle from "../../../components/Button/Button";
-import uploadFile from "../../../assets/images/basicProfileImg.png";
+import basicProfileImage from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 
-export default function ProfileSettings() {
+export default function ProfileSettings({email, password}) {
+  const navigate = useNavigate();
   const uploadInputRef = useRef(null);
   const [post, setPost] = useState("");
-  const [imageUrl, setImageUrl] = useState(uploadFile); // 이미지 URL 상태 추가
+  const [image, setImage] = useState(basicProfileImage)
+  const [imageUrl, setImageUrl] = useState(''); // 이미지 URL 상태 추가
 
-  const [image, setImage] = useState(null); // 추후에 다중 이미지로 작업할 때는 image를 배열로!
+   // 추후에 다중 이미지로 작업할 때는 image를 배열로!
   const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [introduce, setIntroduce] = useState("");
@@ -23,15 +26,21 @@ export default function ProfileSettings() {
   };
 
   useEffect(() => {
-
   }, [post, image]);
 
   //프로필 사진 업로드
   const handleFile = async (event) => {
     const file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+     reader.result && setImage(reader.result)
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
     
-    const profile = document.querySelector("#profile"); //1. 접근 (이미지 요소가 변수 안에 담김)
-    const url = "https://api.mandarin.weniv.co.kr/" // 2. url요청해오기 
+    const profile = document.querySelector("#profile"); 
+    const url = "https://api.mandarin.weniv.co.kr/" 
     
     const formData = new FormData();
     formData.append("image", file);
@@ -40,13 +49,11 @@ export default function ProfileSettings() {
         method: "POST",
         body: formData,
       });
-      const data = await response.json();
-      const path = url + data.filename // 3. 이미지 주소
-      profile.src = path; // 4. path에 저장해 놓은 값을 불러옴 (실질적 이미지 보여주는 작업)
+      const data =  await response.json();
 
-      setImageUrl(path); // 이미지 URL 업데이트 (업로드한 파일 받아오는 곳)
-      setImage(data);
-      // console.log(data);
+      console.log(data)
+      const path = url + data.filename 
+      setImageUrl(path);
     } catch (error) {
       console.error(error);
     }
@@ -103,64 +110,49 @@ export default function ProfileSettings() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    if (name && id && introduce && idValid) {
+    event.preventDefault();  
+    if (name && id && introduce && idValid) {     
     }
   };
 
   // 회원가입 api 요청 보내기
   const url = 'https://api.mandarin.weniv.co.kr';
   const join = async () => {
-    const username = ""; 
-    const email = "";
-    const password ="";
-    const accountname = id;
-    const intro = introduce;
-    const src = imageUrl;
-    const reqPath = '/user';
-
     const userData = {
       user: {
-        username: username,
         email: email,
         password: password,
-        accountname: accountname,
+        image: imageUrl,
+        username: name,
+        accountname: id,
+        intro: introduce
       },
     };
-    userData.user.intro = intro || '';
-    
-    if (src !== "") {
-      const formData = new FormData();
-      formData.append('image', image);
-      const reqPath = '/image/uploadfile';
-      const reqUrl = url + reqPath;
-      const res = await fetch(reqUrl, {
+    userData.user.intro = introduce || '';
+
+    try {
+      const res = await fetch(url + '/user', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(userData),
       });
-      const json = await res.json();
-      userData.user.image = 'https://api.mandarin.weniv.co.kr/' + json.filename;
-    }
-
-    const reqUrl = url + reqPath;
-    const res = await fetch(reqUrl, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-
-    const json = await res.json();
-    console.log(json);
-  };
-
-  const handleForm = (e) => {
-    e.preventDefault();
-    join();
-  };
-
   
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleForm = async (e) => {
+    e.preventDefault();
+    if (name && id && introduce && idValid) {
+      await join(); // 이미지 업로드 및 회원가입 API 요청
+      navigate("/homefeed"); // 페이지 이동
+    }
+  };  
 
   return (
     <>
@@ -170,12 +162,12 @@ export default function ProfileSettings() {
         <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>
         <Label htmlFor="file-sync" className="file-sync"  onClick={handleImgClick}>
           <ImgUploadBtn>
-            <Img src={imageUrl} alt="uploadFile" />  
+            <Img src={image} alt="uploadFile" />  
             <ImgIcon src={uploadIcon} alt="업로드아이콘" />   
           </ImgUploadBtn>
         </Label>
         <UploadInput ref={uploadInputRef} id='profile' type="file"  accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />         
-        {/* {imageUrl && <img src={imageUrl} alt="프로필 사진" />} */}
+      
         <EditForm onSubmit={handleSubmit}>
           <Label htmlFor='user-name'>사용자이름</Label>
           <Input id={"user-name"} type={"text"} label={"사용자이름"} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required />
@@ -185,7 +177,6 @@ export default function ProfileSettings() {
           {idError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
           <Label htmlFor='user-introduce'>소개</Label>
           <Input id={"user-introduce"} type={"text"} label={"소개"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required />
-            {/* {name && id && introduce ? <GreenBigButton onClick={handleForm} type='submit' contents={"입9팔9 즐기러 가기"} /> : <UnactiveBigButton type='submit' contents={"입9팔9 즐기러 가기"} />}         */}
             {name && id && introduce? (
             <BtnStyle onClick={handleForm} type='submit'>
               입9팔9 즐기러 가기

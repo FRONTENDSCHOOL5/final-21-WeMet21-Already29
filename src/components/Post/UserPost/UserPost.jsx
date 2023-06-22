@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { PostHeader, PostMenuWrap, PostContent } from "./PostStyle";
-import comment from "../../assets/images/icon-message-circle.png";
-import heart from "../../assets/images/uil_heart.png";
-import fillHeart from "../../assets/images/uil_fullHeart.png";
-import { heartButtonHandler } from "../../utils/heartButtonHandler";
+import { PostHeader, PostMenuWrap, PostContent } from "./UserPostStyle";
+import comment from "../../../assets/images/icon-message-circle.png";
+import heart from "../../../assets/images/uil_heart.png";
+import fillHeart from "../../../assets/images/uil_fullHeart.png";
+import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 
-export default function Post(props) {
+export default function UserPost(props) {
   const params = useParams();
   // const [heartCount, setHeartCount] = useState({});
 

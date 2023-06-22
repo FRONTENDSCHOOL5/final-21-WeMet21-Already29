@@ -168,7 +168,7 @@ export default function Profile() {
               <ProfileNavBar>
                 {localStorage.getItem("username") === userData.username ? (
                   <>
-                    <Link to={``}>
+                    <Link to={`modify`}>
                       <WhiteButton type="button">프로필 수정</WhiteButton>
                     </Link>
 

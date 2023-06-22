@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const HeaderUI = styled.header`
   display: flex;
+  position: sticky;
+  top: 0px;
+  background-color: #fff;
   justify-content: space-between;
   padding: 12px 10px;
   max-height: 48px;

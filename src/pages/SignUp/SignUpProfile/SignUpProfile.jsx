@@ -42,7 +42,11 @@ export default function ProfileSettings({ email, password }) {
       }),
     })
       .then((res) => res.json())
-      .then((json) => console.log(json));
+      .then((json) => {
+        console.log(json);
+        localStorage.setItem("username", json.user.username);
+        navigate(`/profile/${json.user.accountname}`);
+      });
   };
 
   useEffect(() => {
@@ -208,8 +212,8 @@ export default function ProfileSettings({ email, password }) {
 
       <ProfileSection>
         <h2 className="a11y-hidden">프로필 설정</h2>
-        <ProfileTile>프로필 설정</ProfileTile>
-        <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>
+        <ProfileTile>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTile>
+        {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
         <Label htmlFor="file-sync" className="file-sync" onClick={handleImgClick}>
           <ImgUploadBtn>
             <Img src={imageUrl || image} alt="uploadFile" />

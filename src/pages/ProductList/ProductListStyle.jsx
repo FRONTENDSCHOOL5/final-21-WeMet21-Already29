@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const ProductListSection = styled.section`
+  min-height: 100vh;
+  margin-bottom: 90px;
   li {
     width: 100%;
     font-size: 1.5rem;

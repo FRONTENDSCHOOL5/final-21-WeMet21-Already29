@@ -136,3 +136,14 @@ export const Posts = styled.ul`
     `};
   margin-bottom: 90px;
 `;
+
+export const WhiteButton = styled.button`
+  border: 0;
+  padding: 0;
+  width: 12rem;
+  height: 3.4rem;
+  background-color: var(--white-color);
+  border: 1px solid #767676;
+  border-radius: 10px;
+  color: var(--gray-color);
+`;

@@ -68,31 +68,34 @@ export default function ProfileSettings() {
   // 계정 유효성 검사
   const handleIdInput = async (event) => {
     const value = event.target.value;
-    const postIdValid = await fetch(`https://api.mandarin.weniv.co.kr/user/accountnamevalid`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          accountname: value,
-        },
-      }),
-    });
-    const json = await postIdValid.json();
-    console.log(json);
+    setId(value); // 입력된 값을 그대로 유지 (첫번째 글자 지워지지 않는 오류 해결)
 
     const idPattern = /^[A-Za-z0-9._]+$/;
     if (idPattern.test(value)) {
-      setId(value);
       setIdError("");
       setIdValid(true);
-    } else {
-      setId(value); // 입력된 값을 그대로 유지 (첫번째 글자 지워지지 않는 오류 해결)
-      setIdError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
-      setIdValid(false);
-    }
-  };
+      try {
+        const postIdValid = await fetch(`https://api.mandarin.weniv.co.kr/user/accountnamevalid`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: {
+              accountname: value,
+            },
+          }),
+        });
+          const json = await postIdValid.json();
+          console.log(json);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        setIdError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
+        setIdValid(false);
+      }
+    };
 
   // 소개 입력란 핸들러
   const handleIntroduceInput = (event) => {
@@ -106,9 +109,14 @@ export default function ProfileSettings() {
   };
 
   // 회원가입 api 요청 보내기
-
   const url = 'https://api.mandarin.weniv.co.kr';
-  const join = async (username, email, password, accountname, intro, src) => {
+  const join = async () => {
+    const username = ""; 
+    const email = "";
+    const password ="";
+    const accountname = id;
+    const intro = introduce;
+    const src = imageUrl;
     const reqPath = '/user';
 
     const userData = {

@@ -8,7 +8,7 @@ export default function SignUpEmail({
   setEmail,
   password,
   setPassword,}) {
-  const [emailValid, setEmailValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(true);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -17,7 +17,6 @@ export default function SignUpEmail({
   const handleEmailInput = (event) => {
     setEmail(event.target.value);
   };
-
 
   // 비밀번호 유효성 검사
   const handlePasswordInput = (event) => {
@@ -59,7 +58,7 @@ export default function SignUpEmail({
   // 이메일, 비밀번호가 통과되어 유효할 시 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (email && password && emailValid && passwordValid) {
+    if (emailValid && passwordValid) {
     }
   };
 

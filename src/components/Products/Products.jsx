@@ -6,6 +6,7 @@ import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { CustomSwiper } from "./ProductsStyle";
 import Header from "../Header/Header";
+import Error from "../../pages/404/Error";
 
 export default function Products(props) {
   const userAccountName = props.userAccountName;
@@ -79,7 +80,7 @@ export default function Products(props) {
               );
             })
           : ""}
-        {productDatas && productDatas.length === 0 ? "상품이 없습니다" : ""}
+        {productDatas && productDatas.length === 0 ? <Error>판매중인 상품이 없습니다</Error> : ""}
       </ul>
     </>
   );

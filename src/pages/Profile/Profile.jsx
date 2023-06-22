@@ -156,15 +156,15 @@ export default function Profile() {
           <main>
             <ProfileSection>
               <ProfileHeader className="profile-header">
-                <p>
+                <Link to={`../${userData.accountname}/follower`}>
                   <FollowCountSpan>{followCount}</FollowCountSpan>
                   followers
-                </p>
+                </Link>
                 <img src={userData.image} alt="프로필 사진" />
-                <p>
+                <Link to={`../${userData.accountname}/following`}>
                   <FollowCountSpan>{followingCount}</FollowCountSpan>
                   followings
-                </p>
+                </Link>
               </ProfileHeader>
               <ProfileIntro>
                 <h2 className="user-name">{userData.username}</h2>

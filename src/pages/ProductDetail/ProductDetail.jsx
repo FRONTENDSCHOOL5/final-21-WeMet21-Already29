@@ -25,7 +25,7 @@ export default function ProductDetail() {
     })
       .then((res) => res.json())
       .then((json) => {
-        navigator(`/productlist/${productAuthor.accountname}`);
+        navigator(`/product/list/${productAuthor.accountname}`);
       });
   };
 
@@ -50,7 +50,7 @@ export default function ProductDetail() {
     <ProductPage>
       <BottomSheetContext.Consumer>
         {({ setBottomSheetOpen }) => {
-          return <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header>;
+          return productAuthor && localStorage.getItem("username") === productAuthor.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />;
         }}
       </BottomSheetContext.Consumer>
       {product ? (
@@ -77,19 +77,23 @@ export default function ProductDetail() {
                     <ModalContext.Consumer>
                       {({ setModalOpen }) => {
                         return (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setModalOpen(true);
-                              setBottomSheetOpen(false);
-                            }}
-                          >
-                            삭제하기
-                          </button>
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setModalOpen(true);
+                                setBottomSheetOpen(false);
+                              }}
+                            >
+                              삭제하기
+                            </button>
+                            <Link to={`/product/modify/${param.id}`} onClick={() => setBottomSheetOpen(false)}>
+                              상품 수정하기
+                            </Link>
+                          </>
                         );
                       }}
                     </ModalContext.Consumer>
-                    <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
                   </BottomSheet>
                 )}
               </>
@@ -103,6 +107,7 @@ export default function ProductDetail() {
                     submitText="삭제"
                     onSubmit={() => {
                       deleteProductHandler();
+                      setModalOpen(false);
                     }}
                     onCancel={() => setModalOpen(false)}
                   >

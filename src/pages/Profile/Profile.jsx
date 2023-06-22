@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Products from "../../components/Products/Products";
 import Loading from "../../components/Loading";
 import share from "../../assets/images/share.png";
-import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton } from "./ProfileStyle";
+import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, WhiteButton } from "./ProfileStyle";
 import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Post from "../../components/Post/Post";
+import Post from "../../components/Post/UserPost/UserPost";
 import list from "../../assets/images/icon-post-list-on.png";
 import album from "../../assets/images/icon-post-album-on.png";
 import Header from "../../components/Header/Header";
@@ -17,17 +17,8 @@ import Button from "../../components/Button/Button";
 import ShareModal from "../../components/ShareModal/ShareModal";
 import styled from "styled-components";
 import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
-
-const WhiteButton = styled.button`
-  border: 0;
-  padding: 0;
-  width: 12rem;
-  height: 3.4rem;
-  background-color: var(--white-color);
-  border: 1px solid #767676;
-  border-radius: 10px;
-  color: var(--gray-color);
-`;
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import UserPost from "../../components/Post/UserPost/UserPost";
 
 export default function Profile() {
   const params = useParams();
@@ -35,11 +26,13 @@ export default function Profile() {
   const [isfollow, setIsFollow] = useState(null);
   const [isAlbum, setIsAlbum] = useState(false);
   const [haveProduct, setHaveProduct] = useState(false);
-  const [havePost, setHavePost] = useState(false);
   const [followCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
   const [ShareModalOpen, setShareModalOpen] = useState(false);
   const navigator = useNavigate();
+  const pageEnd = useRef(null);
+  const [posts, setPosts] = useState(null);
+  const { getData, page, isLoading } = useInfiniteScroll(`post/${params.id}/userpost`, pageEnd);
 
   const fetchUserData = () => {
     fetch(`https://api.mandarin.weniv.co.kr/profile/${params.id}`, {
@@ -76,20 +69,6 @@ export default function Profile() {
       });
   };
 
-  const fetchPost = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}/userpost`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.post.length !== 0) setHavePost(true);
-      });
-  };
-
   const followUphandler = async () => {
     if (isfollow) {
       const res = await unfollowButtonHandler(userData.accountname);
@@ -111,8 +90,22 @@ export default function Profile() {
   useEffect(() => {
     fetchUserData();
     fetchProducts();
-    fetchPost();
   }, [params]);
+
+  useEffect(() => {
+    if (!posts) {
+      getData(page)
+        .then((res) => res.json())
+        .then((json) => {
+          setPosts(json.post);
+          console.log(...json.post);
+        });
+    } else {
+      getData(page)
+        .then((res) => res.json())
+        .then((json) => setPosts((prev) => [...prev, ...json.post]));
+    }
+  }, [page]);
 
   return (
     <>
@@ -156,12 +149,12 @@ export default function Profile() {
           <main>
             <ProfileSection>
               <ProfileHeader className="profile-header">
-                <Link to={`../${userData.accountname}/follower`}>
+                <Link to={`./follower`}>
                   <FollowCountSpan>{followCount}</FollowCountSpan>
                   followers
                 </Link>
                 <img src={userData.image} alt="프로필 사진" />
-                <Link to={`../${userData.accountname}/following`}>
+                <Link to={`./following`}>
                   <FollowCountSpan>{followingCount}</FollowCountSpan>
                   followings
                 </Link>
@@ -209,34 +202,34 @@ export default function Profile() {
             ) : (
               ""
             )}
-            {havePost ? (
-              <PostSection>
-                <PostSectionHeader>
-                  <h2 className="a11y-hidden">게시물</h2>
-                  <button
-                    onClick={() => {
-                      setIsAlbum(false);
-                    }}
-                  >
-                    <img src={list} alt="리스트로 보기" style={{ opacity: isAlbum ? 0.5 : 1 }} />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsAlbum(true);
-                    }}
-                  >
-                    <img src={album} alt="앨범으로 보기" style={{ opacity: isAlbum ? 1 : 0.5 }} />
-                  </button>
-                </PostSectionHeader>
-                <Posts isAlbum={isAlbum}>
-                  <Post isAlbum={isAlbum} />
-                </Posts>
-              </PostSection>
-            ) : (
-              ""
-            )}
+
+            <PostSection>
+              <PostSectionHeader>
+                <h2 className="a11y-hidden">게시물</h2>
+                <button
+                  onClick={() => {
+                    setIsAlbum(false);
+                  }}
+                >
+                  <img src={list} alt="리스트로 보기" style={{ opacity: isAlbum ? 0.5 : 1 }} />
+                </button>
+                <button
+                  onClick={() => {
+                    setIsAlbum(true);
+                  }}
+                >
+                  <img src={album} alt="앨범으로 보기" style={{ opacity: isAlbum ? 1 : 0.5 }} />
+                </button>
+              </PostSectionHeader>
+              <Posts isAlbum={isAlbum}>
+                <UserPost posts={posts} isAlbum={isAlbum} />
+              </Posts>
+              <div ref={pageEnd}>왜안돼</div>
+            </PostSection>
           </main>
+
           <Navigation />
+
           {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
         </>
       ) : (

@@ -6,29 +6,7 @@ import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 
-export default function UserPost(props) {
-  const params = useParams();
-  // const [heartCount, setHeartCount] = useState({});
-
-  const [posts, setPosts] = useState(null);
-  const fetchUserPost = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}/userpost`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setPosts(json.post);
-      });
-  };
-
-  useEffect(() => {
-    fetchUserPost();
-  }, []);
-
+export default function UserPost({ posts, isAlbum }) {
   const heartHandler = async (postId, postHeart) => {
     if (postHeart) {
       const res = await heartButtonHandler.minus(postId);
@@ -39,12 +17,11 @@ export default function UserPost(props) {
       const json = await res.json();
       console.log(json);
     }
-    fetchUserPost();
   };
 
   return (
     <>
-      {posts && !props.isAlbum
+      {posts && !isAlbum
         ? posts.map((post) => {
             return (
               <li key={post.id}>
@@ -61,7 +38,7 @@ export default function UserPost(props) {
                   </PostHeader>
                   <PostContent>
                     <p className="post-text">{post.content}</p>
-                    {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" /> : ""}
+                    {post.image && <img src={post.image} className="post-image" alt="게시글 이미지" />}
                     <PostMenuWrap>
                       <button
                         type="button"
@@ -91,21 +68,21 @@ export default function UserPost(props) {
             );
           })
         : ""}
-      {posts && props.isAlbum
-        ? posts
-            .filter((post) => {
-              return post.image;
-            })
-            .map((post) => {
-              return (
-                <li key={post.id}>
-                  <Link to={`/post/${post.id}`}>
-                    <img src={post.image} alt="게시글 이미지" />
-                  </Link>
-                </li>
-              );
-            })
-        : ""}
+      {posts &&
+        isAlbum &&
+        posts
+          .filter((post) => {
+            return post.image;
+          })
+          .map((post) => {
+            return (
+              <li key={post.id}>
+                <Link to={`/post/${post.id}`}>
+                  <img src={post.image} alt="게시글 이미지" />
+                </Link>
+              </li>
+            );
+          })}
     </>
   );
 }

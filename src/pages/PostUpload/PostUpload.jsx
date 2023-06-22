@@ -89,7 +89,7 @@ export default function PostUpload() {
         body: JSON.stringify(body),
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${localStorage.get("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       const data = await response.json();

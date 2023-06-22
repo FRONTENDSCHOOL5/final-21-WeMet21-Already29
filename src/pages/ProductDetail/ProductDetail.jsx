@@ -50,7 +50,7 @@ export default function ProductDetail() {
     <ProductPage>
       <BottomSheetContext.Consumer>
         {({ setBottomSheetOpen }) => {
-          return <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header>;
+          return productAuthor && localStorage.getItem("username") === productAuthor.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />;
         }}
       </BottomSheetContext.Consumer>
       {product ? (

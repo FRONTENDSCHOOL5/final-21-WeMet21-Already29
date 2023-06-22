@@ -178,7 +178,7 @@ export default function Profile() {
                       <WhiteButton type="button">프로필 수정</WhiteButton>
                     </Link>
 
-                    <Link to="/uploadProduct">
+                    <Link to="/product/upload">
                       <WhiteButton type="button">상품 등록</WhiteButton>
                     </Link>
                   </>
@@ -201,7 +201,7 @@ export default function Profile() {
 
             {haveProduct ? (
               <ProductSection>
-                <LinkStyle to={`/productlist/${userData.accountname}`} style={{ userDrag: "none" }}>
+                <LinkStyle to={`/product/list/${userData.accountname}`} style={{ userDrag: "none" }}>
                   판매 중인 상품
                 </LinkStyle>
                 <Products userAccountName={userData.accountname} swiper={true} />

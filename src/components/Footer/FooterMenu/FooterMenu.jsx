@@ -8,9 +8,27 @@ import fillEditIcon from "../../../assets/images/FillIconEdit.png";
 import userIcon from "../../../assets/images/IconUser.png";
 import fillUserIcon from "../../../assets/images/FillIconUser.png";
 import { NavWrapper, NavLink, StyledNavText } from './FooterMenuStyle';
+import { useEffect } from "react";
 
 export default function Navigation() {
   const location = useLocation();
+  const [accountname, setAccountname] = useState("");
+
+  const fetchUserInfo = () => {
+    fetch("https://api.mandarin.weniv.co.kr/user/myinfo",
+      {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      })
+      .then(res => res.json())
+      .then(json => setAccountname(json.user.accountname));
+    
+    useEffect(() => {
+      fetchUserInfo()
+    }, []);
+  };
 
   return (
     <NavWrapper>
@@ -54,16 +72,15 @@ export default function Navigation() {
         <StyledNavText>게시물 작성</StyledNavText>
       </NavLink>
 
-      <NavLink
-        // eslint-disable-next-line no-undef
-        to="/profile/accountname"
+      <LinkStyle
+        to={`/profile/${accountname}`}
         className={`nav-link ${
-          location.pathname === "/profile/accountname" ? "active" : ""
+          location.pathname === "/profile/${accountname}" ? "active" : ""
         }`}
       >
         <img
           src={
-            location.pathname === "/profile/accountname"
+            location.pathname === "/profile/${accountname}"
               ? fillUserIcon
               : userIcon
           }
@@ -71,7 +88,7 @@ export default function Navigation() {
           width="24px"
         />
         <StyledNavText>프로필</StyledNavText>
-      </NavLink>
+      </LinkStyle>
     </NavWrapper>
   );
 }

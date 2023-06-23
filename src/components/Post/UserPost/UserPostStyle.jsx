@@ -10,6 +10,7 @@ export const PostHeader = styled.header`
     border-radius: 50%;
     width: 36px;
     height: 36px;
+    object-fit: cover;
   }
 
   h2 {

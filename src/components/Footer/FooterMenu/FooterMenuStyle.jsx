@@ -35,5 +35,3 @@ const StyledNavText = styled.p`
 `;
 
 export { NavWrapper, StyledNavText, NavLink };
-
-

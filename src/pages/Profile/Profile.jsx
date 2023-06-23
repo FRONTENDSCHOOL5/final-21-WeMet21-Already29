@@ -1,112 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import Products from "../../components/Products/Products";
-import Loading from "../../components/Loading";
-import share from "../../assets/images/share.png";
-import { FollowCountSpan, LinkStyle, PostSection, PostSectionHeader, Posts, ProductSection, ProfileHeader, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, WhiteButton } from "./ProfileStyle";
-import { followButtonHandler, unfollowButtonHandler } from "../../utils/followUpButttonHandler";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Post from "../../components/Post/UserPost/UserPost";
-import list from "../../assets/images/icon-post-list-on.png";
-import album from "../../assets/images/icon-post-album-on.png";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import Button from "../../components/Button/Button";
 import ShareModal from "../../components/ShareModal/ShareModal";
-import styled from "styled-components";
 import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import UserPost from "../../components/Post/UserPost/UserPost";
+import ProfileHeader from "../../components/Profile/ProfileHeader/ProfileHeader";
+import ProfileProduct from "../../components/Profile/ProfileProduct/ProfileProduct";
+import ProfilePost from "../../components/Profile/ProfilePost/ProfilePost";
 
 export default function Profile() {
-  const params = useParams();
   const [userData, setUserData] = useState(null);
-  const [isfollow, setIsFollow] = useState(null);
-  const [isAlbum, setIsAlbum] = useState(false);
-  const [haveProduct, setHaveProduct] = useState(false);
-  const [followCount, setFollowCount] = useState(0);
-  const [followingCount, setFollowingCount] = useState(0);
   const [ShareModalOpen, setShareModalOpen] = useState(false);
   const navigator = useNavigate();
-  const pageEnd = useRef(null);
-  const [posts, setPosts] = useState(null);
-  const { getData, page, isLoading } = useInfiniteScroll(`post/${params.id}/userpost`, pageEnd);
-
-  const fetchUserData = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/profile/${params.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        setUserData(json.profile);
-        setIsFollow(json.profile.isfollow);
-        setFollowCount(json.profile.followerCount);
-        setFollowingCount(json.profile.followingCount);
-        return json;
-      });
-  };
-
-  const fetchProducts = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/product/${params.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.data) {
-          setHaveProduct(true);
-        }
-      });
-  };
-
-  const followUphandler = async () => {
-    if (isfollow) {
-      const res = await unfollowButtonHandler(userData.accountname);
-      const json = await res.json();
-      setIsFollow(json.profile.isfollow);
-      setFollowCount(json.profile.followerCount);
-    } else {
-      const res = await followButtonHandler(userData.accountname);
-      const json = await res.json();
-      setIsFollow(json.profile.isfollow);
-      setFollowCount(json.profile.followerCount);
-    }
-  };
 
   const logoutHandler = () => {
     navigator("/");
   };
-
-  useEffect(() => {
-    fetchUserData();
-    fetchProducts();
-  }, [params]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      getData(page)
-        .then((res) => res.json())
-        .then((json) =>
-          setPosts((prev) => {
-            if (prev) {
-              return [...prev, ...json.post];
-            } else {
-              return json.post;
-            }
-          })
-        );
-    }, 100);
-  }, [page]);
 
   return (
     <>
@@ -145,99 +57,14 @@ export default function Profile() {
           )
         }
       </ModalContext.Consumer>
-      {userData ? (
-        <>
-          <main>
-            <ProfileSection>
-              <ProfileHeader className="profile-header">
-                <Link to={`./follower`}>
-                  <FollowCountSpan>{followCount}</FollowCountSpan>
-                  followers
-                </Link>
-                <img src={userData.image} alt="프로필 사진" />
-                <Link to={`./following`}>
-                  <FollowCountSpan>{followingCount}</FollowCountSpan>
-                  followings
-                </Link>
-              </ProfileHeader>
-              <ProfileIntro>
-                <h2 className="user-name">{userData.username}</h2>
-                <p className="account-name">@ {userData.accountname}</p>
-                <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
-              </ProfileIntro>
-              <ProfileNavBar>
-                {localStorage.getItem("username") === userData.username ? (
-                  <>
-                    <Link to={`modify`}>
-                      <WhiteButton type="button">프로필 수정</WhiteButton>
-                    </Link>
 
-                    <Link to="/product/upload">
-                      <WhiteButton type="button">상품 등록</WhiteButton>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    {isfollow ? (
-                      <WhiteButton onClick={followUphandler}>언팔로우</WhiteButton>
-                    ) : (
-                      <Button type="button" onClick={followUphandler} width="12rem" height="3.4rem">
-                        팔로우
-                      </Button>
-                    )}
-                    <ShareButton type="button" onClick={() => setShareModalOpen(true)}>
-                      <img src={share} alt="공유하기" />
-                    </ShareButton>
-                  </>
-                )}
-              </ProfileNavBar>
-            </ProfileSection>
-
-            {haveProduct ? (
-              <ProductSection>
-                <LinkStyle to={`/product/list/${userData.accountname}`} style={{ userDrag: "none" }}>
-                  판매 중인 상품
-                </LinkStyle>
-                <Products userAccountName={userData.accountname} />
-              </ProductSection>
-            ) : (
-              ""
-            )}
-
-            <PostSection>
-              <PostSectionHeader>
-                <h2 className="a11y-hidden">게시물</h2>
-                <button
-                  onClick={() => {
-                    setIsAlbum(false);
-                  }}
-                >
-                  <img src={list} alt="리스트로 보기" style={{ opacity: isAlbum ? 0.5 : 1 }} />
-                </button>
-                <button
-                  onClick={() => {
-                    setIsAlbum(true);
-                  }}
-                >
-                  <img src={album} alt="앨범으로 보기" style={{ opacity: isAlbum ? 1 : 0.5 }} />
-                </button>
-              </PostSectionHeader>
-              <Posts isAlbum={isAlbum}>
-                <UserPost posts={posts} isAlbum={isAlbum} />
-              </Posts>
-              <div ref={pageEnd}></div>
-            </PostSection>
-          </main>
-
-          <Navigation />
-
-          {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
-        </>
-      ) : (
-        <>
-          <Loading />
-        </>
-      )}
+      <main>
+        <ProfileHeader userData={userData} setUserData={setUserData} setShareModalOpen={setShareModalOpen} />
+        <ProfileProduct userData={userData} />
+        <ProfilePost />
+        <Navigation />
+        {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
+      </main>
     </>
   );
 }

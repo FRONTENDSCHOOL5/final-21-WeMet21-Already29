@@ -13,6 +13,7 @@ const Text = styled.div`
   font-size: 1.4rem;
   color: #333333;
   margin-left: 4.8rem;
+  line-break: anywhere;
 `;
 
 const CommnetDiv = styled.div`

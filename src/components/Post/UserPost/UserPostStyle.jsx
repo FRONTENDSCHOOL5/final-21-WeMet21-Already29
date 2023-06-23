@@ -29,6 +29,7 @@ export const PostContent = styled.section`
   .post-text {
     font-size: 1.4rem;
     margin: 16px 0;
+    line-break: anywhere;
   }
   time {
     display: block;

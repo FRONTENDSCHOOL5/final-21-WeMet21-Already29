@@ -28,6 +28,3 @@ useEffect(() => {
     </List>
   );
 }
-
-
-

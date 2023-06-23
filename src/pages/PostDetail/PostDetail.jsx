@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import profileImg from "../../assets/images/profileImg.png";
 import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
@@ -13,7 +13,8 @@ import commentImg from "../../assets/images/icon-message-circle.png";
 import heart from "../../assets/images/uil_heart.png";
 import fillHeart from "../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../utils/heartButtonHandler";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -21,20 +22,35 @@ export default function PostDetail() {
   const [comments, setComments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [targetCommentId, setTargetCommentId] = useState("");
-
+  const navigate = useNavigate();
   const params = useParams();
-
-  console.log(params);
-
-  // 임시로 /post/feed로 가져온 게시글 중 하나의 id로 설정
 
   // 나의 username
   const username = localStorage.getItem("username");
 
-  const addComment = (newComment) => {
-    console.log(newComment);
+  const pageEnd = useRef(null);
+  const { getData, page } = useInfiniteScroll(`post/${params.id}/comments`, pageEnd);
 
+  useEffect(() => {
+    fetchPost();
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getData(page)
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(comments);
+          setComments((prev) => {
+            return prev.length === 0 ? json.comments : [...prev, ...json.comments];
+          });
+        });
+    }, 300);
+  }, [page]);
+
+  const addComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
+    fetchPost();
   };
 
   const calculateElapsedTime = (timestamp) => {
@@ -59,31 +75,12 @@ export default function PostDetail() {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
+    fetchPost();
   };
 
   const handleOpenModal = (commentId) => {
     setTargetCommentId(commentId);
     setIsModalOpen(true); // 모달 오픈
-  };
-
-  // 댓글 리스트
-  const getCommentList = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}/comments/?limit=100`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-
-        setComments(result.comments);
-      })
-      .catch((error) => {
-        console.error("댓글 불러오기 실패:", error);
-      });
   };
 
   // 댓글 작성
@@ -122,10 +119,6 @@ export default function PostDetail() {
     }
   };
 
-  useEffect(() => {
-    getCommentList();
-  }, []);
-
   // 댓글 삭제
   const deleteComment = () => {
     fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}/comments/${targetCommentId}`, {
@@ -138,10 +131,9 @@ export default function PostDetail() {
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-
+        fetchPost();
         if (result.status === "200") {
           setIsModalOpen(false);
-          getCommentList();
         } else {
           throw new Error("댓글 삭제 실패");
         }
@@ -149,12 +141,14 @@ export default function PostDetail() {
       .catch((error) => {
         console.error("댓글 삭제 실패:", error);
       });
-  };
 
-  useEffect(() => {
-    getCommentList();
-    fetchPost();
-  }, []);
+    const filterComment = comments.filter((v) => {
+      console.log(v.id);
+      return v.id !== targetCommentId;
+    });
+
+    setComments(filterComment);
+  };
 
   const fetchPost = () => {
     fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}`, {
@@ -221,7 +215,15 @@ export default function PostDetail() {
             <ModalContext.Consumer>
               {({ isModalOpen, setModalOpen }) =>
                 isModalOpen && (
-                  <AlertModal submitText="삭제" onSubmit={deletePostHandler} onCancel={() => setModalOpen(false)}>
+                  <AlertModal
+                    submitText="삭제"
+                    onSubmit={() => {
+                      deletePostHandler();
+                      navigate(`/profile/${post.author.accountname}`);
+                      setModalOpen(false);
+                    }}
+                    onCancel={() => setModalOpen(false)}
+                  >
                     게시글을 삭제할까요?
                   </AlertModal>
                 )
@@ -233,7 +235,7 @@ export default function PostDetail() {
       <main>
         {post && (
           <>
-            <PostHeader>
+            <PostHeader style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${post.author.accountname}`)}>
               <img src={post.author.image} alt="게시글 작성자 프로필 사진" />
               <div>
                 <h2>
@@ -280,8 +282,10 @@ export default function PostDetail() {
                 comments.map((comment, index) => (
                   <SmallDiv key={index}>
                     <Namediv>
-                      <Img src={comment.author.image} alt="profileImg" />
-                      <p style={{ fontSize: "1.4rem", fontWeight: "500" }}>{comment.author.username}</p>
+                      <Img src={comment.author.image} alt="profileImg" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)} />
+                      <p style={{ fontSize: "1.4rem", fontWeight: "500", cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)}>
+                        {comment.author.username}
+                      </p>
                       <p className="time">{calculateElapsedTime(comment.createdAt)}</p>
                     </Namediv>
                     {comment.author.username === username && (
@@ -292,7 +296,9 @@ export default function PostDetail() {
                     <Text>{comment.content}</Text>
                   </SmallDiv>
                 ))}
+              <div ref={pageEnd} />
             </CommnetDiv>
+
             <CommentInput>
               <Label htmlFor="file-sync" className="file-sync"></Label>
               <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />

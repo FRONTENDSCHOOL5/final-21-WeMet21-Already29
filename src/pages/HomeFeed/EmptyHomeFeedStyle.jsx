@@ -21,4 +21,3 @@ const EmptyText = styled.h2`
 `;
 
 export { EmptyWrapper, EmptyImg, EmptyText };
-

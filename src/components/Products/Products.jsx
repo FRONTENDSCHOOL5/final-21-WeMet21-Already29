@@ -6,6 +6,7 @@ import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { CustomSwiper } from "./ProductsStyle";
 import Header from "../Header/Header";
+import { imageErrorHandler } from "../../utils/imageErrorHandler";
 
 export default function Products({ products, productDatas }) {
   // products가 있으면 상품 상세 페이지 리스트 반환
@@ -22,7 +23,7 @@ export default function Products({ products, productDatas }) {
                 <SwiperSlide key={item.id}>
                   <Link to={`/product/detail/${item.id}`}>
                     <div className="product-img-section">
-                      <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                      <img src={item.itemImage} alt="상품 이미지" className="product-img" onError={imageErrorHandler} />
                     </div>
                     <div className="product-info-section">
                       <h3 className="product-title">{item.itemName}</h3>
@@ -40,7 +41,7 @@ export default function Products({ products, productDatas }) {
               <li key={item.id}>
                 <Link to={`/product/detail/${item.id}`}>
                   <div className="product-img-section">
-                    <img src={item.itemImage} alt="상품 이미지" className="product-img" />
+                    <img src={item.itemImage} alt="상품 이미지" className="product-img" onError={imageErrorHandler} />
                   </div>
                   <div className="product-info-section">
                     <h3 className="product-title">{item.itemName}</h3>

@@ -15,6 +15,7 @@ import fillHeart from "../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../utils/heartButtonHandler";
 import { Link, useNavigate } from "react-router-dom";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import { imageErrorHandler, profileImgErrorHandler } from "../../utils/imageErrorHandler";
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -236,7 +237,7 @@ export default function PostDetail() {
         {post && (
           <>
             <PostHeader style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${post.author.accountname}`)}>
-              <img src={post.author.image} alt="게시글 작성자 프로필 사진" />
+              <img src={post.author.image} alt="게시글 작성자 프로필 사진" onError={profileImgErrorHandler} />
               <div>
                 <h2>
                   <span className="a11y-hidden">게시글 작성자 이름</span>
@@ -247,7 +248,7 @@ export default function PostDetail() {
             </PostHeader>
             <PostContent>
               <p className="post-text">{post.content}</p>
-              {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" /> : ""}
+              {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} /> : ""}
               <PostMenuWrap>
                 <button
                   type="button"
@@ -282,7 +283,7 @@ export default function PostDetail() {
                 comments.map((comment, index) => (
                   <SmallDiv key={index}>
                     <Namediv>
-                      <Img src={comment.author.image} alt="profileImg" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)} />
+                      <Img src={comment.author.image} alt="profileImg" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)} onError={profileImgErrorHandler} />
                       <p style={{ fontSize: "1.4rem", fontWeight: "500", cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)}>
                         {comment.author.username}
                       </p>
@@ -302,7 +303,7 @@ export default function PostDetail() {
             <CommentInput>
               <Label htmlFor="file-sync" className="file-sync"></Label>
               <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
-              <Img src={profileImg} alt="profileImg" />
+              <Img src={profileImg} alt="profileImg" onError={profileImgErrorHandler} />
               <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
               <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
                 게시

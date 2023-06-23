@@ -4,6 +4,7 @@ import { FollowCountSpan, ProfileIntro, ProfileNavBar, ProfileSection, ShareButt
 import { Link, useParams } from "react-router-dom";
 import Button from "../../Button/Button";
 import share from "../../../assets/images/share.png";
+import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
 
 export default function ProfileHeader({ setShareModalOpen, userData, setUserData }) {
   const [isfollow, setIsFollow] = useState(null);
@@ -57,7 +58,7 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
             <FollowCountSpan>{followCount}</FollowCountSpan>
             followers
           </Link>
-          <img src={userData.image} alt="프로필 사진" />
+          <img src={userData.image} alt="프로필 사진" onError={profileImgErrorHandler} />
           <Link to={`./following`}>
             <FollowCountSpan>{followingCount}</FollowCountSpan>
             followings

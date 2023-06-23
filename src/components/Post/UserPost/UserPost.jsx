@@ -5,6 +5,7 @@ import comment from "../../../assets/images/icon-message-circle.png";
 import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
+import { imageErrorHandler } from "../../../utils/imageErrorHandler";
 
 export default function UserPost({ posts, isAlbum }) {
   const heartHandler = async (postId, postHeart) => {
@@ -38,7 +39,7 @@ export default function UserPost({ posts, isAlbum }) {
                   </PostHeader>
                   <PostContent>
                     <p className="post-text">{post.content}</p>
-                    {post.image && <img src={post.image} className="post-image" alt="게시글 이미지" />}
+                    {post.image && <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} />}
                     <PostMenuWrap>
                       <button
                         type="button"
@@ -78,7 +79,7 @@ export default function UserPost({ posts, isAlbum }) {
             return (
               <li key={post.id}>
                 <Link to={`/post/${post.id}`}>
-                  <img src={post.image} alt="게시글 이미지" />
+                  <img src={post.image} alt="게시글 이미지" onError={imageErrorHandler} />
                 </Link>
               </li>
             );

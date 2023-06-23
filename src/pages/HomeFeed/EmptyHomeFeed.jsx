@@ -1,6 +1,6 @@
 import { EmptyWrapper, EmptyImg, EmptyText } from "./EmptyHomeFeedStyle";
 import grayLogo from "../../assets/images/search-big.png";
-import GreenBigButton from "../../components/Button/Button";
+import { GreenBigButton } from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 
 export default function EmptyHome() {
@@ -17,3 +17,4 @@ export default function EmptyHome() {
     </EmptyWrapper>
   );
 }
+

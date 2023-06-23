@@ -112,3 +112,4 @@ const BtnMore = styled.button`
 `;
 
 export { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore };
+

@@ -69,54 +69,7 @@ export default function ProductDetail() {
               구매링크 : <a href={product.link}>{product.link}</a>
             </p>
           </ProductDetailSection>
-          <BottomSheetContext.Consumer>
-            {({ isBottomSheetOpen, setBottomSheetOpen }) => (
-              <>
-                {isBottomSheetOpen && (
-                  <BottomSheet>
-                    <ModalContext.Consumer>
-                      {({ setModalOpen }) => {
-                        return (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setModalOpen(true);
-                                setBottomSheetOpen(false);
-                              }}
-                            >
-                              삭제하기
-                            </button>
-                            <Link to={`/product/modify/${param.id}`} onClick={() => setBottomSheetOpen(false)}>
-                              상품 수정하기
-                            </Link>
-                          </>
-                        );
-                      }}
-                    </ModalContext.Consumer>
-                  </BottomSheet>
-                )}
-              </>
-            )}
-          </BottomSheetContext.Consumer>
-          <ModalContext.Consumer>
-            {({ isModalOpen, setModalOpen }) => {
-              return (
-                isModalOpen && (
-                  <AlertModal
-                    submitText="삭제"
-                    onSubmit={() => {
-                      deleteProductHandler();
-                      setModalOpen(false);
-                    }}
-                    onCancel={() => setModalOpen(false)}
-                  >
-                    상품을 삭제할까요?
-                  </AlertModal>
-                )
-              );
-            }}
-          </ModalContext.Consumer>
+
           <AuthorInfo>
             <Link to={`/profile/${productAuthor.accountname}`}>
               <img src={productAuthor.image} alt="상점 프로필 사진" />
@@ -126,6 +79,47 @@ export default function ProductDetail() {
               </div>
             </Link>
           </AuthorInfo>
+
+          <BottomSheetContext.Consumer>
+            {({ isBottomSheetOpen, setBottomSheetOpen }) => (
+              <ModalContext.Consumer>
+                {({ isModalOpen, setModalOpen }) => {
+                  return (
+                    <>
+                      {isBottomSheetOpen && (
+                        <BottomSheet>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setModalOpen(true);
+                              setBottomSheetOpen(false);
+                            }}
+                          >
+                            삭제하기
+                          </button>
+                          <Link to={`/product/modify/${param.id}`} onClick={() => setBottomSheetOpen(false)}>
+                            상품 수정하기
+                          </Link>
+                        </BottomSheet>
+                      )}
+                      {isModalOpen && (
+                        <AlertModal
+                          submitText="삭제"
+                          onSubmit={() => {
+                            deleteProductHandler();
+                            setModalOpen(false);
+                          }}
+                          onCancel={() => setModalOpen(false)}
+                        >
+                          상품을 삭제할까요?
+                        </AlertModal>
+                      )}
+                    </>
+                  );
+                }}
+              </ModalContext.Consumer>
+            )}
+          </BottomSheetContext.Consumer>
         </>
       ) : (
         <Loading />

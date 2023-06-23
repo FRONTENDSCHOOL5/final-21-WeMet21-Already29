@@ -8,7 +8,7 @@ import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import { useParams } from "react-router";
-import { PostMenuWrap, PostContent, PostHeader } from "../../components/Post/PostStyle";
+import { PostMenuWrap, PostContent, PostHeader } from "../../components/Post/UserPost/UserPostStyle";
 import commentImg from "../../assets/images/icon-message-circle.png";
 import heart from "../../assets/images/uil_heart.png";
 import fillHeart from "../../assets/images/uil_fullHeart.png";

@@ -19,42 +19,41 @@ export const ProfileInfo = styled.section`
 `;
 
 export const Img = styled.img`
-  width:11rem;
-  height:11rem;
-  border-radius:50%;
-  width:11rem;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  width: 11rem;
   cursor: pointer;
-  position:relative;  
-  object-fit:cover;
+  position: relative;
+  object-fit: cover;
 `;
 
 export const ImgUploadBtn = styled.button`
-  width:11rem;
-  height:11rem;
-  margin:3rem 0;
-  position:relative;
+  width: 11rem;
+  height: 11rem;
+  margin: 3rem 0;
+  position: relative;
 `;
 
 export const ImgIcon = styled.img`
-  width:5rem;
-  position:absolute;
-  bottom:0%;
-  right:0%;
+  width: 5rem;
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
 `;
 
-export const UploadInput = styled.input`
-  
-`;
+export const UploadInput = styled.input``;
 
 export const EditForm = styled.form`
   display: flex;
   flex-direction: column;
+  width: 80%;
 `;
 
 export const Label = styled.label`
   font-size: 1.2rem;
   color: var(--gray-color);
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 `;
 
 export const Input = styled.input`

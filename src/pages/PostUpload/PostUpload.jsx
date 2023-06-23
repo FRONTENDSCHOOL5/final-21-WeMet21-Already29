@@ -6,32 +6,42 @@ import profileImg from "../../assets/images/profileImg.svg";
 import uploadFile from "../../assets/images/uploadFile.svg";
 import { useParams } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
 export default function PostUpload() {
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const parmas = useParams();
+  const { id } = useParams();
+
+  // test용 post id (8989의 게시글 중 하나)
+  // const testPostId = "6493b139b2cb20566360443d";
+  const navigate = useNavigate();
+
+  const getPostData = () => {
+    fetch(`https://api.mandarin.weniv.co.kr/post/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        setPost(json.post.content);
+        setImage(json.post.image && json.post.image);
+      });
+  };
 
   useEffect(() => {
-    if (parmas.id) {
-      fetch(`https://api.mandarin.weniv.co.kr/post/${parmas.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(json);
-          setPost(json.post.content);
-          setImage(json.post.image && json.post.image);
-        });
+    if (id) {
+      getPostData();
     }
   }, []);
 
   const modifyPostHandler = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${parmas.id}`, {
+    fetch(`https://api.mandarin.weniv.co.kr/post/${id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -45,7 +55,11 @@ export default function PostUpload() {
       }),
     })
       .then((res) => res.json())
-      .then((json) => console.log(json));
+      .then((json) => {
+        console.log(json);
+
+        navigate(`/post/${id}`);
+      });
   };
 
   const handleFile = async (event) => {
@@ -89,7 +103,7 @@ export default function PostUpload() {
         body: JSON.stringify(body),
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${localStorage.get("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       const data = await response.json();
@@ -115,7 +129,7 @@ export default function PostUpload() {
   return (
     <>
       <Header type="submitHeader" handlePostUpload={handleUpload}>
-        <Button width="12rem" height="3.4rem" margin="0" type="submit" onClick={parmas.id ? modifyPostHandler : handleUpload}>
+        <Button width="12rem" height="3.4rem" margin="0" type="submit" onClick={id ? modifyPostHandler : handleUpload}>
           업로드
         </Button>
       </Header>

@@ -18,6 +18,7 @@ const Textarea = styled.textarea`
   resize: none;
   width: 100%;
   height: auto;
+  max-height: 30rem;
   margin-top: 1.2rem;
   overflow: hidden;
 

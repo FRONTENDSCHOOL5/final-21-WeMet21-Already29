@@ -40,24 +40,6 @@ export default function PostUpload() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (params.id) {
-  //     fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       console.log(json);
-  //       setPost(json.post.content);
-  //       setImage(json.post.image && json.post.image);
-  //     });
-  //   }
-  // }, [params.id]);
-
   const modifyPostHandler = () => {
     fetch(`https://api.mandarin.weniv.co.kr/post/${id}`, {
       method: "PUT",

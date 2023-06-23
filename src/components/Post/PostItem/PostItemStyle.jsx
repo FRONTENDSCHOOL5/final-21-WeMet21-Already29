@@ -1,16 +1,21 @@
 import styled from "styled-components";
 import MoreIcon from "../../../assets/images/s-icon-more-vertical.svg";
+import { Link } from "react-router-dom";
 
 const Container = styled.li`
   position: relative;
   width: 100%;
-  margin-bottom: 20px;
   color: white;
+  margin: -30px auto 100px;
 `;
 
-const PostUser = styled.div`
+const PostUser = styled(Link)`
   display: flex;
   gap: 13px;
+`;
+
+const TextComment = styled.p`
+  margin-bottom: 25px;
 `;
 
 const PostUserImg = styled.img`
@@ -77,7 +82,7 @@ const BtnLike = styled.button`
   background-color: transparent;
 `;
 
-const BtnComment = styled.button`
+const BtnComment = styled(Link)`
   width: 38px;
   height: 20px;
   display: flex;
@@ -106,4 +111,4 @@ const BtnMore = styled.button`
   background-color: transparent;
 `;
 
-export { Container, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore };
+export { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore };

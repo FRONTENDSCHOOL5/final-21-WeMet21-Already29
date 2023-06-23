@@ -125,6 +125,8 @@ const Label = styled.label`
 const Img = styled.img`
   width: 3.6rem;
   height: 3.6rem;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 export { Upload, Form, Text, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img };

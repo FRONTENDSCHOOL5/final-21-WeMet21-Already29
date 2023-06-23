@@ -6,5 +6,3 @@ const List = styled.section`
 `;
 
 export { List };
-
-  

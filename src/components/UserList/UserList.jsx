@@ -11,7 +11,7 @@ function UserList({
   username,
   accountname,
 }) {
-  const newaccountname = accountname.slice(2);
+  const newaccountname = accountname.slice(2);  
 
   const handleImage = useCallback((e) => {
     e.target.src = BasicProfile;

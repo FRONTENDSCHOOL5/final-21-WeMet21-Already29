@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import backImage from "../../assets/images/icon-arrow-left.png";
 import moreImage from "../../assets/images/icon-more-vertical.png";
 import LogoImage from "../../assets/images/Logo.png";
-import { HeaderButton, HeaderInput, HeaderUI, Logo } from "./HeaderStyle";
+import { HeaderButton, HeaderInput, HeaderUI, Logo, FollowersHeaderUI,FollowingsHeaderUI, HeaderTextP } from "./HeaderStyle";
 
 export default function Header({ type, children, setBottomSheetOpen, onChange, value }) {
   const navigate = useNavigate();
@@ -49,7 +49,27 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
         {children && <h2>{children}</h2>}
       </HeaderUI>
     ),
-    
+
+    followers: (
+      <FollowersHeaderUI>
+        <HeaderButton onClick={() => navigate(-1)}>
+          <img src={backImage} alt="뒤로 가기" />
+        </HeaderButton>
+        {children && <h2>{children}</h2>}
+        <HeaderTextP>Followers</HeaderTextP>
+      </FollowersHeaderUI>
+    ),
+
+    followings: (
+      <FollowingsHeaderUI>
+        <HeaderButton onClick={() => navigate(-1)}>
+          <img src={backImage} alt="뒤로 가기" />
+        </HeaderButton>
+        {children && <h2>{children}</h2>}
+        <HeaderTextP>Followings</HeaderTextP>
+      </FollowingsHeaderUI>
+    ),
+
     submitHeader: (
       <HeaderUI>
         <HeaderButton onClick={() => navigate(-1)}>
@@ -62,3 +82,4 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
 
   return UI[type];
 }
+

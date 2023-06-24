@@ -5,7 +5,7 @@ import comment from "../../../assets/images/icon-message-circle.png";
 import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
-import { imageErrorHandler } from "../../../utils/imageErrorHandler";
+import { imageErrorHandler, profileImgErrorHandler } from "../../../utils/imageErrorHandler";
 
 export default function UserPost({ posts, isAlbum }) {
   const [ishearted, setIsHearted] = useState([]);
@@ -45,7 +45,7 @@ export default function UserPost({ posts, isAlbum }) {
               <li key={post.id}>
                 <>
                   <PostHeader>
-                    <img src={post.author.image} alt="게시글 작성자 프로필 사진" />
+                    <img src={post.author.image} alt="게시글 작성자 프로필 사진" onError={profileImgErrorHandler} />
                     <div>
                       <h2>
                         <span className="a11y-hidden">게시글 작성자 이름</span>

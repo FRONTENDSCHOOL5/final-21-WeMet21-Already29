@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PostHeader, PostMenuWrap, PostContent } from "./UserPostStyle";
 import comment from "../../../assets/images/icon-message-circle.png";
 import heart from "../../../assets/images/uil_heart.png";
@@ -8,22 +8,39 @@ import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 import { imageErrorHandler } from "../../../utils/imageErrorHandler";
 
 export default function UserPost({ posts, isAlbum }) {
-  const heartHandler = async (postId, postHeart) => {
+  const [ishearted, setIsHearted] = useState([]);
+  const [heartCount, setHeartCount] = useState([]);
+
+  useEffect(() => {
+    const heartedArr = [];
+    const heartCountArr = [];
+    posts.forEach((item) => {
+      heartedArr.push(item.hearted);
+      heartCountArr.push(item.heartCount);
+    });
+    setIsHearted(heartedArr);
+    setHeartCount(heartCountArr);
+  }, [posts]);
+
+  const heartHandler = (postId, postHeart, index) => {
+    const changeHeartCountArr = [...heartCount];
     if (postHeart) {
-      const res = await heartButtonHandler.minus(postId);
-      const json = await res.json();
-      console.log(json);
+      heartButtonHandler.minus(postId);
+      changeHeartCountArr.splice(index, 1, heartCount[index] - 1);
     } else {
-      const res = await heartButtonHandler.plus(postId);
-      const json = await res.json();
-      console.log(json);
+      heartButtonHandler.plus(postId);
+      changeHeartCountArr.splice(index, 1, heartCount[index] + 1);
     }
+    const changeHeartedArr = [...ishearted];
+    changeHeartedArr.splice(index, 1, !changeHeartedArr[index]);
+    setIsHearted(changeHeartedArr);
+    setHeartCount(changeHeartCountArr);
   };
 
   return (
     <>
       {posts && !isAlbum
-        ? posts.map((post) => {
+        ? posts.map((post, index) => {
             return (
               <li key={post.id}>
                 <>
@@ -44,14 +61,15 @@ export default function UserPost({ posts, isAlbum }) {
                       <button
                         type="button"
                         onClick={() => {
-                          heartHandler(post.id, post.hearted);
+                          heartHandler(post.id, ishearted[index], index);
+                          console.log(index);
                         }}
                       >
-                        <img src={post.hearted ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
+                        <img src={ishearted[index] ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
                       </button>
                       <p>
                         <span className="a11y-hidden">좋아요 : </span>
-                        {post.heartCount}
+                        {heartCount[index]}
                       </p>
 
                       <Link to={`/post/${post.id}`}>

@@ -37,16 +37,14 @@ export default function PostDetail() {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      getData(page)
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(comments);
-          setComments((prev) => {
-            return prev.length === 0 ? json.comments : [...prev, ...json.comments];
-          });
+    getData(page)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(comments);
+        setComments((prev) => {
+          return prev.length === 0 ? json.comments : [...prev, ...json.comments];
         });
-    }, 300);
+      });
   }, [page]);
 
   const addComment = (newComment) => {

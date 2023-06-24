@@ -12,16 +12,13 @@ export default function ProductList() {
   const { getData, page } = useInfiniteScroll(`product/${userAccountName.id}`, pageEnd);
 
   useEffect(() => {
-    setTimeout(() => {
-      getData(page)
-        .then((res) => res.json())
-        .then((json) =>
-          setProducts((prev) => {
-            return prev ? [...prev, ...json.product] : json.product;
-          })
-        );
-    }, 200);
-
+    getData(page)
+      .then((res) => res.json())
+      .then((json) =>
+        setProducts((prev) => {
+          return prev ? [...prev, ...json.product] : json.product;
+        })
+      );
     console.log("리렌더");
   }, [page]);
 

@@ -14,19 +14,17 @@ export default function ProfilePost() {
   const { getData, page } = useInfiniteScroll(`post/${params.id}/userpost`, pageEnd);
 
   useEffect(() => {
-    setTimeout(() => {
-      getData(page)
-        .then((res) => res.json())
-        .then((json) =>
-          setPosts((prev) => {
-            if (prev) {
-              return [...prev, ...json.post];
-            } else {
-              return json.post;
-            }
-          })
-        );
-    }, 100);
+    getData(page)
+      .then((res) => res.json())
+      .then((json) =>
+        setPosts((prev) => {
+          if (prev) {
+            return [...prev, ...json.post];
+          } else {
+            return json.post;
+          }
+        })
+      );
   }, [page]);
 
   console.log(posts);

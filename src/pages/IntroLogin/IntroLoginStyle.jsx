@@ -112,8 +112,6 @@ const StyledIntroLoginPage = styled.main`
     background-position: 10px 8px;
     cursor: pointer;
     text-align: center;
-    font-size: 20px;
-    font-weight: bold;
   }
 
   .email-login:hover {
@@ -168,4 +166,3 @@ const StyledIntroLoginPage = styled.main`
 `;
 
 export default StyledIntroLoginPage;
-

@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
-import { followButtonHandler } from "../../utils/followButtonHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
+import Header from "../../components/Header/Header";
+import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
+import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
+import ModalContext from "../../contexts/ModalContext/ModalContext";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import { imageErrorHandler, profileImgErrorHandler } from "../../utils/imageErrorHandler";
 
 export default function ProductDetail() {
   const param = useParams();
@@ -12,19 +17,17 @@ export default function ProductDetail() {
   const navigator = useNavigate();
 
   const deleteProductHandler = () => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
-      fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          navigator("/productlist");
-        });
-    }
+    fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        navigator(`/product/list/${productAuthor.accountname}`);
+      });
   };
 
   useEffect(() => {
@@ -37,17 +40,24 @@ export default function ProductDetail() {
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setProduct(json.product);
         setProductAuthor(json.product.author);
-      });
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   return (
     <ProductPage>
+      <BottomSheetContext.Consumer>
+        {({ setBottomSheetOpen }) => {
+          return productAuthor && localStorage.getItem("username") === productAuthor.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />;
+        }}
+      </BottomSheetContext.Consumer>
       {product ? (
         <>
           <ProductImageWrapper>
-            <ProductImage src={product.itemImage} alt="상품 이미지" />
+            <ProductImage src={product.itemImage} alt="상품 이미지" onError={imageErrorHandler} />
           </ProductImageWrapper>
           <ProductDetailSection>
             <ProductTitle>{product.itemName}</ProductTitle>
@@ -60,22 +70,57 @@ export default function ProductDetail() {
               구매링크 : <a href={product.link}>{product.link}</a>
             </p>
           </ProductDetailSection>
-          <Link to={`/product/modify/${param.id}`}>상품 수정하기</Link>
-          <button type="button" onClick={deleteProductHandler}>
-            삭제하기
-          </button>
+
           <AuthorInfo>
             <Link to={`/profile/${productAuthor.accountname}`}>
-              <img src={productAuthor.image} alt="상점 프로필 사진" />
+              <img src={productAuthor.image} alt="상점 프로필 사진" onError={profileImgErrorHandler} />
               <div>
                 <p>{productAuthor.username}</p>
                 <p>@ {productAuthor.accountname}</p>
               </div>
             </Link>
-            <button type="button" onClick={followButtonHandler}>
-              {productAuthor.isfollow ? "언팔로우" : "팔로우"}
-            </button>
           </AuthorInfo>
+
+          <BottomSheetContext.Consumer>
+            {({ isBottomSheetOpen, setBottomSheetOpen }) => (
+              <ModalContext.Consumer>
+                {({ isModalOpen, setModalOpen }) => {
+                  return (
+                    <>
+                      {isBottomSheetOpen && (
+                        <BottomSheet>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setModalOpen(true);
+                              setBottomSheetOpen(false);
+                            }}
+                          >
+                            삭제하기
+                          </button>
+                          <Link to={`/product/modify/${param.id}`} onClick={() => setBottomSheetOpen(false)}>
+                            상품 수정하기
+                          </Link>
+                        </BottomSheet>
+                      )}
+                      {isModalOpen && (
+                        <AlertModal
+                          submitText="삭제"
+                          onSubmit={() => {
+                            deleteProductHandler();
+                            setModalOpen(false);
+                          }}
+                          onCancel={() => setModalOpen(false)}
+                        >
+                          상품을 삭제할까요?
+                        </AlertModal>
+                      )}
+                    </>
+                  );
+                }}
+              </ModalContext.Consumer>
+            )}
+          </BottomSheetContext.Consumer>
         </>
       ) : (
         <Loading />

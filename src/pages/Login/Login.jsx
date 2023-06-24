@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Loginh1, LoginForm, StyleInput, NavStyle, Label, FormBox } from "./LoginStyle";
 import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
-import { GreenBigButton, UnactiveBigButton } from "../../components/Button/Button";
+import BtnStyle from "../../components/Button/Button";
 
 export default function Login() {
   // https://api.mandarin.weniv.co.kr/
@@ -17,9 +17,9 @@ export default function Login() {
     if (e.target.type === "email") {
       setUserEmail(e.target.value);
       if (validateEmail(e.target.value)) {
-        setWarningMessage("사용 가능한 이메일 입니다.");
-      } else {
         setWarningMessage("");
+      } else {
+        setWarningMessage("올바른 이메일 형식이 아닙니다.");
       }
     }
     if (e.target.type === "password") {
@@ -66,6 +66,7 @@ export default function Login() {
       .then((res) => res.json())
       .then((json) => {
         // button.current.parentNode.querySelector("p").textContent = json.message;
+        // setWarningMessage(json.message);
         setWarningMessage(json.message);
 
         // console.log(json.user.token);
@@ -73,8 +74,11 @@ export default function Login() {
         if (json.user) {
           console.log(json);
           localStorage.setItem("token", json.user.token);
+          localStorage.setItem("username", json.user.username);
           // 페이지 이동!!
           navigate("/homefeed");
+        } else {
+          setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
         }
       })
       .catch((error) => console.log(error));
@@ -90,7 +94,14 @@ export default function Login() {
           <Label htmlFor="user-password">비밀번호</Label>
           <StyleInput type="password" id="user-password" onChange={inputHandler} value={userPassword} />
           <p style={{ color: "red", fontSize: "0.7rem", marginBottom: "0.938rem" }}>{warningMessage}</p>
-          {userEmail && userPassword ? <GreenBigButton type="submit" colorType={true} contents="로그인" disabled={!(userEmail && userPassword && !warningMessage)} /> : <UnactiveBigButton type="submit" contents={"로그인"} />}
+
+          {userEmail && userPassword ? (
+            <BtnStyle type="submit" colorType={true} disabled={!(userEmail && userPassword && !warningMessage)}>
+              로그인
+            </BtnStyle>
+          ) : (
+            <BtnStyle type="submit">로그인</BtnStyle>
+          )}
         </LoginForm>
         <NavStyle>이메일로 회원가입하기</NavStyle>
       </FormBox>

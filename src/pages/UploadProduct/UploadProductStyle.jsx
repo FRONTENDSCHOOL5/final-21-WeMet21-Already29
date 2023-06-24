@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Page = styled.main`
-  margin: 0 34px;
+  margin: 10px 34px 0;
 `;
 
 const ImgPlace = styled.div`
@@ -37,8 +37,15 @@ const Input = styled.input`
     color: #bdbdbd;
     font-size: 1.4rem;
   }
+
   &:focus {
     box-shadow: 0 2px 0 0 var(--main-color);
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 

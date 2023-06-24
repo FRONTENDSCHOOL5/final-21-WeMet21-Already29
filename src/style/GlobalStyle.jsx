@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Noto Sans KR', sans-serif;
   }
-
+  
   :root {
     --main-color: #058B2E; 
     --unactive-color: rgba(5, 139, 46, 0.4); //비활성화컬러
@@ -25,9 +25,10 @@ const GlobalStyle = createGlobalStyle`
     --font-red-color:#EB5757;
     --font-black-color: #0B0B0B;
 
-    --font-lg-size: 1.5rem; //24px 
-    --font-md-size: 0.875rem; //14px 
-    --font-sm-size: 0.75rem; //12px 
+    --font-lg-size: 2.4rem; //24px 
+    --font-md-size: 1.4rem; //14px 
+    --font-sm-size: 1.2rem; //12px 
+
 
     --font-Bold: 700;
     --font-Medium: 500;
@@ -35,20 +36,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root{
-    width: min(80vw, 500px);
+    width: min(80vw, 390px);
     margin: 0 auto;
-    height: 100vh;
-  }
-
-  .a11y-hidden {
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
+    min-height: 100vh;
   }
 
   img{
@@ -60,6 +50,24 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: initial;
   }
+
+  button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  //텍스트 숨김 처리
+  .a11y-hidden {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+  }
+
 `;
 
 export default GlobalStyle;

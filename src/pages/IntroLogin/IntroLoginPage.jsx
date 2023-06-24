@@ -19,14 +19,14 @@ function IntroLoginPage() {
         <section className="login-join-section">
           <ul className="sns-login">
             <li className="sns-login-li">
-            <button className="email-login">
-              <Link to="/login" span className='email-text'>이메일로 로그인</Link>
-            </button>
+              <Link to="/login" className='email-text'>
+                <button className="email-login">이메일로 로그인</button>
+              </Link> 
             </li>
           </ul>
           <ul className="login-join-cont">
             <li>
-              <Link to="" className="emailLogin">처음오셨나요?</Link>
+              <p className="emailLogin">처음오셨나요?</p>
             </li>
             <li>
               <Link to="/signup" className="emailJoin">이메일로 가입하기</Link>
@@ -38,3 +38,4 @@ function IntroLoginPage() {
 }
 
 export default IntroLoginPage;
+

@@ -10,7 +10,7 @@ const ProductImageWrapper = styled.section`
   display: flex;
   height: 400px;
   align-items: center;
-  border: 1px solid var(--main-color);
+  overflow: hidden;
 `;
 
 const ProductTitle = styled.h2`
@@ -54,13 +54,18 @@ const AuthorInfo = styled.section`
   align-items: center;
   font-size: 1.6rem;
   position: fixed;
-  width: min(500px, 80vw);
+  width: min(390px, 80vw);
+  box-sizing: border-box;
   bottom: 0;
   background-color: var(--white-color);
   border-top: 1px solid var(--line-gray-color);
+  box-sizing: border-box;
 
   img {
     width: 50px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
   }
   a {
     display: flex;
@@ -75,12 +80,6 @@ const AuthorInfo = styled.section`
 
   button {
     margin-left: auto;
-    background-color: var(--main-color);
-    border: 0;
-    color: var(--white-color);
-    font-size: 1.4rem;
-    padding: 7px 32px;
-    border-radius: 10px;
     cursor: pointer;
   }
 `;

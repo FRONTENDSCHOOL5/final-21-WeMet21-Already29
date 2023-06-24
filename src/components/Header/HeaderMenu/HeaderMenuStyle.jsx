@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledTopBasicNav = styled.nav`
   width: 100%;
@@ -32,10 +32,10 @@ const StyledTopBasicNav = styled.nav`
     height: 32px;
     margin: 8px 0px;
     padding: 0px 16px;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
     border: none;
     border-radius: 32px;
-    
+
     font-size: var(--font-md-size);
   }
 

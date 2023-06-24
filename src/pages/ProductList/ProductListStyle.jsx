@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-const Ul = styled.ul`
+const ProductListSection = styled.section`
+  min-height: 100vh;
+  margin-bottom: 90px;
   li {
     width: 100%;
     font-size: 1.5rem;
@@ -47,4 +49,4 @@ const Ul = styled.ul`
   }
 `;
 
-export { Ul };
+export { ProductListSection };

@@ -28,7 +28,7 @@ function Router() {
           <Route path="/" element={<StartSplash />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/homefeed" element={<HomeFeed />}></Route>
+          <Route path="/home" element={<HomeFeed />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
 
           <Route path="/profile/*" element={<Outlet />}>

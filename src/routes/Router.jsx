@@ -16,6 +16,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import Home from "../pages/HomeFeed/HomeFeed";
 import SignUpProfile from "../pages/SignUp/SignUpProfile/SignUpProfile";
 import Error from "../pages/404/Error";
+import FollowerList from "../pages/FollowerList/FollowerList";
 
 function Router() {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -34,8 +35,8 @@ function Router() {
           <Route path="/profile/*" element={<Outlet />}>
             <Route path=":id/*" element={<Outlet />}>
               <Route path="" element={<Profile />} />
-              <Route path="following" element={<StartSplash />} />
-              <Route path="follower" element={<StartSplash />} />
+              <Route path="following" element={<FollowerList followType="followingList" />} />
+              <Route path="follower" element={<FollowerList followType="followerList" type="followers" />} />
               <Route path="modify" element={<SignUpProfile />} />
             </Route>
           </Route>

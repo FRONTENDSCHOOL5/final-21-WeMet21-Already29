@@ -20,10 +20,12 @@ export default function PostHome({ myFeed, setMyFeed }) {
       );
   }, [page]);
 
+  console.log(myFeed);
+
   return (
     <>
-      <PostItem myFeed={myFeed} />
-      <div ref={pageEnd} />
+      {myFeed && myFeed.length !== 0 && <PostItem myFeed={myFeed} />}
+      <div ref={pageEnd}></div>
     </>
   );
 }

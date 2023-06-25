@@ -30,7 +30,7 @@ export default function PostItem({ modalOpen, myFeed }) {
   };
 
   return (
-    <>
+    <ul>
       {myFeed &&
         myFeed.map((item) => (
           <Container key={item.id}>
@@ -65,6 +65,6 @@ export default function PostItem({ modalOpen, myFeed }) {
             <BtnMore onClick={modalOpen}></BtnMore>
           </Container>
         ))}
-    </>
+    </ul>
   );
 }

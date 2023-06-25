@@ -27,6 +27,15 @@ export default function ProfilePost() {
       );
   }, [page]);
 
+  useEffect(() => {
+    setPosts(null);
+    getData(0)
+      .then((res) => res.json())
+      .then((json) => setPosts(json.post));
+
+    console.log("파라미터가 바꼈을 시에만 첫 포스트들 불러오기");
+  }, [params]);
+
   console.log(posts);
   return (
     <>

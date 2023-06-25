@@ -48,7 +48,7 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
         setFollowCount(json.profile.followerCount);
         setFollowingCount(json.profile.followingCount);
       });
-  }, []);
+  }, [params]);
 
   return (
     userData && (

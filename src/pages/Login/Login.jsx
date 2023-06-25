@@ -76,7 +76,7 @@ export default function Login() {
           localStorage.setItem("token", json.user.token);
           localStorage.setItem("username", json.user.username);
           // 페이지 이동!!
-          navigate("/homefeed");
+          navigate("/home");
         } else {
           setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
         }
@@ -103,7 +103,7 @@ export default function Login() {
             <BtnStyle type="submit">로그인</BtnStyle>
           )}
         </LoginForm>
-        <NavStyle>이메일로 회원가입하기</NavStyle>
+        <NavStyle to={"/signup"}>이메일로 회원가입하기</NavStyle>
       </FormBox>
     </>
   );

@@ -196,7 +196,7 @@ export default function ProfileSettings({ email, password }) {
     e.preventDefault();
     if (name && id && introduce && idValid) {
       await join(); // 이미지 업로드 및 회원가입 API 요청
-      navigate("/homefeed"); // 페이지 이동
+      navigate("/login"); // 페이지 이동
     }
   };
 

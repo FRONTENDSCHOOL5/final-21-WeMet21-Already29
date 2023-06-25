@@ -43,7 +43,7 @@ export default function PostItem({ modalOpen, myFeed }) {
             </PostUser>
             <PostContent>
               <TextComment>{item.content}</TextComment>
-              {item.author.image && <PostImg src={item.author.image} alt="포스트 이미지" onError={imageErrorHandler} />}
+              {item.image && <PostImg src={item.image} alt="포스트 이미지" onError={imageErrorHandler} />}
               <PostInfoBox>
                 <PostBtnBox>
                   <BtnLike
@@ -54,7 +54,7 @@ export default function PostItem({ modalOpen, myFeed }) {
                     <BtnImg src={item.hearted ? fillHeart : heart} className="heart-image" alt="게시글 좋아요" />
                     {item.heartCount}
                   </BtnLike>
-                  <BtnComment>
+                  <BtnComment to={`/post/${item.id}`}>
                     <BtnImg src={require("../../../assets/images/icon-message-circle-1.svg").default} alt="게시글 댓글" />
                     {item.commentCount}
                   </BtnComment>

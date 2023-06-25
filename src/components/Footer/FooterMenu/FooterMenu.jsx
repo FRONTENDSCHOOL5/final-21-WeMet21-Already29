@@ -10,6 +10,7 @@ import fillUserIcon from "../../../assets/images/FillIconUser.png";
 import { NavWrapper, NavLink, StyledNavText } from "./FooterMenuStyle";
 import { useEffect, useState } from "react";
 import { LinkStyle } from "../../Profile/ProfileProduct/ProfileProductStyle";
+import goTop from "../../../utils/goTop";
 
 export default function Navigation() {
   const location = useLocation();
@@ -32,7 +33,7 @@ export default function Navigation() {
 
   return (
     <NavWrapper>
-      <NavLink to="/home" className={`nav-link ${location.pathname === "/home" ? "active" : ""}`}>
+      <NavLink to="/home" className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} onClick={() => goTop()}>
         <img src={location.pathname === "/home" ? fillHomeIcon : homeIcon} alt="홈" width="24px" />
         <StyledNavText>홈</StyledNavText>
       </NavLink>
@@ -47,8 +48,8 @@ export default function Navigation() {
         <StyledNavText>게시물 작성</StyledNavText>
       </NavLink>
 
-      <NavLink to={`/profile/${accountname}`} className={`nav-link ${location.pathname === `/profile/${accountname}` ? "active" : ""}`}>
-        <img src={location.pathname === `/profile/${accountname}` ? fillUserIcon : userIcon} alt="프로필" width="24px" />
+      <NavLink to={`/profile/${accountname}`} className={`nav-link ${location.pathname.includes("profile") ? "active" : ""}`} onClick={() => goTop()}>
+        <img src={location.pathname.includes("profile") ? fillUserIcon : userIcon} alt="프로필" width="24px" />
         <StyledNavText>프로필</StyledNavText>
       </NavLink>
     </NavWrapper>

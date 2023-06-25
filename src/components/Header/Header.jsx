@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import backImage from "../../assets/images/icon-arrow-left.png";
 import moreImage from "../../assets/images/icon-more-vertical.png";
 import LogoImage from "../../assets/images/Logo.png";
-import { HeaderButton, HeaderInput, HeaderUI, Logo, FollowersHeaderUI,FollowingsHeaderUI, HeaderTextP } from "./HeaderStyle";
+import { HeaderButton, HeaderInput, HeaderUI, Logo, FollowersHeaderUI, FollowingsHeaderUI, HeaderTextP } from "./HeaderStyle";
+import goTop from "../../utils/goTop";
 
 export default function Header({ type, children, setBottomSheetOpen, onChange, value }) {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
   const UI = {
     logo: (
       <HeaderUI>
-        <Logo onClick={() => navigate("/")}>
+        <Logo onClick={() => goTop()}>
           <img src={LogoImage} alt="입구팔구" />
         </Logo>
       </HeaderUI>
@@ -82,4 +83,3 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
 
   return UI[type];
 }
-

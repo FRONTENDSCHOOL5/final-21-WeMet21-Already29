@@ -108,6 +108,7 @@ export default function PostUpload() {
       });
       const data = await response.json();
       console.log(data);
+      navigate(`/post/${data.post.id}`);
     } catch (error) {
       console.log(error);
     }

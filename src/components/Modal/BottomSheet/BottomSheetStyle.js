@@ -15,7 +15,7 @@ export const BottomSheetWrapper = styled.article`
   position: fixed;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0);
   width: 390px;
   overflow: hidden;
   font-size: 1.4rem;
@@ -23,7 +23,13 @@ export const BottomSheetWrapper = styled.article`
   padding-top: 20px;
   -webkit-user-drag: element;
   z-index: 100;
+  animation: slideup 0.2s ease-in-out;
 
+  @keyframes slideup {
+    from {
+      transform: translate(-50%, 100%);
+    }
+  }
   button,
   a {
     background-color: inherit;

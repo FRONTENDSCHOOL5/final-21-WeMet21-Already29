@@ -20,4 +20,4 @@ const EmptyText = styled.h2`
   color: #767676;
 `;
 
-export { EmptyWrapper, EmptyImg ,EmptyText };
+export { EmptyWrapper, EmptyImg, EmptyText };

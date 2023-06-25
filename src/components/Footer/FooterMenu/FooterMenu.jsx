@@ -1,16 +1,34 @@
 import { useLocation } from "react-router-dom";
-import homeIcon from "../../../assets/images/icon-home.svg";
-import fillHomeIcon from "../../../assets/images/home-fill.png";
-import searchIcon from "../../../assets/images/search.png";
-import fillSearchIcon from "../../../assets/images/search-fill.png";
-import editIcon from "../../../assets/images/edit.png";
-import fillEditIcon from "../../../assets/images/edit-fill.png";
-import userIcon from "../../../assets/images/icon-user.svg";
-import fillUserIcon from "../../../assets/images/icon-user-fill.svg";
+import homeIcon from "../../../assets/images/IconHome.png";
+import fillHomeIcon from "../../../assets/images/FillIconHome.png";
+import searchIcon from "../../../assets/images/IconSearch.png";
+import fillSearchIcon from "../../../assets/images/FillIconSearch.png";
+import editIcon from "../../../assets/images/IconEdit.png";
+import fillEditIcon from "../../../assets/images/FillIconEdit.png";
+import userIcon from "../../../assets/images/IconUser.png";
+import fillUserIcon from "../../../assets/images/FillIconUser.png";
 import { NavWrapper, NavLink, StyledNavText } from './FooterMenuStyle';
+import { useEffect } from "react";
 
 export default function Navigation() {
   const location = useLocation();
+  const [accountname, setAccountname] = useState("");
+
+  const fetchUserInfo = () => {
+    fetch("https://api.mandarin.weniv.co.kr/user/myinfo",
+      {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      })
+      .then(res => res.json())
+      .then(json => setAccountname(json.user.accountname));
+    
+    useEffect(() => {
+      fetchUserInfo()
+    }, []);
+  };
 
   return (
     <NavWrapper>
@@ -21,6 +39,7 @@ export default function Navigation() {
         <img
           src={location.pathname === "/home" ? fillHomeIcon : homeIcon}
           alt="홈"
+          width="24px"
         />
         <StyledNavText>홈</StyledNavText>
       </NavLink>
@@ -40,36 +59,36 @@ export default function Navigation() {
       </NavLink>
 
       <NavLink
-        to="/makepost"
+        to="/post/upload"
         className={`nav-link ${
-          location.pathname === "/makepost" ? "active" : ""
+          location.pathname === "/post/upload" ? "active" : ""
         }`}
       >
         <img
-          src={location.pathname === "/makepost" ? fillEditIcon : editIcon}
+          src={location.pathname === "/post/upload" ? fillEditIcon : editIcon}
           alt="작성"
           width="24px"
         />
         <StyledNavText>게시물 작성</StyledNavText>
       </NavLink>
 
-      <NavLink
-        // eslint-disable-next-line no-undef
-        to="/myprofile/:accountname"
+      <LinkStyle
+        to={`/profile/${accountname}`}
         className={`nav-link ${
-          location.pathname === "/myprofile/:accountname" ? "active" : ""
+          location.pathname === "/profile/${accountname}" ? "active" : ""
         }`}
       >
         <img
           src={
-            location.pathname === "/myprofile/:accountname"
+            location.pathname === "/profile/${accountname}"
               ? fillUserIcon
               : userIcon
           }
           alt="프로필"
+          width="24px"
         />
         <StyledNavText>프로필</StyledNavText>
-      </NavLink>
+      </LinkStyle>
     </NavWrapper>
   );
 }

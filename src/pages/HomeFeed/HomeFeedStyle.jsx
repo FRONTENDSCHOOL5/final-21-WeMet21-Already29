@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
-const Container = styled.div`
-  max-width: 390px;
-  margin: 0 auto;
-  background-color: #fff;
+export const FeedSection = styled.section`
+  margin-bottom: 80px;
+  padding: 0 20px;
 `;
-
-export { Container };

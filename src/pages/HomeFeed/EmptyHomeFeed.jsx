@@ -8,12 +8,14 @@ export default function EmptyHome() {
   function handleClick() {
     navigate("/search");
   }
-  
+
   return (
     <EmptyWrapper>
-      <EmptyImg src={grayLogo} alt="로고이미지" />
+      <img src={grayLogo} alt="로고이미지" />
       <EmptyText>유저를 검색해 팔로우 해보세요!</EmptyText>
-      <Button type="button" onClick={handleClick}>검색하기</Button>
+      <Button type="button" onClick={handleClick}>
+        검색하기
+      </Button>
     </EmptyWrapper>
   );
 }

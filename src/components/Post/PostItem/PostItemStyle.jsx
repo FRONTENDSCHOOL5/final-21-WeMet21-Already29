@@ -6,7 +6,7 @@ const Container = styled.li`
   position: relative;
   width: 100%;
   color: white;
-  margin: -30px auto 100px;
+  margin-bottom: 20px;
 `;
 
 const PostUser = styled(Link)`
@@ -22,9 +22,10 @@ const PostUserImg = styled.img`
   width: 42px;
   height: 42px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
-const PostUserBox = styled.a`
+const PostUserBox = styled.div`
   align-self: center;
 `;
 
@@ -48,8 +49,9 @@ const PostContent = styled.div`
 
 const PostImg = styled.img`
   display: block;
-  width: 100%;
   height: 238px;
+  width: 100%;
+  object-fit: contain;
   margin: 17px 0 12px;
   border: 0.5px solid #dbdbdb;
   border-radius: 10px;

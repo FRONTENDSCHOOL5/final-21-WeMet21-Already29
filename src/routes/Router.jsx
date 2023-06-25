@@ -31,11 +31,13 @@ function Router() {
           <Route path="/homefeed" element={<HomeFeed />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
 
-          <Route path="/profile/:id" element={<Profile />} />
-          <Route path="/profile/:id" element={<Outlet />}>
-            <Route path="following" element={<StartSplash />} />
-            <Route path="follower" element={<StartSplash />} />
-            <Route path="modify" element={<SignUpProfile />} />
+          <Route path="/profile/*" element={<Outlet />}>
+            <Route path=":id/*" element={<Outlet />}>
+              <Route path="" element={<Profile />} />
+              <Route path="following" element={<StartSplash />} />
+              <Route path="follower" element={<StartSplash />} />
+              <Route path="modify" element={<SignUpProfile />} />
+            </Route>
           </Route>
 
           <Route path="/product/*" element={<Outlet />}>

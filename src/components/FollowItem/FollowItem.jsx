@@ -3,6 +3,7 @@ import { Container, FollowerImgTest, FollowerInfo, FollowerName, FollowerIntro }
 import Button from "../FollowButton/FollowButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 
 export default function FollowItem({ username, intro, image, accountname, isfollow }) {
   const [follow, setFollow] = useState(isfollow);
@@ -58,7 +59,7 @@ export default function FollowItem({ username, intro, image, accountname, isfoll
 
   return (
     <Container>
-      <FollowerImgTest src={image} alt="프로필 이미지" onClick={() => moveProfile(accountname)} />
+      <FollowerImgTest src={image} alt="프로필 이미지" onClick={() => moveProfile(accountname)} onError={profileImgErrorHandler} />
       <FollowerInfo onClick={() => moveProfile(accountname)}>
         <FollowerName>{username}</FollowerName>
         <FollowerIntro>{intro}</FollowerIntro>

@@ -50,27 +50,6 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
         {children && <h2>{children}</h2>}
       </HeaderUI>
     ),
-
-    followers: (
-      <FollowersHeaderUI>
-        <HeaderButton onClick={() => navigate(-1)}>
-          <img src={backImage} alt="뒤로 가기" />
-        </HeaderButton>
-        {children && <h2>{children}</h2>}
-        <HeaderTextP>Followers</HeaderTextP>
-      </FollowersHeaderUI>
-    ),
-
-    followings: (
-      <FollowingsHeaderUI>
-        <HeaderButton onClick={() => navigate(-1)}>
-          <img src={backImage} alt="뒤로 가기" />
-        </HeaderButton>
-        {children && <h2>{children}</h2>}
-        <HeaderTextP>Followings</HeaderTextP>
-      </FollowingsHeaderUI>
-    ),
-
     submitHeader: (
       <HeaderUI>
         <HeaderButton onClick={() => navigate(-1)}>

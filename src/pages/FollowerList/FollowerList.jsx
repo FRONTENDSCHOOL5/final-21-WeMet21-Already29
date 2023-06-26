@@ -52,7 +52,7 @@ export default function FollowerList({ type, followType }) {
     followerList: (
       <>
         <FollowList>
-          <Header type="followers" />
+          <Header type="back">followers</Header>
           {followerList.map((follower, index) => {
             return (
               <FollowListItem key={index}>
@@ -68,7 +68,7 @@ export default function FollowerList({ type, followType }) {
     followingList: (
       <>
         <FollowList>
-          <Header type="followings" />
+          <Header type="back">followings</Header>
           {followingList.map((following, index) => {
             return (
               <FollowListItem key={index}>

@@ -9,7 +9,7 @@ export default function FollowItem({ username, intro, image, accountname, isfoll
   const [follow, setFollow] = useState(isfollow);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const myUsername = localStorage.getItem("username");
+  const myAccountName = localStorage.getItem("accountname");
 
   function moveProfile(accountname) {
     navigate(`/profile/${accountname}`, {
@@ -64,7 +64,7 @@ export default function FollowItem({ username, intro, image, accountname, isfoll
         <FollowerName>{username}</FollowerName>
         <FollowerIntro>{intro}</FollowerIntro>
       </FollowerInfo>
-      {myUsername === username ? (
+      {myAccountName === accountname ? (
         <></>
       ) : !follow ? (
         <Button type="button" content="팔로우" width="s" size="s" bgColor="active" onClick={Follow} />

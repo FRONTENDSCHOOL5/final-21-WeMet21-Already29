@@ -70,7 +70,7 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
           <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
         </ProfileIntro>
         <ProfileNavBar>
-          {localStorage.getItem("username") === userData.username ? (
+          {localStorage.getItem("accountname") === userData.accountname ? (
             <>
               <Link to={`modify`}>
                 <WhiteButton type="button">프로필 수정</WhiteButton>

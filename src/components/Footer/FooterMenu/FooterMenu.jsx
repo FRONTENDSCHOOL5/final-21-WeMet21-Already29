@@ -12,28 +12,12 @@ import { useEffect, useState } from "react";
 import { LinkStyle } from "../../Profile/ProfileProduct/ProfileProductStyle";
 import goTop from "../../../utils/goTop";
 
-export default function Navigation() {
+export default function Navigation({ itemLength }) {
   const location = useLocation();
-  const [accountname, setAccountname] = useState("");
-
-  const fetchUserInfo = () => {
-    fetch("https://api.mandarin.weniv.co.kr/user/myinfo", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => setAccountname(json.user.accountname));
-  };
-
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
-
+  const accountname = localStorage.getItem("username");
   return (
     <NavWrapper>
-      <NavLink to="/home" className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} onClick={() => goTop()}>
+      <NavLink to="/home" className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} onClick={() => goTop(itemLength)}>
         <img src={location.pathname === "/home" ? fillHomeIcon : homeIcon} alt="홈" width="24px" />
         <StyledNavText>홈</StyledNavText>
       </NavLink>
@@ -48,7 +32,7 @@ export default function Navigation() {
         <StyledNavText>게시물 작성</StyledNavText>
       </NavLink>
 
-      <NavLink to={`/profile/${accountname}`} className={`nav-link ${location.pathname.includes("profile") ? "active" : ""}`} onClick={() => goTop()}>
+      <NavLink to={location.pathname === `/profile/${accountname}` ? undefined : `/profile/${accountname}`} className={`nav-link ${location.pathname.includes("profile") ? "active" : ""}`} onClick={() => goTop()}>
         <img src={location.pathname.includes("profile") ? fillUserIcon : userIcon} alt="프로필" width="24px" />
         <StyledNavText>프로필</StyledNavText>
       </NavLink>

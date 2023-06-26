@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
 import PostHome from "./PostHomeFeed";
@@ -11,14 +11,14 @@ export default function Home() {
 
   return (
     <>
-      <Header type="logo" />
+      <Header type="logo" itemLength={myFeed && myFeed.length} />
 
       <FeedSection>
         <PostHome myFeed={myFeed} setMyFeed={setMyFeed} />
         {myFeed && myFeed.length === 0 && <EmptyHome />}
       </FeedSection>
 
-      <Navigation />
+      <Navigation itemLength={myFeed && myFeed.length} />
     </>
   );
 }

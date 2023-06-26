@@ -14,6 +14,11 @@ export default function ProfilePost() {
   const { getData, page } = useInfiniteScroll(`post/${params.id}/userpost`, pageEnd);
 
   useEffect(() => {
+    if (posts && posts.length !== 0 && posts[0].author.accountname !== params.id) {
+      setPosts(null);
+      console.log("포스트 리스트 모두 지우기");
+    }
+
     getData(page)
       .then((res) => res.json())
       .then((json) =>
@@ -25,16 +30,13 @@ export default function ProfilePost() {
           }
         })
       );
-  }, [page]);
+  }, [page, params]);
 
-  useEffect(() => {
-    setPosts(null);
-    getData(0)
-      .then((res) => res.json())
-      .then((json) => setPosts(json.post));
+  // useEffect(() => {
+  //   setPosts(null);
 
-    console.log("파라미터가 바꼈을 시에만 첫 포스트들 불러오기");
-  }, [params]);
+  //   console.log("파라미터가 바꼈을 시에만 첫 포스트들 불러오기");
+  // }, [params]);
 
   console.log(posts);
   return (

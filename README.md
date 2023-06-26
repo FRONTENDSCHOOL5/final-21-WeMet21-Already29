@@ -135,7 +135,6 @@ remove      : 파일을 삭제하는 작업만 수행한 경우
 2023년 6월 1일 ~ 2023년 6월 28일
 <img width="1155" alt="스크린샷 2023-06-26 오후 3 59 50" src="https://github.com/FRONTENDSCHOOL5/final-21-WeMet21-Already29/assets/126529523/67960d65-6d1d-4a37-95b3-6ea16ee211bc">
 
-
 ### [폴더구조]
 ```
  입9팔9

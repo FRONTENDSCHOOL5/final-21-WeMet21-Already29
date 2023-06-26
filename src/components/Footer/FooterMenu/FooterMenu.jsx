@@ -14,7 +14,7 @@ import goTop from "../../../utils/goTop";
 
 export default function Navigation({ itemLength }) {
   const location = useLocation();
-  const accountname = localStorage.getItem("username");
+  const accountname = localStorage.getItem("accountname");
   return (
     <NavWrapper>
       <NavLink to="/home" className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} onClick={() => goTop(itemLength)}>

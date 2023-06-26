@@ -1,52 +1,51 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FollowList, FollowListItem } from "./FollowerListStyle";
 import Header from "../../components/Header/Header";
 import TabMenu from "../../components/Footer/FooterMenu/FooterMenu";
 import FollowItem from "../../components/FollowItem/FollowItem";
-import axios from "axios";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import { useRef } from "react";
 
 export default function FollowerList({ type, followType }) {
   const params = useParams();
   const accountname = params.id;
-  const token = localStorage.getItem("token");
   const [followerList, setFollowerList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
-  const navigate = useNavigate();
+  const pageType = followType.replace("List", "");
+  const pageEnd = useRef(null);
+  const { getData, page } = useInfiniteScroll(`profile/${accountname}/${pageType}`, pageEnd);
 
   useEffect(() => {
-    type === "followers" ? getFollowerList() : getFollowingList();
-  }, []);
-
-  const getFollowerList = async () => {
-    try {
-      const res = await axios.get(`https://api.mandarin.weniv.co.kr/profile/${accountname}/follower`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-type": "application/json",
-        },
+    getData(page)
+      .then((res) => res.json())
+      .then((json) => {
+        switch (pageType) {
+          case "follower":
+            console.log("팔로워 페이지");
+            setFollowerList((prev) => {
+              if (prev) {
+                return [...prev, ...json];
+              } else {
+                return json;
+              }
+            });
+            break;
+          case "following":
+            console.log("팔로잉 페이지");
+            setFollowingList((prev) => {
+              if (prev) {
+                return [...prev, ...json];
+              } else {
+                return json;
+              }
+            });
+            break;
+          default:
+            break;
+        }
       });
-      setFollowerList(res.data);
-    } catch (err) {
-      console.error(err);
-      navigate("/error");
-    }
-  };
-
-  const getFollowingList = async () => {
-    try {
-      const res = await axios.get(`https://api.mandarin.weniv.co.kr/profile/${accountname}/following`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-type": "application/json",
-        },
-      });
-      setFollowingList(res.data);
-    } catch (err) {
-      console.error(err);
-      navigate("/error");
-    }
-  };
+  }, [page]);
 
   const followTypeUI = {
     followerList: (
@@ -61,6 +60,7 @@ export default function FollowerList({ type, followType }) {
             );
           })}
         </FollowList>
+        <div ref={pageEnd} />
         <TabMenu />
       </>
     ),
@@ -77,6 +77,7 @@ export default function FollowerList({ type, followType }) {
             );
           })}
         </FollowList>
+        <div ref={pageEnd} />
         <TabMenu />
       </>
     ),

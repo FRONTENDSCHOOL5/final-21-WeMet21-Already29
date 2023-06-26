@@ -48,9 +48,7 @@ const PostContent = styled.div`
 
 const PostImg = styled.img`
   display: block;
-  height: 238px;
   width: 100%;
-  object-fit: contain;
   margin: 17px 0 12px;
   border: 0.5px solid #dbdbdb;
   border-radius: 10px;

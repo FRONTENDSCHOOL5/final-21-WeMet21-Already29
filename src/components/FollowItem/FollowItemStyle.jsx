@@ -27,4 +27,9 @@ export const FollowerName = styled.p`
 export const FollowerIntro = styled.p`
   font-size: 12px;
   color: #767676;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  container-type: inline-size;
+  line-height: 1.2;
 `;

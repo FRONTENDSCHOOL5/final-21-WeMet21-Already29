@@ -34,10 +34,10 @@ export const BottomSheetWrapper = styled.article`
   a {
     background-color: inherit;
     display: block;
-    text-align: left;
+    text-align: center;
     width: 100%;
     border: 0;
-    padding: 14px 26px;
+    padding: 14px 0;
     user-select: none;
     -webkit-user-drag: none;
   }

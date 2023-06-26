@@ -25,7 +25,7 @@ export const PostHeader = styled.header`
 `;
 
 export const PostContent = styled.section`
-  padding: 0 16px;
+  padding: 0 20px;
   .post-text {
     font-size: 1.4rem;
     margin: 16px 0;

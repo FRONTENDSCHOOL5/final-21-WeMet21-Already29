@@ -37,6 +37,7 @@ export const Posts = styled.ul`
       img {
         object-fit: cover;
         height: 110px;
+        width: 100%;
       }
     `};
 `;

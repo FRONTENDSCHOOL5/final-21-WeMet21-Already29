@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const NavWrapper = styled.div`
   position: fixed;
-  width: min(390px, 80vw);
+  width: 390px;
   height: 6rem;
   bottom: 0;
   display: flex;

@@ -58,7 +58,7 @@ export default function FollowItem({ username, intro, image, accountname, isfoll
   };
 
   return (
-    <Container>
+    <>
       <FollowerImgTest src={image} alt="프로필 이미지" onClick={() => moveProfile(accountname)} onError={profileImgErrorHandler} />
       <FollowerInfo onClick={() => moveProfile(accountname)}>
         <FollowerName>{username}</FollowerName>
@@ -71,6 +71,6 @@ export default function FollowItem({ username, intro, image, accountname, isfoll
       ) : (
         <Button type="button" content="취소" width="s" size="s" border="active" color="active" onClick={UnFollow} />
       )}
-    </Container>
+    </>
   );
 }

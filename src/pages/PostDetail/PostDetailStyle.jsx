@@ -19,7 +19,7 @@ const Text = styled.div`
 const CommnetDiv = styled.div`
   padding: 2rem 1.6rem;
   box-sizing: border-box;
-  margin-bottom: 40px;
+  padding-bottom: 60px;
 
   &::-webkit-scrollbar {
     width: 0.9rem;

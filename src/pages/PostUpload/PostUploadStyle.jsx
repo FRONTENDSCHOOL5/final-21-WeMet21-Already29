@@ -2,9 +2,6 @@ import styled from "styled-components";
 
 const Upload = styled.section`
   padding: 2rem 1.6rem;
-  display: flex;
-  align-items: start;
-  gap: 1.2rem;
   position: relative;
   height: calc(100vh - 8.8rem);
 `;
@@ -19,8 +16,8 @@ const Textarea = styled.textarea`
   width: 100%;
   height: auto;
   max-height: 30rem;
-  margin-top: 1.2rem;
   overflow: hidden;
+  font-family: "Noto Sans", sans-serif;
 
   &:focus {
     outline: 0;
@@ -36,23 +33,14 @@ const Textarea = styled.textarea`
   }
 `;
 
-const Div = styled.div`
-  width: 30.4rem;
-  height: 30rem;
-  object-fit: cover;
-  object-position: absolute;
-`;
-
 const ImgDiv = styled.div`
-  width: 30.3rem;
-  height: 30.4rem;
   border-radius: 1rem;
   overflow: hidden;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 `;
 
@@ -61,10 +49,11 @@ const Label = styled.label`
   position: absolute;
   right: 1.6rem;
   bottom: 1.6rem;
+  width: 50px;
 `;
 
 const UploadInput = styled.input``;
 
 const Img = styled.img``;
 
-export { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv };
+export { Upload, Form, UploadInput, Img, Label, Textarea, ImgDiv };

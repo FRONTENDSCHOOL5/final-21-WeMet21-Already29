@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import MoreIcon from "../../../assets/images/s-icon-more-vertical.svg";
 import { Link } from "react-router-dom";
 
 const Container = styled.li`
@@ -101,16 +100,4 @@ const BtnImg = styled.img`
   height: 20px;
 `;
 
-const BtnMore = styled.button`
-  width: 18px;
-  height: 18px;
-  background: url(${MoreIcon});
-  position: absolute;
-  top: 7px;
-  right: 0;
-  padding: 0;
-  border: 0;
-  background-color: transparent;
-`;
-
-export { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore };
+export { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg };

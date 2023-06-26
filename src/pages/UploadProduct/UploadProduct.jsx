@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import iconAlbum from "../../assets/images/icon-image.svg";
+import iconAlbum from "../../assets/images/icon-image.png";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, ImgPlace, ImgUploadButton, Input, InputLabel, Page } from "./UploadProductStyle";

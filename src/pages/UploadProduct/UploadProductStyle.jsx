@@ -65,6 +65,8 @@ const Button = styled.button`
 
 const ImgUploadButton = styled.div`
   position: absolute;
+  width: 22px;
+  height: 22px;
   bottom: 12px;
   right: 12px;
   padding: 7px;

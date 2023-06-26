@@ -3,10 +3,11 @@ import React from "react";
 import { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore } from "./PostItemStyle";
 import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
+import message from "../../../assets/images/icon-message-circle.png";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 import { imageErrorHandler, profileImgErrorHandler } from "../../../utils/imageErrorHandler";
 
-export default function PostItem({ modalOpen, myFeed }) {
+export default function PostItem({ myFeed }) {
   function formatDate(dateString) {
     const dateObj = new Date(dateString);
     const year = dateObj.getFullYear();
@@ -55,14 +56,13 @@ export default function PostItem({ modalOpen, myFeed }) {
                     {item.heartCount}
                   </BtnLike>
                   <BtnComment to={`/post/${item.id}`}>
-                    <BtnImg src={require("../../../assets/images/icon-message-circle-1.svg").default} alt="게시글 댓글" />
+                    <BtnImg src={message} alt="게시글 댓글" />
                     {item.commentCount}
                   </BtnComment>
                 </PostBtnBox>
                 <PostDate>{formatDate(item.createdAt)}</PostDate>
               </PostInfoBox>
             </PostContent>
-            <BtnMore onClick={modalOpen}></BtnMore>
           </Container>
         ))}
     </ul>

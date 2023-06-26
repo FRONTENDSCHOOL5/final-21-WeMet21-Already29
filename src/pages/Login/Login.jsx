@@ -75,6 +75,7 @@ export default function Login() {
           console.log(json);
           localStorage.setItem("token", json.user.token);
           localStorage.setItem("username", json.user.username);
+          localStorage.setItem("accountname", json.user.accountname);
           // 페이지 이동!!
           navigate("/home");
         } else {

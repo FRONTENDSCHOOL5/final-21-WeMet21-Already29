@@ -10,4 +10,5 @@ export const FollowListItem = styled.li`
   align-items: center;
   margin-top: 12px;
   gap: 12px;
+  cursor: pointer;
 `;

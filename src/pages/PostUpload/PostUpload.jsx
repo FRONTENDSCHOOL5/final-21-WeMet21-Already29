@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 export default function PostUpload() {
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
   const { id } = useParams();
 
   // test용 post id (8989의 게시글 중 하나)
@@ -63,10 +62,6 @@ export default function PostUpload() {
 
   const handleFile = async (event) => {
     const file = event.target.files[0];
-    console.log(file);
-
-    const previewImageUrl = URL.createObjectURL(file);
-    setPreviewImage(previewImageUrl);
 
     const formData = new FormData();
     formData.append("image", file);
@@ -76,9 +71,7 @@ export default function PostUpload() {
         body: formData,
       });
       const data = await response.json();
-      console.log(data.filename);
       setImage(`https://api.mandarin.weniv.co.kr/${data.filename}`);
-      // setPreviewImage(data);
     } catch (error) {
       console.error(error);
     }
@@ -86,13 +79,13 @@ export default function PostUpload() {
 
   const handleUpload = async () => {
     if (!post) {
-      console.log("내용 또는 이미지를 입력해주세요.");
+      console.log("내용을 입력해주세요.");
       return;
     }
     const body = {
       post: {
         content: post,
-        image: image ? "https://api.mandarin.weniv.co.kr/" + image.filename : null,
+        image: image ? image : null,
       },
     };
     console.log(body);

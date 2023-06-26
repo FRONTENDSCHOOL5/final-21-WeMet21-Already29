@@ -8,8 +8,6 @@ import fillEditIcon from "../../../assets/images/FillIconEdit.png";
 import userIcon from "../../../assets/images/IconUser.png";
 import fillUserIcon from "../../../assets/images/FillIconUser.png";
 import { NavWrapper, NavLink, StyledNavText } from "./FooterMenuStyle";
-import { useEffect, useState } from "react";
-import { LinkStyle } from "../../Profile/ProfileProduct/ProfileProductStyle";
 import goTop from "../../../utils/goTop";
 
 export default function Navigation({ itemLength }) {
@@ -32,8 +30,8 @@ export default function Navigation({ itemLength }) {
         <StyledNavText>게시물 작성</StyledNavText>
       </NavLink>
 
-      <NavLink to={location.pathname === `/profile/${accountname}` ? undefined : `/profile/${accountname}`} className={`nav-link ${location.pathname.includes("profile") ? "active" : ""}`} onClick={() => goTop()}>
-        <img src={location.pathname.includes("profile") ? fillUserIcon : userIcon} alt="프로필" width="24px" />
+      <NavLink to={location.pathname === `/profile/${accountname}` ? undefined : `/profile/${accountname}`} className={`nav-link ${location.pathname.includes(`/profile/${accountname}`) ? "active" : ""}`} onClick={() => goTop()}>
+        <img src={location.pathname.includes(`/profile/${accountname}`) ? fillUserIcon : userIcon} alt="프로필" width="24px" />
         <StyledNavText>프로필</StyledNavText>
       </NavLink>
     </NavWrapper>

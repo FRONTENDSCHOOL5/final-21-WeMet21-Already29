@@ -1,14 +1,25 @@
 import styled, { keyframes } from "styled-components";
 
 const fadeInOut = keyframes`
-    0% {opacity: 0;} 
-    100%{opacity:1;}
+    from {opacity: .2;} 
 `;
 
 const Earth = keyframes`
-  0%{transform:translateY(100px)}
-  100%{transform:translateY(0)}
+  from{
+    transform: translateY(40px);
+    opacity: .5
+  }
+
 `;
+
+const rotateEarth = keyframes`
+  to{
+    rotate: 360deg;
+  }
+`;
+
+const EarthImageWrap = styled.div``;
+const LogoImageWrap = styled.div``;
 
 const StyledSplashPage = styled.main`
   background-color: white;
@@ -19,17 +30,19 @@ const StyledSplashPage = styled.main`
   justify-content: flex-end;
   align-items: flex-end;
   overflow: hidden;
-  gap: 300px;
 
   .main-logo {
-    animation: ${fadeInOut} 1s ease-out forwards;
-    width: 203px;
+    animation: ${fadeInOut} ease-out 0.6s;
+    animation: name duration timing-function delay iteration-count direction fill-mode;
     margin-right: 38px;
   }
 
   .earth-image {
-    animation: ${Earth} 1s ease-in-out;
+    animation: ${Earth} 0.4s ease-in-out, ${rotateEarth} 10s cubic-bezier(0, 0, 1, 1) 0.4s infinite;
+    animation: name duration timing-function delay iteration-count direction fill-mode;
+    position: relative;
+    bottom: -60%;
   }
 `;
 
-export default StyledSplashPage;
+export { StyledSplashPage, EarthImageWrap, LogoImageWrap };

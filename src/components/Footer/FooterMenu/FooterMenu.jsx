@@ -13,25 +13,36 @@ import goTop from "../../../utils/goTop";
 export default function Navigation({ itemLength }) {
   const location = useLocation();
   const accountname = localStorage.getItem("accountname");
+  const pathname = location.pathname;
   return (
     <NavWrapper>
-      <NavLink to="/home" className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} onClick={() => goTop(itemLength)}>
-        <img src={location.pathname === "/home" ? fillHomeIcon : homeIcon} alt="홈" width="24px" />
+      <NavLink to="/home" className={`nav-link ${pathname === "/home" ? "active" : ""}`} onClick={() => goTop(itemLength)}>
+        <img src={pathname === "/home" ? fillHomeIcon : homeIcon} alt="홈" width="24px" />
         <StyledNavText>홈</StyledNavText>
       </NavLink>
 
-      <NavLink to="/search" className={`nav-link ${location.pathname === "/search" ? "active" : ""}`}>
-        <img src={location.pathname === "/search" ? fillSearchIcon : searchIcon} alt="검색" width="24px" />
+      <NavLink to="/search" className={`nav-link ${pathname === "/search" ? "active" : ""}`}>
+        <img src={pathname === "/search" ? fillSearchIcon : searchIcon} alt="검색" width="24px" />
         <StyledNavText>검색</StyledNavText>
       </NavLink>
 
-      <NavLink to="/post/upload" className={`nav-link ${location.pathname === "/post/upload" ? "active" : ""}`}>
-        <img src={location.pathname === "/post/upload" ? fillEditIcon : editIcon} alt="작성" width="24px" />
+      <NavLink to="/post/upload" className={`nav-link ${pathname === "/post/upload" ? "active" : ""}`}>
+        <img src={pathname === "/post/upload" ? fillEditIcon : editIcon} alt="작성" width="24px" />
         <StyledNavText>게시물 작성</StyledNavText>
       </NavLink>
 
-      <NavLink to={location.pathname === `/profile/${accountname}` ? undefined : `/profile/${accountname}`} className={`nav-link ${location.pathname.includes(`/profile/${accountname}`) ? "active" : ""}`} onClick={() => goTop()}>
-        <img src={location.pathname.includes(`/profile/${accountname}`) ? fillUserIcon : userIcon} alt="프로필" width="24px" />
+      <NavLink
+        to={`/profile/${accountname}`}
+        className={pathname.includes(`profile/${accountname}`) ? "nav-link active" : pathname.includes(`list/${accountname}`) ? "active" : ""}
+        // nav-link active
+        onClick={(e) => {
+          if (pathname === `/profile/${accountname}`) {
+            goTop();
+            e.preventDefault();
+          }
+        }}
+      >
+        <img src={pathname.includes(`profile/${accountname}`) || pathname.includes(`product/list/${accountname}`) ? fillUserIcon : userIcon} alt="프로필" width="24px" />
         <StyledNavText>프로필</StyledNavText>
       </NavLink>
     </NavWrapper>

@@ -302,8 +302,8 @@ export default function PostDetail() {
                       </VerticalBtn>
                     )}
                     <Text>
-                      {comment.content.split("\n").map((line) => (
-                        <span>
+                      {comment.content.split("\n").map((line, index) => (
+                        <span key={index}>
                           {line}
                           <br />
                         </span>

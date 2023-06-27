@@ -50,6 +50,10 @@ const GlobalStyle = createGlobalStyle`
   button {
     all: unset;
     cursor: pointer;
+
+    &:focus{
+      outline: 2px solid #000;
+    }
   }
 
   //텍스트 숨김 처리

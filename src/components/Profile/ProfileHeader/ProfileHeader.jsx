@@ -72,13 +72,8 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
         <ProfileNavBar>
           {localStorage.getItem("accountname") === userData.accountname ? (
             <>
-              <Link to={`modify`}>
-                <WhiteButton type="button">프로필 수정</WhiteButton>
-              </Link>
-
-              <Link to="/product/upload">
-                <WhiteButton type="button">상품 등록</WhiteButton>
-              </Link>
+              <WhiteButton to={`modify`}>프로필 수정</WhiteButton>
+              <WhiteButton to="/product/upload">상품 등록</WhiteButton>
             </>
           ) : (
             <>

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
-import HomeFeed from "../pages/HomeFeed/HomeFeed";
 import SearchPage from "../pages/Search/SearchPage";
 import ModalContext from "../contexts/ModalContext/ModalContext";
 import BottomSheetContext from "../contexts/ModalContext/BottomSheetContext";
@@ -29,7 +28,7 @@ function Router() {
           <Route path="/" element={<StartSplash />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/home" element={<HomeFeed />}></Route>
+          <Route path="/home" element={<Home />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
 
           <Route path="/profile/*" element={<Outlet />}>

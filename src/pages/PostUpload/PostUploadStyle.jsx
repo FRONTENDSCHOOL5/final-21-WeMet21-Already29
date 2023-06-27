@@ -33,14 +33,22 @@ const Textarea = styled.textarea`
   }
 `;
 
-const ImgDiv = styled.div`
-  border-radius: 1rem;
-  overflow: hidden;
-
+const ImgWrapper = styled.div`
+  position: relative;
+  flex-shrink: 0;
+  flex-basis: 80%;
   img {
-    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
     height: 100%;
-    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 30px;
+    padding: 5px;
   }
 `;
 
@@ -56,4 +64,4 @@ const UploadInput = styled.input``;
 
 const Img = styled.img``;
 
-export { Upload, Form, UploadInput, Img, Label, Textarea, ImgDiv };
+export { Upload, Form, UploadInput, Img, Label, Textarea, ImgWrapper };

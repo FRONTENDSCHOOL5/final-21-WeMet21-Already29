@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
-import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv } from "./PostUploadStyle";
+import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgWrapper } from "./PostUploadStyle";
 import uploadFile from "../../assets/images/uploadFile.png";
 import { useParams } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
+import union from "../../assets/images/Union.png";
 
 export default function PostUpload() {
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
   const { id } = useParams();
 
-  // test용 post id (8989의 게시글 중 하나)
-  // const testPostId = "6493b139b2cb20566360443d";
+  const sendImage = image && typeof image === "object" && image.length > 1 ? image.join(",") : image && typeof image === "object" && image.length === 1 ? image[0] : image;
+  console.log(sendImage);
+
   const navigate = useNavigate();
 
   const getPostData = () => {
@@ -26,9 +27,9 @@ export default function PostUpload() {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
+        console.log();
         setPost(json.post.content);
-        setImage(json.post.image && json.post.image);
+        setImage(json.post.image ? json.post.image.split(",") : null);
       });
   };
 
@@ -39,6 +40,7 @@ export default function PostUpload() {
   }, []);
 
   const modifyPostHandler = () => {
+    console.log("실행");
     fetch(`https://api.mandarin.weniv.co.kr/post/${id}`, {
       method: "PUT",
       headers: {
@@ -48,16 +50,17 @@ export default function PostUpload() {
       body: JSON.stringify({
         post: {
           content: post,
-          image: image,
+          image: sendImage,
         },
       }),
     })
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
-
+        console.log("에러인가");
         navigate(`/post/${id}`);
-      });
+      })
+      .catch((e) => console.log(e));
   };
 
   const handleFile = async (event) => {
@@ -71,7 +74,18 @@ export default function PostUpload() {
         body: formData,
       });
       const data = await response.json();
-      setImage(`https://api.mandarin.weniv.co.kr/${data.filename}`);
+      setImage((prev) => {
+        if (prev && typeof prev === "object" && prev.length > 2) {
+          alert("이미지는 3장까지 업로드 가능합니다");
+          return prev;
+        } else if (prev && typeof prev === "object" && prev.length) {
+          return [...prev, `https://api.mandarin.weniv.co.kr/${data.filename}`];
+        } else if (prev) {
+          return [prev, `https://api.mandarin.weniv.co.kr/${data.filename}`];
+        } else if (!prev) {
+          return `https://api.mandarin.weniv.co.kr/${data.filename}`;
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -82,10 +96,11 @@ export default function PostUpload() {
       console.log("내용을 입력해주세요.");
       return;
     }
+    console.log("실행");
     const body = {
       post: {
         content: post,
-        image: image ? image : null,
+        image: sendImage,
       },
     };
     console.log(body);
@@ -119,6 +134,16 @@ export default function PostUpload() {
     }
   }, [post]);
 
+  const imageDeleteHandler = (index) => {
+    const imageArrayCopy = [...image];
+    if (typeof index === "number") {
+      imageArrayCopy.splice(index, 1);
+      setImage(imageArrayCopy);
+    } else {
+      setImage(null);
+    }
+  };
+
   return (
     <>
       <Header type="submitHeader" handlePostUpload={handleUpload}>
@@ -140,9 +165,27 @@ export default function PostUpload() {
           <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
         </Form>
         {image && (
-          <ImgDiv className="img-container">
-            <img src={image} alt="Uploaded" />
-          </ImgDiv>
+          <>
+            {typeof image === "object" && image.length > 1 ? (
+              image.map((item, index) => {
+                return (
+                  <ImgWrapper key={index}>
+                    <img src={item} alt="게시물 이미지" />
+                    <button type="button" onClick={() => imageDeleteHandler(index)}>
+                      <img src={union} alt="삭제" />
+                    </button>
+                  </ImgWrapper>
+                );
+              })
+            ) : (
+              <ImgWrapper>
+                <img src={image} alt="게시물 이미지" />
+                <button type="button" onClick={() => imageDeleteHandler()}>
+                  <img src={union} alt="삭제" />
+                </button>
+              </ImgWrapper>
+            )}
+          </>
         )}
       </Upload>
     </>

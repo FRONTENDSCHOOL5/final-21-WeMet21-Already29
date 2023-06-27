@@ -16,6 +16,11 @@ import { heartButtonHandler } from "../../utils/heartButtonHandler";
 import { Link, useNavigate } from "react-router-dom";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { imageErrorHandler, profileImgErrorHandler } from "../../utils/imageErrorHandler";
+import { SwiperSlide, Swiper } from "swiper/react";
+import SwiperCore, { Pagination } from "swiper";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+SwiperCore.use([Pagination]);
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -248,14 +253,26 @@ export default function PostDetail() {
             </PostHeader>
             <PostContent>
               <p className="post-text">
-                {post.content.split("\n").map((line) => (
-                  <span>
+                {post.content.split("\n").map((line, index) => (
+                  <span key={index}>
                     {line}
                     <br />
                   </span>
                 ))}
               </p>
-              {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} /> : ""}
+
+              {post.image && post.image.split(",").length > 1 && (
+                <Swiper pagination={{ clickable: true }} slidesPerView={1}>
+                  {post.image.split(",").map((item, index) => {
+                    return (
+                      <SwiperSlide key={index}>
+                        <img src={item} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} />
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              )}
+              {post.image && post.image.split(",").length === 1 && <img src={post.image} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} />}
               <PostMenuWrap>
                 <button
                   type="button"

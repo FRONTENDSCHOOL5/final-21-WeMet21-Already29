@@ -38,12 +38,11 @@ export const PostContent = styled.section`
   }
   .post-image {
     border-radius: 10px;
-    margin-bottom: 10px;
   }
 `;
 
 export const PostMenuWrap = styled.div`
-  margin-bottom: 15px;
+  margin: 15px 0;
 
   button {
     border: 0;

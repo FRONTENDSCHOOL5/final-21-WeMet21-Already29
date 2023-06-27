@@ -49,7 +49,6 @@ const PostContent = styled.div`
 const PostImg = styled.img`
   display: block;
   width: 100%;
-  margin: 17px 0 12px;
   border: 0.5px solid #dbdbdb;
   border-radius: 10px;
 `;
@@ -57,6 +56,7 @@ const PostImg = styled.img`
 const PostInfoBox = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 12px;
 `;
 
 const PostBtnBox = styled.div`

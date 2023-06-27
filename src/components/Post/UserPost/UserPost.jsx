@@ -6,6 +6,11 @@ import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 import { imageErrorHandler, profileImgErrorHandler } from "../../../utils/imageErrorHandler";
+import { SwiperSlide, Swiper } from "swiper/react";
+import SwiperCore, { Pagination } from "swiper";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+SwiperCore.use([Pagination]);
 
 function UserPost({ posts, isAlbum }) {
   const [ishearted, setIsHearted] = useState([]);
@@ -77,7 +82,19 @@ function UserPost({ posts, isAlbum }) {
                         </span>
                       ))}
                     </p>
-                    {post.image && <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} />}
+
+                    {post.image && post.image.split(",").length > 1 && (
+                      <Swiper pagination={{ clickable: true }}>
+                        {post.image.split(",").map((item, index) => {
+                          return (
+                            <SwiperSlide key={index}>
+                              <img src={item} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} />
+                            </SwiperSlide>
+                          );
+                        })}
+                      </Swiper>
+                    )}
+                    {post.image && post.image.split(",").length === 1 && <img src={post.image} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} />}
                     <PostMenuWrap>
                       <button
                         type="button"
@@ -118,7 +135,7 @@ function UserPost({ posts, isAlbum }) {
             return (
               <li key={post.id}>
                 <Link to={`/post/${post.id}`}>
-                  <img src={post.image} alt="게시글 이미지" onError={imageErrorHandler} />
+                  <img src={post.image.split(",")[0]} alt="게시글 이미지" onError={imageErrorHandler} />
                 </Link>
               </li>
             );

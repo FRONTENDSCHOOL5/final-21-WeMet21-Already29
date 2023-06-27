@@ -12,6 +12,7 @@ const NavWrapper = styled.div`
   align-items: center;
   background-color: #ffffff;
   border-top: 1px solid var(--line-gray-color);
+  z-index: 100;
 `;
 
 const NavLink = styled(Link)`

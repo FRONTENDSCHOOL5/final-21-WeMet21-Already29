@@ -5,14 +5,15 @@ import TabMenu from "../../components/Footer/FooterMenu/FooterMenu";
 import UserList from "../../components/UserList/UserList";
 //import useAuthContext from '../../hooks/useAuthContext';
 
-function Search() {
+export default function Search() {
   const [searchList, setSearchList] = useState([]);
   const [keyword, setKeyword] = useState("");
   //const { auth } = useAuthContext();
 
   useEffect(() => {
+    let getUsers;
     if (keyword) {
-      const GetUserInfo = async () => {
+      getUsers = setTimeout(async () => {
         try {
           const response = await fetch(`https://api.mandarin.weniv.co.kr/user/searchuser/?keyword=${keyword}`, {
             method: "GET",
@@ -27,21 +28,9 @@ function Search() {
         } catch (err) {
           console.log(err);
         }
-      };
-      GetUserInfo();
+      }, 500);
     }
-  }, [keyword]);
-
-  useEffect(() => {
-    const loading = setTimeout(() => {
-      if (keyword !== "" && !keyword.startsWith("")) {
-        Search();
-      }
-    }, 100);
-
-    return () => {
-      clearTimeout(loading);
-    };
+    return () => clearTimeout(getUsers);
   }, [keyword]);
 
   return (
@@ -63,5 +52,3 @@ function Search() {
     </StyledSearch>
   );
 }
-
-export default Search;

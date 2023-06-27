@@ -7,23 +7,37 @@ import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 import { imageErrorHandler, profileImgErrorHandler } from "../../../utils/imageErrorHandler";
 
-export default function UserPost({ posts, isAlbum }) {
+function UserPost({ posts, isAlbum }) {
   const [ishearted, setIsHearted] = useState([]);
   const [heartCount, setHeartCount] = useState([]);
+  const [prevPostLength, setPrevPostLength] = useState(0);
+  console.log(prevPostLength);
 
   useEffect(() => {
-    const heartedArr = [];
-    const heartCountArr = [];
-    posts.forEach((item) => {
-      heartedArr.push(item.hearted);
-      heartCountArr.push(item.heartCount);
+    setPrevPostLength((prevNum) => {
+      if (prevNum !== 0) {
+        return posts.length - prevNum;
+      } else {
+        return posts.length;
+      }
     });
+
+    const heartedArr = [...ishearted];
+    const heartCountArr = [...heartCount];
+
+    for (let i = prevPostLength; i < posts.length; i++) {
+      heartedArr.push(posts[i].hearted);
+      heartCountArr.push(posts[i].heartCount);
+    }
+
     setIsHearted(heartedArr);
     setHeartCount(heartCountArr);
   }, [posts]);
 
   const heartHandler = (postId, postHeart, index) => {
     const changeHeartCountArr = [...heartCount];
+    const changeHeartedArr = [...ishearted];
+
     if (postHeart) {
       heartButtonHandler.minus(postId);
       changeHeartCountArr.splice(index, 1, heartCount[index] - 1);
@@ -31,20 +45,18 @@ export default function UserPost({ posts, isAlbum }) {
       heartButtonHandler.plus(postId);
       changeHeartCountArr.splice(index, 1, heartCount[index] + 1);
     }
-    const changeHeartedArr = [...ishearted];
+
     changeHeartedArr.splice(index, 1, !changeHeartedArr[index]);
     setIsHearted(changeHeartedArr);
     setHeartCount(changeHeartCountArr);
   };
-
-  console.log(posts);
 
   return (
     <>
       {posts && !isAlbum
         ? posts.map((post, index) => {
             return (
-              <li key={post.id}>
+              <li key={index}>
                 <>
                   <PostHeader>
                     <img src={post.author.image} alt="게시글 작성자 프로필 사진" onError={profileImgErrorHandler} />
@@ -102,9 +114,9 @@ export default function UserPost({ posts, isAlbum }) {
           .filter((post) => {
             return post.image;
           })
-          .map((post) => {
+          .map((post, index) => {
             return (
-              <li key={post.id}>
+              <li key={index}>
                 <Link to={`/post/${post.id}`}>
                   <img src={post.image} alt="게시글 이미지" onError={imageErrorHandler} />
                 </Link>
@@ -114,3 +126,5 @@ export default function UserPost({ posts, isAlbum }) {
     </>
   );
 }
+
+export default React.memo(UserPost);

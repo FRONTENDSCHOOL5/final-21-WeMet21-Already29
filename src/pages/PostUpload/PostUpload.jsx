@@ -40,7 +40,6 @@ export default function PostUpload() {
   }, []);
 
   const modifyPostHandler = () => {
-    console.log("실행");
     fetch(`https://api.mandarin.weniv.co.kr/post/${id}`, {
       method: "PUT",
       headers: {
@@ -57,7 +56,6 @@ export default function PostUpload() {
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
-        console.log("에러인가");
         navigate(`/post/${id}`);
       })
       .catch((e) => console.log(e));
@@ -93,7 +91,7 @@ export default function PostUpload() {
 
   const handleUpload = async () => {
     if (!post) {
-      console.log("내용을 입력해주세요.");
+      alert("내용을 입력해주세요.");
       return;
     }
     console.log("실행");
@@ -158,10 +156,12 @@ export default function PostUpload() {
           <label htmlFor="txt-sync" className="a11y-hidden">
             게시글 입력창입니다.
           </label>
-          <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange} ref={textareaRef}></Textarea>
-          <Label htmlFor="file-sync" className="file-sync">
-            <img src={uploadFile} alt="uploadFile" />
-          </Label>
+          <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange} ref={textareaRef} maxLength={700}></Textarea>
+          <div>
+            <Label htmlFor="file-sync" className="file-sync">
+              <img src={uploadFile} alt="uploadFile" />
+            </Label>
+          </div>
           <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
         </Form>
         {image && (

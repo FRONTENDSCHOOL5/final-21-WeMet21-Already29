@@ -8,6 +8,13 @@ const Upload = styled.section`
 
 const Form = styled.form`
   width: 100%;
+  margin-bottom: 10px;
+  div {
+    position: fixed;
+    bottom: 0;
+    width: 390px;
+    z-index: 1;
+  }
 `;
 
 const Textarea = styled.textarea`
@@ -18,6 +25,8 @@ const Textarea = styled.textarea`
   max-height: 30rem;
   overflow: hidden;
   font-family: "Noto Sans", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
 
   &:focus {
     outline: 0;
@@ -58,6 +67,7 @@ const Label = styled.label`
   right: 1.6rem;
   bottom: 1.6rem;
   width: 50px;
+  z-index: 100;
 `;
 
 const UploadInput = styled.input``;

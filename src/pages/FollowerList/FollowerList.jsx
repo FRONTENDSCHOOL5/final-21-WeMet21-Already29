@@ -50,8 +50,8 @@ export default function FollowerList({ type, followType }) {
   const followTypeUI = {
     followerList: (
       <>
+        <Header type="back">followers</Header>
         <FollowList>
-          <Header type="back">followers</Header>
           {followerList.map((follower, index) => {
             return (
               <FollowListItem key={index}>
@@ -67,8 +67,8 @@ export default function FollowerList({ type, followType }) {
 
     followingList: (
       <>
+        <Header type="back">followings</Header>
         <FollowList>
-          <Header type="back">followings</Header>
           {followingList.map((following, index) => {
             return (
               <FollowListItem key={index}>

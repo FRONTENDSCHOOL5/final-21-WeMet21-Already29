@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore } from "./PostItemStyle";
 import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
@@ -8,6 +8,49 @@ import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 import { imageErrorHandler, profileImgErrorHandler } from "../../../utils/imageErrorHandler";
 
 export default function PostItem({ myFeed }) {
+  const [ishearted, setIsHearted] = useState([]);
+  const [heartCount, setHeartCount] = useState([]);
+  const [prevFeedLength, setPrevFeedLength] = useState(0);
+
+  console.log(prevFeedLength);
+  useEffect(() => {
+    setPrevFeedLength((prevNum) => {
+      if (prevNum !== 0) {
+        return myFeed.length - prevNum;
+      } else {
+        return myFeed.length;
+      }
+    });
+
+    const heartedArr = [...ishearted];
+    const heartCountArr = [...heartCount];
+
+    for (let i = prevFeedLength; i < myFeed.length; i++) {
+      heartedArr.push(myFeed[i].hearted);
+      heartCountArr.push(myFeed[i].heartCount);
+    }
+
+    setIsHearted(heartedArr);
+    setHeartCount(heartCountArr);
+  }, [myFeed]);
+
+  const heartHandler = (feedId, feedHeart, index) => {
+    const changeHeartCountArr = [...heartCount];
+    const changeHeartedArr = [...ishearted];
+
+    if (feedHeart) {
+      heartButtonHandler.minus(feedId);
+      changeHeartCountArr.splice(index, 1, heartCount[index] - 1);
+    } else {
+      heartButtonHandler.plus(feedId);
+      changeHeartCountArr.splice(index, 1, heartCount[index] + 1);
+    }
+
+    changeHeartedArr.splice(index, 1, !changeHeartedArr[index]);
+    setIsHearted(changeHeartedArr);
+    setHeartCount(changeHeartCountArr);
+  };
+
   function formatDate(dateString) {
     const dateObj = new Date(dateString);
     const year = dateObj.getFullYear();
@@ -18,22 +61,10 @@ export default function PostItem({ myFeed }) {
   }
   console.log(myFeed);
 
-  const heartHandler = async (postId, postHeart) => {
-    if (postHeart) {
-      const res = await heartButtonHandler.minus(postId);
-      const json = await res.json();
-      console.log(json);
-    } else {
-      const res = await heartButtonHandler.plus(postId);
-      const json = await res.json();
-      console.log(json);
-    }
-  };
-
   return (
     <ul>
       {myFeed &&
-        myFeed.map((item) => (
+        myFeed.map((item, index) => (
           <Container key={item.id}>
             <PostUser to={`/profile/${item.author.accountname}`}>
               <PostUserImg src={item.author.image} alt="사용자 이미지" onError={profileImgErrorHandler} />
@@ -56,11 +87,11 @@ export default function PostItem({ myFeed }) {
                 <PostBtnBox>
                   <BtnLike
                     onClick={() => {
-                      heartHandler(item.id, item.hearted);
+                      heartHandler(item.id, ishearted[index], index);
                     }}
                   >
-                    <BtnImg src={item.hearted ? fillHeart : heart} className="heart-image" alt="게시글 좋아요" />
-                    {item.heartCount}
+                    <BtnImg src={ishearted[index] ? fillHeart : heart} className="heart-image" alt="게시글 좋아요" />
+                    {heartCount[index]}
                   </BtnLike>
                   <BtnComment to={`/post/${item.id}`}>
                     <BtnImg src={message} alt="게시글 댓글" />

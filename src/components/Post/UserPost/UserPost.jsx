@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PostHeader, PostMenuWrap, PostContent } from "./UserPostStyle";
 import comment from "../../../assets/images/icon-message-circle.png";
 import heart from "../../../assets/images/uil_heart.png";
@@ -16,6 +16,7 @@ function UserPost({ posts, isAlbum }) {
   const [ishearted, setIsHearted] = useState([]);
   const [heartCount, setHeartCount] = useState([]);
   const [prevPostLength, setPrevPostLength] = useState(0);
+  const navigator = useNavigate();
   console.log(prevPostLength);
 
   useEffect(() => {
@@ -74,7 +75,12 @@ function UserPost({ posts, isAlbum }) {
                     </div>
                   </PostHeader>
                   <PostContent>
-                    <p className="post-text">
+                    <p
+                      className="post-text"
+                      onClick={() => {
+                        navigator(`/post/${post.id}`);
+                      }}
+                    >
                       {post.content.split("\n").map((line, index) => (
                         <span key={index}>
                           {line}

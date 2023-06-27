@@ -10,6 +10,7 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
+import { useNavigate } from "react-router-dom";
 
 SwiperCore.use([Pagination]);
 
@@ -17,6 +18,7 @@ export default function PostItem({ myFeed }) {
   const [ishearted, setIsHearted] = useState([]);
   const [heartCount, setHeartCount] = useState([]);
   const [prevFeedLength, setPrevFeedLength] = useState(0);
+  const navigator = useNavigate();
 
   console.log(prevFeedLength);
   useEffect(() => {
@@ -80,7 +82,11 @@ export default function PostItem({ myFeed }) {
               </PostUserBox>
             </PostUser>
             <PostContent>
-              <TextComment>
+              <TextComment
+                onClick={() => {
+                  navigator(`/post/${item.id}`);
+                }}
+              >
                 {item.content.split("\n").map((line, index) => (
                   <span key={index}>
                     {line}

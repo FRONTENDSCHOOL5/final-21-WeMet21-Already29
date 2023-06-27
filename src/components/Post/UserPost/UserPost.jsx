@@ -56,7 +56,7 @@ function UserPost({ posts, isAlbum }) {
       {posts && !isAlbum
         ? posts.map((post, index) => {
             return (
-              <li key={index}>
+              <li key={post.id}>
                 <>
                   <PostHeader>
                     <img src={post.author.image} alt="게시글 작성자 프로필 사진" onError={profileImgErrorHandler} />
@@ -70,8 +70,8 @@ function UserPost({ posts, isAlbum }) {
                   </PostHeader>
                   <PostContent>
                     <p className="post-text">
-                      {post.content.split("\n").map((line) => (
-                        <span>
+                      {post.content.split("\n").map((line, index) => (
+                        <span key={index}>
                           {line}
                           <br />
                         </span>
@@ -116,7 +116,7 @@ function UserPost({ posts, isAlbum }) {
           })
           .map((post, index) => {
             return (
-              <li key={index}>
+              <li key={post.id}>
                 <Link to={`/post/${post.id}`}>
                   <img src={post.image} alt="게시글 이미지" onError={imageErrorHandler} />
                 </Link>
@@ -127,4 +127,4 @@ function UserPost({ posts, isAlbum }) {
   );
 }
 
-export default React.memo(UserPost);
+export default UserPost;

@@ -75,8 +75,8 @@ export default function PostItem({ myFeed }) {
             </PostUser>
             <PostContent>
               <TextComment>
-                {item.content.split("\n").map((line) => (
-                  <span>
+                {item.content.split("\n").map((line, index) => (
+                  <span key={index}>
                     {line}
                     <br />
                   </span>

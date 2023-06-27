@@ -43,7 +43,14 @@ export default function PostItem({ myFeed }) {
               </PostUserBox>
             </PostUser>
             <PostContent>
-              <TextComment>{item.content}</TextComment>
+              <TextComment>
+                {item.content.split("\n").map((line) => (
+                  <span>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </TextComment>
               {item.image && <PostImg src={item.image} alt="포스트 이미지" onError={imageErrorHandler} />}
               <PostInfoBox>
                 <PostBtnBox>

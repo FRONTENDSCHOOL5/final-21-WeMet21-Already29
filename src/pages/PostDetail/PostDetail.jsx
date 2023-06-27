@@ -247,7 +247,14 @@ export default function PostDetail() {
               </div>
             </PostHeader>
             <PostContent>
-              <p className="post-text">{post.content}</p>
+              <p className="post-text">
+                {post.content.split("\n").map((line) => (
+                  <span>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
               {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} /> : ""}
               <PostMenuWrap>
                 <button
@@ -294,7 +301,14 @@ export default function PostDetail() {
                         <img src={IconMoreVertical} alt="" />
                       </VerticalBtn>
                     )}
-                    <Text>{comment.content}</Text>
+                    <Text>
+                      {comment.content.split("\n").map((line) => (
+                        <span>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                    </Text>
                   </SmallDiv>
                 ))}
               <div ref={pageEnd} />

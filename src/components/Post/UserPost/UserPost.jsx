@@ -37,6 +37,8 @@ export default function UserPost({ posts, isAlbum }) {
     setHeartCount(changeHeartCountArr);
   };
 
+  console.log(posts);
+
   return (
     <>
       {posts && !isAlbum
@@ -55,7 +57,14 @@ export default function UserPost({ posts, isAlbum }) {
                     </div>
                   </PostHeader>
                   <PostContent>
-                    <p className="post-text">{post.content}</p>
+                    <p className="post-text">
+                      {post.content.split("\n").map((line) => (
+                        <span>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                    </p>
                     {post.image && <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} />}
                     <PostMenuWrap>
                       <button

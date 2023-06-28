@@ -22,13 +22,7 @@ export default function PostItem({ myFeed }) {
 
   console.log(prevFeedLength);
   useEffect(() => {
-    setPrevFeedLength((prevNum) => {
-      if (prevNum !== 0) {
-        return myFeed.length - prevNum;
-      } else {
-        return myFeed.length;
-      }
-    });
+    setPrevFeedLength(myFeed.length);
 
     const heartedArr = [...ishearted];
     const heartCountArr = [...heartCount];

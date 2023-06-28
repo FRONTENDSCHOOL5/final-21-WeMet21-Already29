@@ -1,7 +1,15 @@
+const webpack = require("webpack");
+
 module.exports = function override(config) {
-  config.headers = {
-    ...config.headers,
-    "Permissions-Policy": "interest-cohort=()",
-  };
+  config.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        headers: {
+          "Permissions-Policy": "interest-cohort=()",
+        },
+      },
+    })
+  );
+
   return config;
 };

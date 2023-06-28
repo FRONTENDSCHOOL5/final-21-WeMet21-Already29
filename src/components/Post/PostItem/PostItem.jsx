@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
-import { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg, BtnMore } from "./PostItemStyle";
+import { Container, TextComment, PostUser, PostUserImg, PostUserBox, PostUserName, PostUserId, PostContent, PostImg, PostInfoBox, PostBtnBox, PostDate, BtnLike, BtnComment, BtnImg } from "./PostItemStyle";
 import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import message from "../../../assets/images/icon-message-circle.png";
@@ -40,6 +40,7 @@ export default function PostItem({ myFeed }) {
 
     setIsHearted(heartedArr);
     setHeartCount(heartCountArr);
+    // eslint-disable-next-line
   }, [myFeed]);
 
   const heartHandler = (feedId, feedHeart, index) => {

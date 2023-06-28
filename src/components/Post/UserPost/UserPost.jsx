@@ -38,6 +38,7 @@ function UserPost({ posts, isAlbum }) {
 
     setIsHearted(heartedArr);
     setHeartCount(heartCountArr);
+    // eslint-disable-next-line
   }, [posts]);
 
   const heartHandler = (postId, postHeart, index) => {

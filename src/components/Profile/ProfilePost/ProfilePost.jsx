@@ -56,6 +56,7 @@ export default function ProfilePost() {
       console.log("case3");
       fetchPost();
     }
+    // eslint-disable-next-line
   }, [page, params]);
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, FollowerImgTest, FollowerInfo, FollowerName, FollowerIntro } from "./FollowItemStyle";
+import { FollowerImgTest, FollowerInfo, FollowerName, FollowerIntro } from "./FollowItemStyle";
 import Button from "../FollowButton/FollowButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

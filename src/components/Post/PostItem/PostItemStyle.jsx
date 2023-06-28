@@ -51,6 +51,8 @@ const PostImg = styled.img`
   width: 100%;
   border: 0.5px solid #dbdbdb;
   border-radius: 10px;
+  object-fit: contain;
+  max-height: 500px;
 `;
 
 const PostInfoBox = styled.div`

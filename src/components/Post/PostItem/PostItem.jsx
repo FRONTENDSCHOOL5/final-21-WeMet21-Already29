@@ -75,7 +75,7 @@ export default function PostItem({ myFeed }) {
         myFeed.map((item, index) => (
           <Container key={item.id}>
             <PostUser to={`/profile/${item.author.accountname}`}>
-              <PostUserImg src={item.author.image} alt="사용자 이미지" onError={profileImgErrorHandler} />
+              <PostUserImg src={item.author.image} alt="사용자 이미지" onError={profileImgErrorHandler} width={42} height={42} decoding="async" />
               <PostUserBox>
                 <PostUserName>{item.author.username}</PostUserName>
                 <PostUserId>@ {item.author.accountname}</PostUserId>
@@ -100,13 +100,13 @@ export default function PostItem({ myFeed }) {
                   {item.image.split(",").map((item, index) => {
                     return (
                       <SwiperSlide key={index}>
-                        <PostImg src={item} alt="포스트 이미지" onError={imageErrorHandler} />
+                        <PostImg src={item} alt="포스트 이미지" onError={imageErrorHandler} width={390} height={250} loading="lazy" decoding="async" />
                       </SwiperSlide>
                     );
                   })}
                 </Swiper>
               )}
-              {item.image && item.image.split(",").length === 1 && <PostImg src={item.image} alt="포스트 이미지" onError={imageErrorHandler} />}
+              {item.image && item.image.split(",").length === 1 && <PostImg src={item.image} alt="포스트 이미지" onError={imageErrorHandler} width={390} height={250} loading="lazy" decoding="async" />}
 
               <PostInfoBox>
                 <PostBtnBox>

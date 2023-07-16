@@ -1,8 +1,6 @@
-import React from "react";
-import mascot from "../assets/images/mascot.png";
 import styled from "styled-components";
 
-const LoadingImage = styled.img`
+export const LoadingImage = styled.img`
   animation-duration: 2s;
   position: fixed;
   top: 50%;
@@ -21,7 +19,3 @@ const LoadingImage = styled.img`
     }
   }
 `;
-
-export default function Loading() {
-  return <LoadingImage src={mascot} alt="로딩 중" />;
-}

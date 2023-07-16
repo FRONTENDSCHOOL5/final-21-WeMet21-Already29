@@ -5,7 +5,7 @@
 <br>
 
 # ✨배포
-- <a href="">🔗 서비스링크 </a>
+- <a href="">🔗 [서비스링크](https://wear9sell9.netlify.app/) </a>
 - 🔒 서비스 이용을 위한 테스트 계정
 
    - ID: 21test@test.com
@@ -40,10 +40,10 @@
 
 # 2 팀원 소개 및 역할분담
  <br>
- 
+
 |FE 최범관|FE 박경보|FE 유하은|FE 한상헌|
 | :---: | :---: | :---: | :---: |
-| <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/4ac018c7-f9f3-49c1-89e8-9e0523c69919.jpg" width="170" height="170"/> | <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/f8f06190-ece0-4a5d-ada4-d7df6cca0455.png" width="170" height="170"/> | <img src="https://user-images.githubusercontent.com/124084624/249192266-dae00b28-0f85-40c2-a53c-6754c3a0ca30.png" width="170" height="170"/> | <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/9d2c1f67-82c0-4d91-8bf9-09be962044f4.jpg" width="170" height="170" /> |                                                          
+| <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/4ac018c7-f9f3-49c1-89e8-9e0523c69919.jpg" width="170" height="170"/> | <img src="https://github.com/kyeongboo-coder/kh/assets/126529523/29ee9d2f-859f-4a0f-8293-b453196c5cb6" width="170" height="170"/> | <img src="https://user-images.githubusercontent.com/124084624/249192266-dae00b28-0f85-40c2-a53c-6754c3a0ca30.png" width="170" height="170"/> | <img src="https://github.com/yonainthefish/FE05-Project-Sooryen/assets/124084624/9d2c1f67-82c0-4d91-8bf9-09be962044f4.jpg" width="170" height="170" /> |                                                          
 |  팀장 <br> <a href="https://github.com/KwanBeom"> 🔗 KwanBeom </a>| 팀원 <br> <a href="https://github.com/kyeongboo-coder">🔗 kyeongboo-coder </a> |팀원 <br> <a href="https://github.com/yonsinthefish">🔗yonainthefish </a>|팀원 <br> <a href="https://github.com/Skyllerrr">🔗 skyllerrr </a> |
 팀 리딩 & 테크리딩 | 프로젝트 기획 & 진행, 문서화 | 로고 디자인 & 피그마제작  |유효성검사 & UI 개선|
 <br>
@@ -95,19 +95,20 @@
 <br>
 
 # 3 개발 환경
- <br>
- 
+
+
 ### [기술스택]
 
-|프론트엔드|<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>|
+|**프론트엔드**|<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>|
 | :---| :--- |
+|**백엔드**|[멋쟁이 사자처럼에서 제공받은 API 명세](https://www.notion.so/16312a05a4c7456db8073785be95cda6)|
 |**도구 및 라이브러리** | <img src="https://img.shields.io/badge/Eslint-4B32C3?style=flat-square&logo=Eslint&logoColor=white"/>  <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white"/>  <img src="https://img.shields.io/badge/VisualStudioCode-007ACC?style=flat-square&logo=VisualStudioCode&logoColor=white"/>  <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>    
 |**협업 및 프로젝트 관리** | <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white"/>  <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"/>
-|**디자인** | <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white"/>   |
+|**디자인** | [<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white"/>](https://www.figma.com/file/OFzYcxwkMzX9U9ljo06ow8/21%EC%A1%B0-%ED%99%94%EC%9D%B4%EB%9D%B5!!!!?type=design&node-id=27-1212&mode=design&t=fXS6bC8hoYKtFX1v-0)   |
   <br> 
 
-### [Github flow]
-<img width="652" alt="스크린샷 2023-06-26 오후 3 10 22" src="https://github.com/kyeongboo-coder/githubTest/assets/126529523/0a8fb080-8443-497c-bcd7-c33bbac470ae">
+### [Git Flow]
+![image 21](https://github.com/kyeongboo-coder/kh/assets/126529523/ac923695-39be-4d2f-a3c9-548637548be3)
 
 <br>
 
@@ -181,6 +182,9 @@ remove      : 파일을 삭제하는 작업만 수행한 경우
 - Live share : VSC 의 Live share를 사용하여 더 나은 코드를 위한 토론을 진행하였습니다.
 - 오프라인 회의 : 정기 오프라인 회의를 통해 진행상황을 공유하며 일정조율 및 작업방향을 맞춰가는 시간을 가졌습니다
 ```
+
+📌 [GitHub Wiki](https://github.com/FRONTENDSCHOOL5/final-21-WeMet21-Already29/wiki/%F0%9F%93%9C-%ED%9A%8C%EC%9D%98%EB%A1%9D)
+
 <br>
 <br>
 
@@ -229,12 +233,18 @@ remove      : 파일을 삭제하는 작업만 수행한 경우
 
 ## 7 느낀점 
 
-|🐯최범관|
-| :---: |
-|문제를 해결하기 위해 끊임없이 소통하면 보다 나은 결과를 얻을 수 있음을 깨달았고, <br>각자의 의견을 나누며 모두가 함께 움직이는 것이 프로젝트의 성공에 필수적이라는 것을 깨닫게 되었습니다.<br> 협업을 통해 함께 성장해 나갈 수 있는 즐거움을 느낄 수 있어 좋았고, 기술적으로나 정신적으로 한 발짝 더 나아갈 수 있는 좋은 경험이었습니다.|
-| **🐱‍💻한상헌** |<br>
-|프론트엔드 팀 프로젝트 자체는 이번 멋사에서 처음해보는 경험이라 처음에 어떻게 갈피를 잡아야할지 많은 고민이 있었는데 <br> 프로젝트를 시작하기에 앞서 체계적으로 초기 설정을 잘 잡아야 원활하게 진행할 수 있다는 점을 느껴서,<br> 앞으로 어떻게 효율적으로 프로젝트를 진행할 수 있는지 배울 수 있어서 좋은 경험이었습니다.<br>그리고, 리액트로 진행하는데 오류도 많이나고 구현하지 못하는 부분도 많이 생겨서 그럴때마다 저희 팀원분들이 옆에서 많은 도움을 주셔서 너무 감사드렸고, 부끄럼없이 끊임없는 질문을 하거나 코드의 오류를 잘 해결하고 리팩토링하는 능력은 지금 제가 많이 부족하다고 생각하는데 저희 팀원분들한테 이 장점들을 많이 배웠던 것 같습니다.<br>또, 프로젝트 기간동안 멘토님께서도 궁금한 점이나 따로 코드리뷰를 해주셨는데, 제 스스로 많은 도움을 받아서 너무 감사했습니다.<br>비록, 한달도 안되는 짧은 시간동안 급하게 프로젝트를 진행하게 되어서 많이 힘드셨을텐데 정말 고생많았고 마지막으로, 저희 팀원분들한테 프로젝트 진행하는동안 항상 감사했다고 말씀드리고 싶습니다. |
-|**🐠유하은**|
-|모든 순간이 배움의 연속이었습니다. <br>배움의 즐거움과 고통이 함께 있었지만 그렇기 때문에 프로젝트 기간 정말 많이 성장할 수 있었던 것 같습니다.<br> 작업을 할 때 문서화와 기본기 그리고 기준의 중요성에 대해 다시 깨닫는 시간이었습니다. 모두가 처음하는 프로젝트로 시행착오도 많았지만 팀원분들과의 협업을 통해 기술적인 부분외에도 많은걸 느끼고 팀원분들의 열정적인 태도에 좋은 자극도 많이 받았습니다.<br> 마지막까지 함께 해주시고 고생하신 21조 팀원분들 모두 감사하고 고생 많으셨습니.   |
-|**🦄박경보**|
-|저는 이번에 처음 진행하는 팀프로젝트여서 모든 과정이 배우는 과정이였구요. 본격적인 작업에 앞서 우선순위를 구분하고 순서대로 작업을 진행하는 것이 가장 중요하다는 것을 알게되었어요. 그리고 원활하게 소통하는 것이 무엇보다 프로젝트에서 정말 중요하구나 하는 것을 몸소 깨닫게 되었습니다. <br> 또 리액트의 경우는 재사용 가능한 공통 컴포넌트부터 먼저 꼭 만들고 나머지 작업을 진행하는 것이 효율적이라는 것도 알게되었습니다. 끝으로 프로젝트 기간 동안 너무 너무 고생 많으셨던 범관님 하은님 상헌님 감사드리구요. 응원과 조언 많이 해주신 저희 회고조분들 강사님들 멘토님들도 너무 감사드립니다!!  |
+**🐯최범관**
+
+문제를 해결하기 위해 끊임없이 소통하면 보다 나은 결과를 얻을 수 있음을 깨달았고, <br>각자의 의견을 나누며 모두가 함께 움직이는 것이 프로젝트의 성공에 필수적이라는 것을 깨닫게 되었습니다.<br> 협업을 통해 함께 성장해 나갈 수 있는 즐거움을 느낄 수 있어 좋았고, 기술적으로나 정신적으로 한 발짝 더 나아갈 수 있는 좋은 경험이었습니다.
+
+**🐱‍💻한상헌**
+
+프론트엔드 팀 프로젝트 자체는 이번 멋사에서 처음해보는 경험이라 처음에 어떻게 갈피를 잡아야할지 많은 고민이 있었는데 <br> 프로젝트를 시작하기에 앞서 체계적으로 초기 설정을 잘 잡아야 원활하게 진행할 수 있다는 점을 느껴서,<br> 앞으로 어떻게 효율적으로 프로젝트를 진행할 수 있는지 배울 수 있어서 좋은 경험이었습니다.<br>그리고, 리액트로 진행하는데 오류도 많이나고 구현하지 못하는 부분도 많이 생겨서 그럴때마다 저희 팀원분들이 옆에서 많은 도움을 주셔서 너무 감사드렸고, 부끄럼없이 끊임없는 질문을 하거나 코드의 오류를 잘 해결하고 리팩토링하는 능력은 지금 제가 많이 부족하다고 생각하는데 저희 팀원분들한테 이 장점들을 많이 배웠던 것 같습니다.<br>또, 프로젝트 기간동안 멘토님께서도 궁금한 점이나 따로 코드리뷰를 해주셨는데, 제 스스로 많은 도움을 받아서 너무 감사했습니다.<br>비록, 한달도 안되는 짧은 시간동안 급하게 프로젝트를 진행하게 되어서 많이 힘드셨을텐데 정말 고생많았고 마지막으로, 저희 팀원분들한테 프로젝트 진행하는동안 항상 감사했다고 말씀드리고 싶습니다.
+
+**🐠유하은**
+
+모든 순간이 배움의 연속이었습니다. <br>배움의 즐거움과 고통이 함께 있었지만 그렇기 때문에 프로젝트 기간 정말 많이 성장할 수 있었던 것 같습니다.<br> 작업을 할 때 문서화와 기본기 그리고 기준의 중요성에 대해 다시 깨닫는 시간이었습니다. 모두가 처음하는 프로젝트로 시행착오도 많았지만 팀원분들과의 협업을 통해 기술적인 부분외에도 많은걸 느끼고 팀원분들의 열정적인 태도에 좋은 자극도 많이 받았습니다.<br> 마지막까지 함께 해주시고 고생하신 21조 팀원분들 모두 감사하고 고생 많으셨습니다.
+
+**🦄박경보**
+
+저는 이번에 처음 진행하는 팀프로젝트여서 모든 과정이 배우는 과정이였습니다. 프로젝트 시작 전에는 어떤 이야기를 나누어야하는지 프로젝트 진행과정은 어떤식으로 이루어지는지 등등 사실 아직 배운 내용을 제대로 소화하지 못했고 실력이 많이 부족해서 UI나 기능을 구현함에 있어서 제 역할을 잘 해냈다고는 생각하지 않지만 그럼에도 불구하고 어쨌든 중간에 포기하지 않고 발표까지 왔다는 것에 대해서 제 자신이 너무 대견하고요. 제가 이렇게 온전한 정신으로 프로젝트 발표까지 마무리할 수 있었던것은 묵묵히 제 역할을 해내준 너무 고생 많으셨던 저희 21조 프로젝트 조원 분들과 항상 응원과 조언 아끼지 않던 회고조 분들 그리고 다소 답답한 질문에도 불편한 내색 없이 아주 자세하고 인내심있게 제 질문내용에 대해서 항상 발벗고 나서서 답해주셨던 김유진 멘토님과 항상 격려 아끼지 않고 도움되는 말씀 많이 해주셨던 강사님들과 멘토님들이 있었기 때문 아닌가 싶습니다.그리고 저희 조원 분이 아니신데도 질문에 정성스럽게 답변 주셨던 분들도 너무 감사드립니다. 모두 감사해요!

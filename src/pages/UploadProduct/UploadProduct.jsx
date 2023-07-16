@@ -3,8 +3,9 @@ import React, { useRef, useState } from "react";
 import iconAlbum from "../../assets/images/icon-image.png";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, ImgPlace, ImgUploadButton, Input, InputLabel, Page } from "./UploadProductStyle";
+import { Button, ImgPlace, ImgUploadButton, InputLabel, Page } from "./UploadProductStyle";
 import Header from "../../components/Header/Header";
+import UserInput from "../../components/UserInput/UserInput";
 
 export default function UploadProduct() {
   const imgPre = useRef(null),
@@ -181,10 +182,10 @@ export default function UploadProduct() {
           </ImgPlace>
 
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />
-          <InputLabel htmlFor="productNameInput">상품명</InputLabel>
-          <Input type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required />
-          <InputLabel htmlFor="productPriceInput">가격</InputLabel>
-          <Input
+          <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required>
+            상품명
+          </UserInput>
+          <UserInput
             type="number"
             onWheel={(e) => {
               // 마우스휠로 값 변경되는 것 방지
@@ -203,9 +204,10 @@ export default function UploadProduct() {
             required
             min={100}
             max={999999999}
-          />
-          <InputLabel htmlFor="productUrlInput">판매 링크</InputLabel>
-          <Input
+          >
+            가격
+          </UserInput>
+          <UserInput
             type="url"
             id="productUrlInput"
             // pattern="//^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?$/;/"
@@ -213,7 +215,9 @@ export default function UploadProduct() {
             onChange={inputValueHandler}
             placeholder="URL을 입력해주세요."
             required
-          />
+          >
+            판매 링크
+          </UserInput>
         </form>
       </Page>
     </>

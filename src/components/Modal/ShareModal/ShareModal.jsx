@@ -110,13 +110,13 @@ export default function ShareModal({ setShareModalOpen }) {
       <ShareModalWrap>
         <h2>공유하기</h2>
         <ShareItemWrap>
-          <FacebookShareButton url={"https://test.com"}>
+          <FacebookShareButton url={currentUrl}>
             <FacebookIcon round={true} />
           </FacebookShareButton>
-          <TwitterShareButton url={"https://test.com"}>
+          <TwitterShareButton url={currentUrl}>
             <TwitterIcon round={true} />
           </TwitterShareButton>
-          <CopyToClipboard text={"https://test.com"}>
+          <CopyToClipboard text={currentUrl}>
             <UrlShareButton>URL</UrlShareButton>
           </CopyToClipboard>
           <KakaoShareButton onClick={handleKakaoButton} tabIndex={0}>

@@ -5,7 +5,7 @@ import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import ShareModal from "../../components/ShareModal/ShareModal";
+import ShareModal from "../../components/Modal/ShareModal/ShareModal";
 import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
 import ProfileHeader from "../../components/Profile/ProfileHeader/ProfileHeader";
 import ProfileProduct from "../../components/Profile/ProfileProduct/ProfileProduct";

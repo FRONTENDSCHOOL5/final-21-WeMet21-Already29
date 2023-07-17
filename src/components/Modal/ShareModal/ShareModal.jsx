@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from "react-share";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
-import KaKaoImage from "../../assets/images/kakao_share.webp";
-import CloseImage from "../../assets/images/Union.png";
-import useScript from "../../hooks/useScript";
+import KaKaoImage from "../../../assets/images/kakao_share.webp";
+import CloseImage from "../../../assets/images/Union.png";
+import useScript from "../../../hooks/useScript";
 
 const CloseButton = styled.button`
   border: 0;

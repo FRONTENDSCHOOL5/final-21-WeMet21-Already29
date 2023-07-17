@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { SignUpContainer, Form, Input, H1, Label } from "./SignUpEmailStyle";
+import { SignUpContainer, Form, H1 } from "./SignUpEmailStyle";
 import BtnStyle from "../../../components/Button/Button";
+import UserInput from "../../../components/UserInput/UserInput"
 
 export default function SignUpEmail({ 
   setPage,
@@ -48,11 +49,14 @@ export default function SignUpEmail({
     });
 
     const json = await postEmailValid.json();
-    console.log(json.message);
 
-    const Msg = json.message;
-    setEmailError(Msg);
-    Msg === "사용 가능한 이메일 입니다." ? setEmailValid(true) : setEmailValid(false);
+    if (json.message === '사용 가능한 이메일 입니다.') {
+      setEmailError('');
+      setEmailValid(true);
+    } else {
+      setEmailError(json.message);
+      setEmailValid(false);
+    }
   };
 
   // 이메일, 비밀번호가 통과되어 유효할 시 
@@ -70,16 +74,15 @@ export default function SignUpEmail({
 
   return (
     <>
-      <SignUpContainer>
+       <SignUpContainer>
         <H1>이메일로 회원가입</H1>
         <Form 
          onSubmit={handleSubmit}>
-          <Label htmlFor='user-email'>이메일</Label>
-          <Input id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} valid={emailValid} alertMsg={setEmailError} onChange={handleEmailInput} onBlur={handleEmailValid} />
-          {emailError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{emailError}</p>}
-          <Label htmlFor='user-password'>비밀번호</Label>
-          <Input id={"user-password"} type={"password"} label={"비밀번호"} placeholder={"비밀번호를 설정해 주세요."} value={password} valid={passwordValid} alertMsg={setPasswordError} onChange={handlePasswordInput} />
-          {passwordError && <p style={{ marginBottom: "3rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{passwordError}</p>}
+          <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleEmailInput} onBlur={handleEmailValid}>이메일</UserInput>
+          {emailError && <p style={{ marginTop: "-0.8rem", marginBottom: "1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{emailError}</p>}
+          <UserInput id={"user-password"} type={"password"} label={"비밀번호"} placeholder={"비밀번호를 설정해 주세요."} value={password} onChange={handlePasswordInput}>비밀번호</UserInput>
+          {passwordError && <p style={{ marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{passwordError}</p>}
+        </Form>
           {emailValid && passwordValid ? (
             <BtnStyle onClick={handleForm} type='submit'>
               다음
@@ -88,7 +91,6 @@ export default function SignUpEmail({
             <BtnStyle onClick={handleForm} type='submit' disabled>
               다음
             </BtnStyle>)}
-        </Form>
       </SignUpContainer>
     </>
   );

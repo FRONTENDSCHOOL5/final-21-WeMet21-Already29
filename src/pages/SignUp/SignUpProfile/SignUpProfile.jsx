@@ -226,11 +226,11 @@ export default function ProfileSettings({ email, password }) {
           <UserInput id={"user-name"} type={"text"} minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required>
             사용자이름
           </UserInput>
-          {nameError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{nameError}</p>}
+          {nameError && <p style={{ marginBottom: "2rem", marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{nameError}</p>}
           <UserInput id={"user-id"} type={"text"} placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."} value={id} valid={idValid} alertMsg={setIdError} onChange={handleIdInput} onBlur={handleIdInput} required>
             계정 ID
           </UserInput>
-          {idError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
+          {idError && <p style={{ marginBottom: "2rem", marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
           <UserInput id={"user-introduce"} type={"text"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required>
             소개
           </UserInput>

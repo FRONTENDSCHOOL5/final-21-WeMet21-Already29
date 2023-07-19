@@ -25,7 +25,6 @@ export const PostSectionHeader = styled.header`
 `;
 
 export const Posts = styled.ul`
-  padding-bottom: 20px;
   ${(props) =>
     props.isAlbum &&
     css`

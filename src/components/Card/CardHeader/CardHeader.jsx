@@ -16,8 +16,8 @@ export default function CardHeader({ image, username, accountname, time, childre
           </h2>
           {accountname && <p>@ {accountname}</p>}
         </div>
-        {children}
       </Link>
+      {children}
     </PostHeader>
   );
 }

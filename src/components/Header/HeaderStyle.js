@@ -13,6 +13,7 @@ export const HeaderUI = styled.header`
   box-sizing: border-box;
   gap: 12px;
   border-bottom: 1px solid var(--line-gray-color);
+  padding-bottom: 10px;
 
   h2 {
     font-size: 1.4rem;
@@ -90,4 +91,3 @@ export const HeaderTextP = styled.p`
   position: relative;
   right: 100px;
 `;
-

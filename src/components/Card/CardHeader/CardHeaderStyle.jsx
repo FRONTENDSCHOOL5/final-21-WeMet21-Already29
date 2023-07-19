@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const PostHeader = styled.header`
   padding: 0 16px;
-  margin-top: 20px;
 
   a {
     display: flex;
@@ -39,5 +38,9 @@ export const PostHeader = styled.header`
       content: "·";
       margin: 0 5px;
     }
+  }
+
+  button {
+    vertical-align: middle;
   }
 `;

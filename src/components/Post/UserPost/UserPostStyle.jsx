@@ -40,26 +40,3 @@ export const PostContent = styled.section`
     border-radius: 10px;
   }
 `;
-
-export const PostMenuWrap = styled.div`
-  margin: 15px 0;
-
-  button {
-    border: 0;
-    padding: 0;
-    background-color: initial;
-  }
-  img {
-    width: 20px;
-  }
-  p {
-    display: inline-block;
-    margin-left: 6px;
-    font-size: 1.4rem;
-    color: var(--gray-color);
-    vertical-align: middle;
-  }
-  .comment-image {
-    margin-left: 12px;
-  }
-`;

@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const PostContent = styled.section`
   padding: 0 20px;
+  margin-bottom: 25px;
+
   .post-text {
     font-size: 1.4rem;
     margin: 16px 0;

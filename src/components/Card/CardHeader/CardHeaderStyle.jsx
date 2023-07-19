@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const PostHeader = styled.header`
   padding: 0 16px;
+  margin-top: 10px;
 
   a {
     display: flex;
@@ -9,7 +10,7 @@ export const PostHeader = styled.header`
     align-items: center;
   }
 
-  img {
+  .profile-image {
     border-radius: 50%;
     width: 36px;
     height: 36px;

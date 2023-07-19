@@ -3,9 +3,11 @@ import styled from "styled-components";
 export const PostHeader = styled.header`
   padding: 0 16px;
   margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
 
   a {
-    display: flex;
+    display: inline-flex;
     gap: 12px;
     align-items: center;
   }
@@ -42,6 +44,7 @@ export const PostHeader = styled.header`
   }
 
   button {
-    vertical-align: middle;
+    vertical-align: top;
+    float: right;
   }
 `;

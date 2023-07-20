@@ -31,7 +31,11 @@ export default function Home() {
 
       <FeedSection>
         {myFeed && myFeed.length === 0 && <EmptyHome />}
-        {myFeed && myFeed.length !== 0 && <UserPost posts={myFeed} />}
+        {myFeed && myFeed.length !== 0 && (
+          <ul>
+            <UserPost posts={myFeed} />
+          </ul>
+        )}
         <div ref={pageEnd}></div>
       </FeedSection>
 

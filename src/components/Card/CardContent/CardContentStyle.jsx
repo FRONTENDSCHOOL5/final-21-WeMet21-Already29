@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const PostContent = styled.section`
+export const PostContent = styled.article`
   padding: 0 20px;
   margin-bottom: 25px;
 

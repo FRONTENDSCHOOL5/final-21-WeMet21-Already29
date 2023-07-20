@@ -11,16 +11,16 @@ function UserPost({ posts, isAlbum }) {
   const [heartCountArray, setheartCountArray] = useState([]);
   const [prevPostLength, setPrevPostLength] = useState(0);
 
-  console.log(prevPostLength);
-
   useEffect(() => {
-    setPrevPostLength((prevNum) => {
-      if (prevNum !== 0) {
-        return posts.length - prevNum;
-      } else {
-        return posts.length;
-      }
-    });
+    // setPrevPostLength((prevNum) => {
+    //   if (prevNum !== 0) {
+    //     return posts.length - prevNum;
+    //   } else {
+    //     return posts.length;
+    //   }
+    // });
+
+    setPrevPostLength(posts.length);
 
     const heartedArr = [...isheartedArray];
     const heartCountArr = [...heartCountArray];

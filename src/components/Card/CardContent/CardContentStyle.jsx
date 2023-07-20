@@ -7,6 +7,7 @@ export const PostContent = styled.article`
   .post-text {
     font-size: 1.4rem;
     margin: 16px 0;
+    line-height: 1.3;
     line-break: anywhere;
   }
   time {
@@ -16,6 +17,8 @@ export const PostContent = styled.article`
   }
   .post-image {
     border-radius: 10px;
+    width: 100%;
+    object-fit: cover;
   }
 `;
 

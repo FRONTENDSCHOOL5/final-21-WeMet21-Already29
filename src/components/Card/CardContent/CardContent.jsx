@@ -36,7 +36,7 @@ export default function CardContent({ post, index, heartHandler, heartCountArray
           {post.image.split(",").map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <img src={item} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} />
+                <img src={item} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} height={390} />
               </SwiperSlide>
             );
           })}

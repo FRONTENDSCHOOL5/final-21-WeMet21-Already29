@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
-import PostHome from "./PostHomeFeed";
 import EmptyHome from "./EmptyHomeFeed";
 import { FeedSection } from "./HomeFeedStyle";
+import UserPost from "../../components/Post/UserPost/UserPost";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 export default function Home() {
   const [myFeed, setMyFeed] = useState(null);
-  console.log(myFeed);
+  const pageEnd = useRef(null);
+  const { getData, page } = useInfiniteScroll("post/feed", pageEnd);
+
+  useEffect(() => {
+    getData(page)
+      .then((res) => res.json())
+      .then((json) =>
+        setMyFeed((prev) => {
+          if (prev) {
+            return [...prev, ...json.posts];
+          } else {
+            return json.posts;
+          }
+        })
+      );
+  }, [page]);
 
   return (
     <>
       <Header type="logo" itemLength={myFeed && myFeed.length} />
 
       <FeedSection>
-        <PostHome myFeed={myFeed} setMyFeed={setMyFeed} />
         {myFeed && myFeed.length === 0 && <EmptyHome />}
+        {myFeed && myFeed.length !== 0 && <UserPost posts={myFeed} />}
+        <div ref={pageEnd}></div>
       </FeedSection>
 
       <Navigation itemLength={myFeed && myFeed.length} />

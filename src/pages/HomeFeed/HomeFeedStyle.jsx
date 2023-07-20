@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-export const FeedSection = styled.section`
+export const FeedSection = styled.main`
   margin-bottom: 80px;
-  padding: 10px 20px 0;
+
+  li {
+    list-style: none;
+  }
 `;

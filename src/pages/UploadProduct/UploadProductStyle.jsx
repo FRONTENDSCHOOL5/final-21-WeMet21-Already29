@@ -25,30 +25,6 @@ const InputLabel = styled.label`
   font-size: 1.2rem;
 `;
 
-const Input = styled.input`
-  width: 100%;
-  padding-bottom: 8px;
-  margin: 10px 0;
-  border: 0;
-  box-shadow: 0 1px 0 0 var(--line-gray-color);
-  outline: none;
-
-  &::placeholder {
-    color: #bdbdbd;
-    font-size: 1.4rem;
-  }
-
-  &:focus {
-    box-shadow: 0 2px 0 0 var(--main-color);
-  }
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
-
 const Button = styled.button`
   background-color: var(--main-color);
   border: 0;
@@ -65,6 +41,8 @@ const Button = styled.button`
 
 const ImgUploadButton = styled.div`
   position: absolute;
+  width: 22px;
+  height: 22px;
   bottom: 12px;
   right: 12px;
   padding: 7px;
@@ -73,4 +51,4 @@ const ImgUploadButton = styled.div`
   cursor: pointer;
 `;
 
-export { Page, ImgPlace, InputLabel, Input, Button, ImgUploadButton };
+export { Page, ImgPlace, InputLabel, Button, ImgUploadButton };

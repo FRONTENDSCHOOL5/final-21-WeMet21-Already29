@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon } from "./SignUpProfileStyle";
+import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfileStyle";
 import { useLocation, useNavigate } from "react-router-dom";
 import BtnStyle from "../../../components/Button/Button";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 import Header from "../../../components/Header/Header";
 import { Button } from "../../UploadProduct/UploadProductStyle";
+import UserInput from "../../../components/UserInput/UserInput";
 
 export default function ProfileSettings({ email, password }) {
   const navigate = useNavigate();
@@ -196,7 +197,7 @@ export default function ProfileSettings({ email, password }) {
     e.preventDefault();
     if (name && id && introduce && idValid) {
       await join(); // 이미지 업로드 및 회원가입 API 요청
-      navigate("/homefeed"); // 페이지 이동
+      navigate("/login"); // 페이지 이동
     }
   };
 
@@ -210,9 +211,8 @@ export default function ProfileSettings({ email, password }) {
         </Header>
       )}
 
-      <ProfileSection>
-        <h2 className="a11y-hidden">프로필 설정</h2>
-        <ProfileTile>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTile>
+      <ProfileSettingForm onSubmit={handleSubmit}>
+        <ProfileTitle className={isModify && "a11y-hidden"}>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
         {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
         <Label htmlFor="file-sync" className="file-sync" onClick={handleImgClick}>
           <ImgUploadBtn>
@@ -222,16 +222,18 @@ export default function ProfileSettings({ email, password }) {
         </Label>
         <UploadInput ref={uploadInputRef} id="profile" type="file" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
 
-        <EditForm onSubmit={handleSubmit} id="profileForm">
-          <Label htmlFor="user-name">사용자이름</Label>
-          <Input id={"user-name"} type={"text"} label={"사용자이름"} minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required />
-          {nameError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{nameError}</p>}
-          <Label htmlFor="user-id">계정 ID</Label>
-          <Input id={"user-id"} type={"text"} label={"계정ID"} placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."} value={id} valid={idValid} alertMsg={setIdError} onChange={handleIdInput} onBlur={handleIdInput} required />
-          {idError && <p style={{ marginBottom: "2rem", marginTop: "-2.4rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
-          <Label htmlFor="user-introduce">소개</Label>
-          <Input id={"user-introduce"} type={"text"} label={"소개"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required />
-
+        <EditForm id="profileForm">
+          <UserInput id={"user-name"} type={"text"} minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required>
+            사용자이름
+          </UserInput>
+          {nameError && <p style={{ marginBottom: "2rem", marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{nameError}</p>}
+          <UserInput id={"user-id"} type={"text"} placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."} value={id} valid={idValid} alertMsg={setIdError} onChange={handleIdInput} onBlur={handleIdInput} required>
+            계정 ID
+          </UserInput>
+          {idError && <p style={{ marginBottom: "2rem", marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
+          <UserInput id={"user-introduce"} type={"text"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required>
+            소개
+          </UserInput>
           {name && id && introduce
             ? !isModify && (
                 <BtnStyle onClick={isModify ? modifyUserProfile : handleForm} type="submit">
@@ -244,7 +246,7 @@ export default function ProfileSettings({ email, password }) {
                 </BtnStyle>
               )}
         </EditForm>
-      </ProfileSection>
+      </ProfileSettingForm>
     </>
   );
 }

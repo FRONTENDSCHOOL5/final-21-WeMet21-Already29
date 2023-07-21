@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import profileImg from "../../assets/images/profileImg.png";
 import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import { Upload, Form, Text, CommnetDiv, SmallDiv, Namediv, VerticalBtn, CommentInput, Label, Img } from "./PostDetailStyle";
+import { Form, Text, VerticalBtn, Img, CommentSection, CommentArticle } from "./PostDetailStyle";
 import Header from "../../components/Header/Header";
 import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import { useParams } from "react-router";
-import { PostMenuWrap, PostContent, PostHeader } from "../../components/Post/UserPost/UserPostStyle";
-import commentImg from "../../assets/images/icon-message-circle.png";
-import heart from "../../assets/images/uil_heart.png";
-import fillHeart from "../../assets/images/uil_fullHeart.png";
+
 import { heartButtonHandler } from "../../utils/heartButtonHandler";
 import { Link, useNavigate } from "react-router-dom";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import { imageErrorHandler, profileImgErrorHandler } from "../../utils/imageErrorHandler";
+import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
+
+import CardHeader from "../../components/Card/CardHeader/CardHeader";
+import CardContent from "../../components/Card/CardContent/CardContent";
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -37,16 +37,14 @@ export default function PostDetail() {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      getData(page)
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(comments);
-          setComments((prev) => {
-            return prev.length === 0 ? json.comments : [...prev, ...json.comments];
-          });
+    getData(page)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(comments);
+        setComments((prev) => {
+          return prev.length === 0 ? json.comments : [...prev, ...json.comments];
         });
-    }, 300);
+      });
   }, [page]);
 
   const addComment = (newComment) => {
@@ -208,7 +206,9 @@ export default function PostDetail() {
                     >
                       게시물 삭제
                     </button>
-                    <Link to={`../modify/${post.id}`}>수정</Link>
+                    <Link to={post && `../modify/${post.id}`} onClick={() => setBottomSheetOpen(false)}>
+                      수정
+                    </Link>
                   </BottomSheet>
                 )
               }
@@ -234,85 +234,43 @@ export default function PostDetail() {
         )}
       </BottomSheetContext.Consumer>
       <main>
-        {post && (
-          <>
-            <PostHeader style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${post.author.accountname}`)}>
-              <img src={post.author.image} alt="게시글 작성자 프로필 사진" onError={profileImgErrorHandler} />
-              <div>
-                <h2>
-                  <span className="a11y-hidden">게시글 작성자 이름</span>
-                  {post.author.username}
-                </h2>
-                <p>@ {post.author.accountname}</p>
-              </div>
-            </PostHeader>
-            <PostContent>
-              <p className="post-text">{post.content}</p>
-              {post.image ? <img src={post.image} className="post-image" alt="게시글 이미지" onError={imageErrorHandler} /> : ""}
-              <PostMenuWrap>
-                <button
-                  type="button"
-                  onClick={() => {
-                    heartHandler(post.id, post.hearted);
-                  }}
-                >
-                  <img src={post.hearted ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
-                </button>
-                <p>
-                  <span className="a11y-hidden">좋아요 : </span>
-                  {post.heartCount}
-                </p>
+        <article>
+          {post && (
+            <>
+              <CardHeader image={post.author.image} username={post.author.username} accountname={post.author.accountname} />
+              <CardContent post={post} heartHandler={heartHandler} />
+            </>
+          )}
+        </article>
 
-                <img src={commentImg} className="comment-image" alt="댓글 이미지" />
-
-                <p>
-                  <span className="a11y-hidden">댓글 : </span>
-                  {post.commentCount}
-                </p>
-              </PostMenuWrap>
-              <time dateTime={post.createdAt.slice(0, 10)}>{post.createdAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
-            </PostContent>
-          </>
-        )}
+        <CommentSection>
+          <h2 className="a11y-hidden">댓글</h2>
+          {comments.length > 0 &&
+            comments.map((comment, index) => (
+              <CommentArticle key={index}>
+                <CardHeader image={comment.author.image} username={comment.author.username} accountname={comment.author.accountname} time={calculateElapsedTime(comment.createdAt)}>
+                  {comment.author.username === username && (
+                    <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
+                      <img src={IconMoreVertical} alt="더보기" width="22" height="22" />
+                    </VerticalBtn>
+                  )}
+                </CardHeader>
+                <Text>{comment.content}</Text>
+              </CommentArticle>
+            ))}
+          <div ref={pageEnd} />
+        </CommentSection>
+        <Form onSubmit={handleCommentSubmit}>
+          {/* <Label htmlFor="file-sync" className="file-sync"></Label>
+            <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden /> */}
+          <Img src={profileImg} alt="profileImg" onError={profileImgErrorHandler} />
+          <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
+          <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
+            게시
+          </button>
+        </Form>
+        {isModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setIsModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
       </main>
-      <Upload>
-        <div>
-          <Form onSubmit={handleCommentSubmit}>
-            <CommnetDiv>
-              {comments.length > 0 &&
-                comments.map((comment, index) => (
-                  <SmallDiv key={index}>
-                    <Namediv>
-                      <Img src={comment.author.image} alt="profileImg" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)} onError={profileImgErrorHandler} />
-                      <p style={{ fontSize: "1.4rem", fontWeight: "500", cursor: "pointer" }} onClick={() => navigate(`/profile/${comment.author.accountname}`)}>
-                        {comment.author.username}
-                      </p>
-                      <p className="time">{calculateElapsedTime(comment.createdAt)}</p>
-                    </Namediv>
-                    {comment.author.username === username && (
-                      <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
-                        <img src={IconMoreVertical} alt="" />
-                      </VerticalBtn>
-                    )}
-                    <Text>{comment.content}</Text>
-                  </SmallDiv>
-                ))}
-              <div ref={pageEnd} />
-            </CommnetDiv>
-
-            <CommentInput>
-              <Label htmlFor="file-sync" className="file-sync"></Label>
-              <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden />
-              <Img src={profileImg} alt="profileImg" onError={profileImgErrorHandler} />
-              <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
-              <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
-                게시
-              </button>
-            </CommentInput>
-            {isModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setIsModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
-          </Form>
-        </div>
-      </Upload>
     </>
   );
 }

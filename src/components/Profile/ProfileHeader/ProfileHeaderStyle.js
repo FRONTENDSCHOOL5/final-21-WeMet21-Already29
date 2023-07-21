@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const ProfileSection = styled.section`
@@ -81,7 +82,7 @@ export const ShareButton = styled.button`
   }
 `;
 
-export const WhiteButton = styled.button`
+export const WhiteButton = styled(Link)`
   border: 0;
   padding: 0;
   width: 12rem;
@@ -90,4 +91,5 @@ export const WhiteButton = styled.button`
   border: 1px solid #767676;
   border-radius: 10px;
   color: var(--gray-color);
+  line-height: 36px;
 `;

@@ -8,10 +8,6 @@ const GlobalStyle = createGlobalStyle`
     font-size: 10px;
   }
 
-  html {
-    font-size: 10px;
-  }
-
   body {
     font-family: 'Noto Sans KR', sans-serif;
   }
@@ -36,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root{
-    width: min(80vw, 390px);
+    width: 390px;
     margin: 0 auto;
     min-height: 100vh;
   }
@@ -54,6 +50,10 @@ const GlobalStyle = createGlobalStyle`
   button {
     all: unset;
     cursor: pointer;
+
+    &:focus{
+      outline: 2px solid #000;
+    }
   }
 
   //텍스트 숨김 처리

@@ -4,14 +4,15 @@ import backImage from "../../assets/images/icon-arrow-left.png";
 import moreImage from "../../assets/images/icon-more-vertical.png";
 import LogoImage from "../../assets/images/Logo.png";
 import { HeaderButton, HeaderInput, HeaderUI, Logo } from "./HeaderStyle";
+import goTop from "../../utils/goTop";
 
-export default function Header({ type, children, setBottomSheetOpen, onChange, value }) {
+export default function Header({ type, children, setBottomSheetOpen, onChange, value, itemLength }) {
   const navigate = useNavigate();
 
   const UI = {
     logo: (
       <HeaderUI>
-        <Logo onClick={() => navigate("/")}>
+        <Logo onClick={() => goTop(itemLength)}>
           <img src={LogoImage} alt="입구팔구" />
         </Logo>
       </HeaderUI>
@@ -49,7 +50,6 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
         {children && <h2>{children}</h2>}
       </HeaderUI>
     ),
-    
     submitHeader: (
       <HeaderUI>
         <HeaderButton onClick={() => navigate(-1)}>

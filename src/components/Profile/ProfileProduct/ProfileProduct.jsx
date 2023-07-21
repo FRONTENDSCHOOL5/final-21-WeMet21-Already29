@@ -23,7 +23,7 @@ export default function ProfileProduct({ userData }) {
 
   useEffect(() => {
     fetchUserProducts();
-  }, []);
+  }, [params]);
 
   return (
     userData &&

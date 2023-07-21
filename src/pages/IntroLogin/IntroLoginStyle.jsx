@@ -1,168 +1,115 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import emailImage from "../../assets/images/mail.png";
+import doubleArrow from "../../assets/images/doubleArrow.svg";
 
 const StyledIntroLoginPage = styled.main`
-  height: 100vh;
-  width: 390px;
-  position: relative;
-  box-shadow: -1px 0 30px -1px #f2f2f2, 1px 0 30px -1px #f2f2f2;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  gap: 25px;
+  font-size: 1.6rem;
+  box-shadow: 1px 1px 10px black;
+  padding: 20px 34px;
+  box-sizing: border-box;
 
-  h1 {
-    position: absolute;
-    width: 127px;
-    height: 30px;
-    left: 34px;
-    top: 187px;
-
-    font-family: "Noto Sans KR";
-    font-style: normal;
+  .title {
+    font-size: 4rem;
     font-weight: 700;
-    font-size: 40px;
-    line-height: 30px;
-
-    display: flex;
-    align-items: flex-end;
+    align-self: flex-start;
+    margin-bottom: 20px;
   }
 
-  .first-p {
-    position: absolute;
-    width: 291px;
-    height: 50px;
-    left: 34px;
-    top: 242px;
-
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 25px;
-
-    display: flex;
-    align-items: flex-end;
-    letter-spacing: -0.1em;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-
-  .second-p {
-    position: absolute;
-    width: 291px;
-    height: 77px;
-    left: 34px;
-    top: 242px;
-
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 350;
-    font-size: 18px;
-    line-height: 25px;
-
-    display: flex;
-    align-items: flex-end;
-    letter-spacing: -0.1em;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-
-  .character-logo {
-    position: absolute;
-    width: 322px;
-    height: 237.74px;
-    left: calc(50% - 322px / 2);
-    top: calc(50% - 237.74px / 2 + 134.87px);
-  }
-
-  .login-join-section {
+  .sub-title {
     width: 100%;
-    position: absolute;
-    bottom: 0;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 63px 4px 84px;
-    background-color: #ffffff;
-  }
-
-  .sns-login-li img {
-    width: 18px;
-    height: 18px;
-    background-image: url("");
-  }
-
-  .sns-login-li {
-    display: flex;
-    justify-content: center;
-  }
-
-  .sns-login-li button {
-    cursor: pointer;
-  }
-
-  .sns-login-li button::before {
-    content: "";
-  }
-
-  .email-login {
-    border: 1px solid #0b0b0b;
-    border-radius: 10px;
-    width: 322px;
-    height: 44px;
-    margin-bottom: 10px;
-    background-position: 10px 8px;
-    cursor: pointer;
-    text-align: center;
-  }
-
-  .email-login:hover {
-    display: block;
-    background-color: rgba(5, 139, 46, 1);
-    color: white;
-  }
-
-  .email-text {
-    text-align: center;
-    margin-left: 10px;
-
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 23px;
-  }
-
-  .login-join-cont {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-
-  .join {
-    font-weight: bold;
-  }
-
-  .emailJoin {
-    text-align: center;
-    margin-left: 10px;
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-  }
-
-  .emailLogin {
-    font-family: "Noto Sans KR";
-    font-style: normal;
+    font-size: 1.8rem;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 23px;
+    line-height: 1.2;
+
+    span {
+      display: block;
+    }
   }
 
-  .emailLogin::after {
-    content: "";
-    width: 1px;
-    margin: 0 12px;
+  img {
+    margin: min(85px, 10vh) 0 10px;
+  }
+
+  .signup-text {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    span {
+      color: var(--gray-color);
+    }
   }
 `;
 
-export default StyledIntroLoginPage;
+const EmailLoginLink = styled(Link)`
+  position: relative;
+  display: block;
+  border: 1px solid #000;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 1.6rem;
+  box-shadow: 1px 1px 3px var(--gray-color);
+  transition: all.1s;
+  transform: translateY(-1px);
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 16px;
+    background-image: url(${emailImage});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-right: 10px;
+    vertical-align: top;
+    transition: all.1s;
+  }
+
+  &:hover {
+    background-color: var(--main-color);
+    color: #fff;
+
+    ::before {
+      filter: invert(100%);
+    }
+  }
+
+  &:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+`;
+
+const EmailSignUpLink = styled(Link)`
+  font-weight: 700;
+  font-size: 1.6rem;
+  vertical-align: middle;
+
+  &::after {
+    content: "";
+    background-image: url(${doubleArrow});
+    background-position: center;
+    display: inline-block;
+    background-size: contain;
+    width: 12px;
+    height: 100%;
+    vertical-align: top;
+    margin-left: 6px;
+    background-repeat: no-repeat;
+    height: 100%;
+    line-height: 1.6rem;
+  }
+`;
+
+export { StyledIntroLoginPage, EmailSignUpLink, EmailLoginLink };

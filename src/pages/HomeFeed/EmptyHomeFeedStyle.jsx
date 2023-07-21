@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
 const EmptyWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  height: 100vh;
+  height: max-content;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 20px;
-`;
-
-const EmptyImg = styled.img`
-  margin: -70px 0 12px 0;
 `;
 
 const EmptyText = styled.h2`
@@ -20,4 +20,4 @@ const EmptyText = styled.h2`
   color: #767676;
 `;
 
-export { EmptyWrapper, EmptyImg ,EmptyText };
+export { EmptyWrapper, EmptyText };

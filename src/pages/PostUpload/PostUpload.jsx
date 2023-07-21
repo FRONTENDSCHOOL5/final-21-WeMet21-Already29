@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
-import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgDiv } from "./PostUploadStyle";
-import profileImg from "../../assets/images/profileImg.svg";
-import uploadFile from "../../assets/images/uploadFile.svg";
+import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgWrapper } from "./PostUploadStyle";
+import uploadFile from "../../assets/images/uploadFile.png";
 import { useParams } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
+import union from "../../assets/images/Union.png";
 
 export default function PostUpload() {
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
   const { id } = useParams();
 
-  // test용 post id (8989의 게시글 중 하나)
-  // const testPostId = "6493b139b2cb20566360443d";
+  const sendImage = image && typeof image === "object" && image.length > 1 ? image.join(",") : image && typeof image === "object" && image.length === 1 ? image[0] : image;
+  console.log(sendImage);
+
   const navigate = useNavigate();
 
   const getPostData = () => {
@@ -28,9 +27,9 @@ export default function PostUpload() {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
+        console.log();
         setPost(json.post.content);
-        setImage(json.post.image && json.post.image);
+        setImage(json.post.image ? json.post.image.split(",") : null);
       });
   };
 
@@ -50,24 +49,20 @@ export default function PostUpload() {
       body: JSON.stringify({
         post: {
           content: post,
-          image: image,
+          image: sendImage,
         },
       }),
     })
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
-
         navigate(`/post/${id}`);
-      });
+      })
+      .catch((e) => console.log(e));
   };
 
   const handleFile = async (event) => {
     const file = event.target.files[0];
-    console.log(file);
-
-    const previewImageUrl = URL.createObjectURL(file);
-    setPreviewImage(previewImageUrl);
 
     const formData = new FormData();
     formData.append("image", file);
@@ -77,9 +72,18 @@ export default function PostUpload() {
         body: formData,
       });
       const data = await response.json();
-      console.log(data.filename);
-      setImage(`https://api.mandarin.weniv.co.kr/${data.filename}`);
-      // setPreviewImage(data);
+      setImage((prev) => {
+        if (prev && typeof prev === "object" && prev.length > 2) {
+          alert("이미지는 3장까지 업로드 가능합니다");
+          return prev;
+        } else if (prev && typeof prev === "object" && prev.length) {
+          return [...prev, `https://api.mandarin.weniv.co.kr/${data.filename}`];
+        } else if (prev) {
+          return [prev, `https://api.mandarin.weniv.co.kr/${data.filename}`];
+        } else if (!prev) {
+          return `https://api.mandarin.weniv.co.kr/${data.filename}`;
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -87,13 +91,14 @@ export default function PostUpload() {
 
   const handleUpload = async () => {
     if (!post) {
-      console.log("내용 또는 이미지를 입력해주세요.");
+      alert("내용을 입력해주세요.");
       return;
     }
+    console.log("실행");
     const body = {
       post: {
         content: post,
-        image: image ? "https://api.mandarin.weniv.co.kr/" + image.filename : null,
+        image: sendImage,
       },
     };
     console.log(body);
@@ -108,6 +113,7 @@ export default function PostUpload() {
       });
       const data = await response.json();
       console.log(data);
+      navigate(`/post/${data.post.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -126,6 +132,16 @@ export default function PostUpload() {
     }
   }, [post]);
 
+  const imageDeleteHandler = (index) => {
+    const imageArrayCopy = [...image];
+    if (typeof index === "number") {
+      imageArrayCopy.splice(index, 1);
+      setImage(imageArrayCopy);
+    } else {
+      setImage(null);
+    }
+  };
+
   return (
     <>
       <Header type="submitHeader" handlePostUpload={handleUpload}>
@@ -135,20 +151,42 @@ export default function PostUpload() {
       </Header>
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>
-        <Img src={profileImg} alt="profileImg" />
-        <Div>
-          <Form>
-            <label htmlFor="txt-sync" className="a11y-hidden">
-              게시글 입력창입니다.
-            </label>
-            <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange} ref={textareaRef}></Textarea>
+
+        <Form>
+          <label htmlFor="txt-sync" className="a11y-hidden">
+            게시글 입력창입니다.
+          </label>
+          <Textarea id="txt-sync" placeholder="게시글 입력하기..." className="upload-txt" value={post} onChange={handleContentChange} ref={textareaRef} maxLength={700}></Textarea>
+          <div>
             <Label htmlFor="file-sync" className="file-sync">
               <img src={uploadFile} alt="uploadFile" />
             </Label>
-            <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
-          </Form>
-          <ImgDiv className="img-container">{image && <img src={image} alt="Uploaded" />}</ImgDiv>
-        </Div>
+          </div>
+          <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
+        </Form>
+        {image && (
+          <>
+            {typeof image === "object" && image.length > 1 ? (
+              image.map((item, index) => {
+                return (
+                  <ImgWrapper key={index}>
+                    <img src={item} alt="게시물 이미지" />
+                    <button type="button" onClick={() => imageDeleteHandler(index)}>
+                      <img src={union} alt="삭제" />
+                    </button>
+                  </ImgWrapper>
+                );
+              })
+            ) : (
+              <ImgWrapper>
+                <img src={image} alt="게시물 이미지" />
+                <button type="button" onClick={() => imageDeleteHandler()}>
+                  <img src={union} alt="삭제" />
+                </button>
+              </ImgWrapper>
+            )}
+          </>
+        )}
       </Upload>
     </>
   );

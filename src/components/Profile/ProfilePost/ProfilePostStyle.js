@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 export const PostSection = styled.section`
   border: 1px solid var(--line-gray-color);
   padding-top: 0;
+  margin-bottom: 60px;
   li {
     list-style: none;
   }
@@ -29,11 +30,13 @@ export const Posts = styled.ul`
     css`
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      padding-bottom: 0;
+      margin: 12px;
       gap: 8px;
       img {
         object-fit: cover;
         height: 110px;
+        width: 100%;
       }
     `};
-  margin-bottom: 90px;
 `;

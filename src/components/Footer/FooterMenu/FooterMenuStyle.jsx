@@ -1,34 +1,37 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const NavWrapper = styled.div`
   position: fixed;
-  width: min(390px, 80vw);
-  height: 60px;
+  width: 390px;
+  height: 6rem;
   bottom: 0;
   display: flex;
   justify-content: space-around;
   -webkit-box-align: center;
   align-items: center;
-  background-color: #fff;
-  border-top: 1px solid rgb(219, 219, 219);
+  background-color: #ffffff;
+  border-top: 1px solid var(--line-gray-color);
+  z-index: 1;
 `;
 
 const NavLink = styled(Link)`
+  width: 8.4rem;
+  height: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-decoration: none;
-  color: #767676;
+  justify-content: center;
+  color: var(--line-gray-color);
 
   &.active {
-    color: #058b2e; /* Apply active color */
+    color: var(--main-color); /* Apply active color */
   }
 `;
 
 const StyledNavText = styled.p`
-  margin-top: 4px;
-  font-size: 10px;
+  margin-top: 0.4rem;
+  font-size: 1rem;
   white-space: nowrap;
 `;
 

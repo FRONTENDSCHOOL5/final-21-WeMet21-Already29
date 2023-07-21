@@ -2,10 +2,13 @@ import styled from "styled-components";
 
 const ProductListSection = styled.section`
   min-height: 100vh;
-  margin-bottom: 90px;
+  padding-bottom: 60px;
+
   li {
     width: 100%;
     font-size: 1.5rem;
+    padding: 0 20px;
+    box-sizing: border-box;
 
     a {
       margin: 10px 0;
@@ -22,7 +25,7 @@ const ProductListSection = styled.section`
     .product-img {
       border-radius: 10px;
       object-fit: cover;
-      width: 200px;
+      width: 150px;
       aspect-ratio: 4/3;
     }
     .product-title {

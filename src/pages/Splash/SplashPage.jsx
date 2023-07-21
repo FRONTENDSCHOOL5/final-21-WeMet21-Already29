@@ -1,12 +1,18 @@
 import React from "react";
 import mainLogo from "../../assets/images/main-logo.png";
-import footerLogo from "../../assets/images/splash-footer.png";
-import StyledSplashPage from "./SplashStyle";
+import bigEarth from "../../assets/images/bigEarth.png";
+
+import { StyledSplashPage, EarthImageWrap, LogoImageWrap } from "./SplashStyle";
 
 const SplashPage = () => (
   <StyledSplashPage>
-    <img src={mainLogo} alt="mainLogo" className="main-logo" />
-    <img src={footerLogo} alt="footerLogo" className="earth-image" />
+    <LogoImageWrap>
+      <img src={mainLogo} alt="mainLogo" className="main-logo" />
+    </LogoImageWrap>
+    <EarthImageWrap>
+      <div className="walk-mascot" />
+      <img src={bigEarth} alt="footerLogo" className="earth-image" />
+    </EarthImageWrap>
   </StyledSplashPage>
 );
 

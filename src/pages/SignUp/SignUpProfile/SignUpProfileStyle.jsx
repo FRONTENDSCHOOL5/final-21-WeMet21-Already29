@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const ProfileSection = styled.section`
+export const ProfileSettingForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
-export const ProfileTile = styled.section`
+export const ProfileTitle = styled.h1`
   margin-top: 4rem;
   font-size: var(--font-lg-size);
 `;
@@ -44,7 +44,7 @@ export const ImgIcon = styled.img`
 
 export const UploadInput = styled.input``;
 
-export const EditForm = styled.form`
+export const EditForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;

@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Loginh1, LoginForm, NavStyle, FormBox } from "./LoginStyle";
 import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
-import BtnStyle from "../../components/Button/Button";
+import Btn from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
 
 export default function Login() {
-
   const [userEmail, setUserEmail] = useState(""),
-        [userPassword, setUserPassword] = useState("");
-  const [warningMessage, setWarningMessage] = useState(""); 
-  const [emailWarining, setEmailWarining] = useState(""); 
-  const [passwordWarining, setPasswordWarining] = useState(""); 
+    [userPassword, setUserPassword] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
+  const [emailWarining, setEmailWarining] = useState("");
+  const [passwordWarining, setPasswordWarining] = useState("");
 
   const navigate = useNavigate();
 
@@ -72,20 +71,69 @@ export default function Login() {
     <>
       <FormBox>
         <Loginh1>로그인</Loginh1>
-        <LoginForm onSubmit={submitHandler}>
-          <UserInput type="email" id="user-email" onChange={inputHandler} value={userEmail} >이메일</UserInput>
-          <p style={{ color: "red", fontSize: "1.2rem", margin: " -1rem 0 3rem" }}>{emailWarining}</p>
-          <UserInput type="password" id="user-password" onChange={inputHandler} value={userPassword}>비밀번호</UserInput>
-          <p style={{ color: "red", fontSize: "1.2rem", margin: " -1rem 0 3rem" }}>{passwordWarining}</p>
-          <div style={{height:"2rem"}}>
-           <p style={{ color: "red", fontSize: "1.2rem", textAlign:"center"}}>{warningMessage}</p>
+        <h2 className="a11y-hidden">로그인</h2>
+        <LoginForm>
+          <UserInput
+            type="email"
+            id="user-email"
+            onChange={inputHandler}
+            value={userEmail}
+          >
+            이메일
+          </UserInput>
+          <p
+            style={{
+              color: "red",
+              fontSize: "1.2rem",
+              margin: " -1rem 0 3rem",
+            }}
+          >
+            {emailWarining}
+          </p>
+          <UserInput
+            type="password"
+            id="user-password"
+            onChange={inputHandler}
+            value={userPassword}
+          >
+            비밀번호
+          </UserInput>
+          <p
+            style={{
+              color: "red",
+              fontSize: "1.2rem",
+              margin: " -1rem 0 3rem",
+            }}
+          >
+            {passwordWarining}
+          </p>
+          <div style={{ height: "2rem" }}>
+            <p
+              style={{ color: "red", fontSize: "1.2rem", textAlign: "center" }}
+            >
+              {warningMessage}
+            </p>
           </div>
           {userEmail && userPassword && !emailWarining && !passwordWarining ? (
-            <BtnStyle type="submit" >
-              로그인
-            </BtnStyle>
+            <Btn
+              type="submit"
+              content="로그인"
+              width="L"
+              // size="s"
+              bgColor="active"
+              onClick={submitHandler}
+            ></Btn>
           ) : (
-            <BtnStyle type="submit" disabled >로그인</BtnStyle>
+            <Btn
+              type="submit"
+              content="로그인"
+              width="L"
+              // size="s"
+              bgColor="inactive"
+              disabled="disabled"
+            >
+              로그인
+            </Btn>
           )}
         </LoginForm>
         <NavStyle to={"/signup"}>이메일로 회원가입하기</NavStyle>

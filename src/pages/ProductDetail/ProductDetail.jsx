@@ -8,7 +8,8 @@ import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import { imageErrorHandler, profileImgErrorHandler } from "../../utils/imageErrorHandler";
+import { imageErrorHandler } from "../../utils/imageErrorHandler";
+import CardHeader from "../../components/Card/CardHeader/CardHeader";
 
 export default function ProductDetail() {
   const param = useParams();
@@ -72,13 +73,7 @@ export default function ProductDetail() {
           </ProductDetailSection>
 
           <AuthorInfo>
-            <Link to={`/profile/${productAuthor.accountname}`}>
-              <img src={productAuthor.image} alt="상점 프로필 사진" onError={profileImgErrorHandler} />
-              <div>
-                <p>{productAuthor.username}</p>
-                <p>@ {productAuthor.accountname}</p>
-              </div>
-            </Link>
+            <CardHeader image={productAuthor.image} username={productAuthor.username} accountname={productAuthor.accountname} />
           </AuthorInfo>
 
           <BottomSheetContext.Consumer>

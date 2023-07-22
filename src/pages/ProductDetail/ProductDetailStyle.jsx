@@ -49,10 +49,8 @@ const ProductDetailSection = styled.section`
 `;
 
 const AuthorInfo = styled.section`
-  padding: 23px 15px 24px;
+  padding: 10px 0 20px;
   width: 100%;
-  display: flex;
-  align-items: center;
   font-size: 1.6rem;
   position: fixed;
   width: 390px;
@@ -61,28 +59,6 @@ const AuthorInfo = styled.section`
   background-color: var(--white-color);
   border-top: 1px solid var(--line-gray-color);
   box-sizing: border-box;
-
-  img {
-    width: 50px;
-    border-radius: 50%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-  }
-  a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  a p + p {
-    font-size: 1.2rem;
-    color: var(--gray-color);
-    margin-top: 5px;
-  }
-
-  button {
-    margin-left: auto;
-    cursor: pointer;
-  }
 `;
 
 export { ProductImage, ProductPage, AuthorInfo, ProductImageWrapper, ProductPrice, ProductTitle, ProductDetailSection };

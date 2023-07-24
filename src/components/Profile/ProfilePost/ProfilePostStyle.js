@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 export const PostSection = styled.section`
   border: 1px solid var(--line-gray-color);
   padding-top: 0;
-  margin-bottom: 60px;
+  padding-bottom: 60px;
   li {
     list-style: none;
   }

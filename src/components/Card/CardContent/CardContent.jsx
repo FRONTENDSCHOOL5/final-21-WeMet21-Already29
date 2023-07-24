@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import comment from "../../../assets/images/icon-message-circle.png";
 import heart from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
@@ -14,7 +14,23 @@ SwiperCore.use([Pagination]);
 export default function CardContent({ post, index, heartHandler, heartCountArray, isheartedArray }) {
   const navigator = useNavigate();
   const isPostFeed = heartHandler && heartCountArray && isheartedArray;
+  const [postHeart, setPostHeart] = useState(false);
+  const [heartCount, setCount] = useState(0);
   console.log(post);
+
+  useEffect(() => {
+    setPostHeart(post.hearted);
+    setCount(post.heartCount);
+  }, [post]);
+
+  const heartCountHanlder = () => {
+    if (postHeart) {
+      setCount((prev) => prev - 1);
+    } else {
+      setCount((prev) => prev + 1);
+    }
+  };
+
   return (
     <PostContent>
       <p
@@ -72,14 +88,16 @@ export default function CardContent({ post, index, heartHandler, heartCountArray
           <button
             type="button"
             onClick={() => {
-              heartHandler(post.id, post.hearted);
+              heartHandler(post.id, postHeart);
+              setPostHeart((prev) => !prev);
+              heartCountHanlder();
             }}
           >
-            <img src={post.hearted ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
+            <img src={postHeart ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
           </button>
           <p>
             <span className="a11y-hidden">좋아요 : </span>
-            {post.heartCount}
+            {heartCount}
           </p>
 
           <Link to={`/post/${post.id}`}>

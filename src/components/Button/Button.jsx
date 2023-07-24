@@ -1,13 +1,17 @@
 import React from "react";
-import BtnStyle from  "./ButtonStyle"
+import { StyleButton, ProfileNav, ProfileUna } from "./ButtonStyle";
 
-const Button = (props) => {
-  const { type } = props;
-  return (
-    <BtnStyle type={type ? type : 'button'} {...props}>
-      {props.children}
-    </BtnStyle>
-  );
-};
+export default function Button({ category, type, width, height, disabled, children, ...props }) {
+  console.log(props);
+  const button = {
+    basic: (
+      <StyleButton type={type} width={width} height={height} disabled={disabled} {...props}>
+        {children}
+      </StyleButton>
+    ),
+    white: <ProfileUna>언팔로우</ProfileUna>,
+    profileNav: <ProfileNav to="hello">{children}</ProfileNav>,
+  };
 
-export default Button;
+  return button[category];
+}

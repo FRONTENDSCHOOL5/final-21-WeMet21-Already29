@@ -1,33 +1,40 @@
-import styled, { css } from 'styled-components';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-const BtnStyle = styled.button`
-  width: ${(props) => props.width || '32.2rem'};
-  height: ${(props) => props.height || '4.4rem'};
-  margin: ${(props) => props.margin || '0px auto'};
-  color: ${(props) => props.color || 'var(--white-color)'};
-  background: ${(props) => props.bgColor || 'var(--main-color)'};
-  font-size: ${(props) => props.fontSize || '1.4rem'};
-  font-weight: ${(props) => props.fontWeight || '500'};
-  border-radius: ${(props) => props.borderRadius || '1rem'};
-  border: ${(props) => props.border || 'none'};
+const Button = styled.button`
+  width: ${(props) => props.width || "100%"};
+  height: ${(props) => props.height || "44px"};
+  border-radius: 10px;
+  font-size: 1.4rem;
+  box-sizing: border-box;
   text-align: center;
-  cursor: pointer;
+  color: var(--white-color);
 
-  ${(props) =>
-    props.disabled &&
-    css`
-      background-color: var(--unactive-color);
-      cursor: default;
-    `};
-
-  ${(props) =>
-    props.active &&
-    css`
-      background-color: var(--white-color);
-      color: var(--gray-color);
-      border: 1px solid var(--gray-color);
-      cursor: pointer;
-    `};
+  &:disabled {
+    background-color: var(--unactive-color);
+  }
 `;
 
-export default BtnStyle;
+const StyleButton = styled(Button)`
+  background-color: var(--main-color);
+`;
+
+const ProfileUna = styled(Button)`
+  width: 120px;
+  padding: 10px 0;
+  border: 1px solid var(--gray-color);
+  color: var(--gray-color);
+`;
+
+const ProfileNav = styled(Link)`
+  display: inline-block;
+  text-align: center;
+  width: 12rem;
+  padding: 10px 0;
+  border: 1px solid var(--gray-color);
+  border-radius: 10px;
+  color: var(--gray-color);
+  font-size: 1.4rem;
+`;
+
+export { StyleButton, ProfileNav, ProfileUna };

@@ -1,20 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import fetchApi from "../../utils/fetchApi";
 import { FollowList, FollowListItem } from "./FollowerListStyle";
+import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
+import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import TabMenu from "../../components/Footer/FooterMenu/FooterMenu";
-import FollowItem from "../../components/FollowItem/FollowItem";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useRef } from "react";
 
-export default function FollowerList({ type, followType }) {
+export default function FollowerList({ isfollow, followType }) {
   const params = useParams();
   const accountname = params.id;
   const [followerList, setFollowerList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
   const pageType = followType.replace("List", "");
+  const [followState, setFollowState] = useState([]);
   const pageEnd = useRef(null);
-  const { getData, page } = useInfiniteScroll(`profile/${accountname}/${pageType}`, pageEnd);
+  const token = localStorage.getItem("token");
+  const { getData, page } = useInfiniteScroll(
+    `profile/${accountname}/${pageType}`,
+    pageEnd
+  );
+
+  const followArrayHandler = () => {
+    const arr = [];
+    if (pageType === "following") {
+      followingList.map((item) => {
+        arr.push(item.isfollow);
+      });
+    } else {
+      followerList.map((item) => {
+        arr.push(item.isfollow);
+      });
+    }
+    setFollowState(arr);
+  };
+
+  const followButtonHandler = (index) => {
+    const arr = [...followState];
+    arr[index] = !arr[index];
+    setFollowState(arr);
+  };
+
+  const Follow = (targetAccount) => {
+    try {
+      fetchApi(`profile/${targetAccount}/follow`, "POST");;
+    } catch (err) {
+      console.error("에러!", err);
+    }
+  };
+
+  const UnFollow = (targetAccount) => {
+    try {
+      fetchApi(`profile/${targetAccount}/unfollow`, "DELETE");
+    } catch (err) {
+      console.error("에러!", err);
+    }
+  };
 
   useEffect(() => {
     getData(page)
@@ -45,6 +88,7 @@ export default function FollowerList({ type, followType }) {
             break;
         }
       });
+    followArrayHandler();
   }, [page]);
 
   const followTypeUI = {
@@ -55,7 +99,28 @@ export default function FollowerList({ type, followType }) {
           {followerList.map((follower, index) => {
             return (
               <FollowListItem key={index}>
-                <FollowItem username={follower.username} intro={follower.intro} image={follower.image} accountname={follower.accountname} isfollow={follower.isfollow} />
+                <CardHeader
+                  image={follower.image}
+                  username={follower.username}
+                  accountname={follower.accountname}
+                />
+                <Button
+                  category={followState[index] ? "white" : "basic"}
+                  type="button"
+                  width="5.6rem"
+                  height="2.8rem"
+                  fontSize="1.2rem"
+                  onClick={() => {
+                    if (followState[index]) {
+                      UnFollow(follower.accountname);
+                    } else {
+                      Follow(follower.accountname);
+                    }
+                    followButtonHandler(index);
+                  }}
+                >
+                  {followState[index] ? "취소" : "팔로우"}
+                </Button>
               </FollowListItem>
             );
           })}
@@ -72,7 +137,30 @@ export default function FollowerList({ type, followType }) {
           {followingList.map((following, index) => {
             return (
               <FollowListItem key={index}>
-                <FollowItem username={following.username} intro={following.intro} image={following.image} accountname={following.accountname} isfollow={following.isfollow} />
+                <CardHeader
+                  image={following.image}
+                  username={following.username}
+                  accountname={following.accountname}
+                ></CardHeader>
+                {following.accountname !== accountname && (
+                  <Button
+                    category={followState[index] ? "white" : "basic"}
+                    type="button"
+                    width="5.6rem"
+                    height="2.8rem"
+                    fontSize="1.2rem"
+                    onClick={() => {
+                      if (followState[index]) {
+                        UnFollow(following.accountname);
+                      } else {
+                        Follow(following.accountname);
+                      }
+                      followButtonHandler(index);
+                    }}
+                  >
+                    {followState[index] ? "취소" : "팔로우"}
+                  </Button>
+                )}
               </FollowListItem>
             );
           })}

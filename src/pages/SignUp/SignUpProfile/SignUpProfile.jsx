@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ProfileSection, ProfileTile, ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Input, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfileStyle";
+import {
+  ProfileInfo,
+  ImgUploadBtn,
+  UploadInput,
+  EditForm,
+  Label,
+  Img,
+  ImgIcon,
+  ProfileSettingForm,
+  ProfileTitle,
+} from "./SignUpProfileStyle";
 import { useLocation, useNavigate } from "react-router-dom";
-import BtnStyle from "../../../components/Button/Button";
+import Button from "../../../components/Button/Button";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 import Header from "../../../components/Header/Header";
-import { Button } from "../../UploadProduct/UploadProductStyle";
 import UserInput from "../../../components/UserInput/UserInput";
 
 export default function ProfileSettings({ email, password }) {
@@ -92,10 +101,13 @@ export default function ProfileSettings({ email, password }) {
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const response = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://api.mandarin.weniv.co.kr/image/uploadfile",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await response.json();
 
       console.log(data);
@@ -129,17 +141,20 @@ export default function ProfileSettings({ email, password }) {
       setIdValid(true);
       setId(value);
       try {
-        const postIdValid = await fetch(`https://api.mandarin.weniv.co.kr/user/accountnamevalid`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: {
-              accountname: value,
+        const postIdValid = await fetch(
+          `https://api.mandarin.weniv.co.kr/user/accountnamevalid`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          }),
-        });
+            body: JSON.stringify({
+              user: {
+                accountname: value,
+              },
+            }),
+          }
+        );
         const json = await postIdValid.json();
         console.log(json);
       } catch (error) {
@@ -205,45 +220,119 @@ export default function ProfileSettings({ email, password }) {
     <>
       {isModify && (
         <Header type="submitHeader">
-          <Button onClick={() => modifyUserProfile()} disabled={name && id && introduce ? false : true} form="profileForm">
+          <Button
+            onClick={() => modifyUserProfile()}
+            disabled={name && id && introduce ? false : true}
+            form="profileForm"
+          >
             저장
           </Button>
         </Header>
       )}
 
       <ProfileSettingForm onSubmit={handleSubmit}>
-        <ProfileTitle className={isModify && "a11y-hidden"}>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
-        {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
-        <Label htmlFor="file-sync" className="file-sync" onClick={handleImgClick}>
+        <ProfileTitle className={isModify && "a11y-hidden"}>
+          {isModify ? "프로필 수정" : "프로필 설정"}
+        </ProfileTitle>
+        {!isModify && (
+          <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>
+        )}
+        <Label
+          htmlFor="file-sync"
+          className="file-sync"
+          onClick={handleImgClick}
+        >
           <ImgUploadBtn>
             <Img src={imageUrl || image} alt="uploadFile" />
             <ImgIcon src={uploadIcon} alt="업로드아이콘" />
           </ImgUploadBtn>
         </Label>
-        <UploadInput ref={uploadInputRef} id="profile" type="file" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
+        <UploadInput
+          ref={uploadInputRef}
+          id="profile"
+          type="file"
+          accept=".png, .jpg, .jpeg"
+          multiple
+          hidden
+          onChange={handleFile}
+        />
 
         <EditForm id="profileForm">
-          <UserInput id={"user-name"} type={"text"} minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required>
+          <UserInput
+            id={"user-name"}
+            type={"text"}
+            minLength={2}
+            maxLength={10}
+            placeholder={"2~10자 이내여야 합니다."}
+            value={name}
+            alertMsg={setNameError}
+            onChange={handleNameInput}
+            onBlur={handleNameInput}
+            required
+          >
             사용자이름
           </UserInput>
-          {nameError && <p style={{ marginBottom: "2rem", marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{nameError}</p>}
-          <UserInput id={"user-id"} type={"text"} placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."} value={id} valid={idValid} alertMsg={setIdError} onChange={handleIdInput} onBlur={handleIdInput} required>
+          {nameError && (
+            <p
+              style={{
+                marginBottom: "2rem",
+                marginTop: "-1rem",
+                fontSize: "1.2rem",
+                color: "var(--font-red-color)",
+              }}
+            >
+              {nameError}
+            </p>
+          )}
+          <UserInput
+            id={"user-id"}
+            type={"text"}
+            placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."}
+            value={id}
+            valid={idValid}
+            alertMsg={setIdError}
+            onChange={handleIdInput}
+            onBlur={handleIdInput}
+            required
+          >
             계정 ID
           </UserInput>
-          {idError && <p style={{ marginBottom: "2rem", marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{idError}</p>}
-          <UserInput id={"user-introduce"} type={"text"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required>
+          {idError && (
+            <p
+              style={{
+                marginBottom: "2rem",
+                marginTop: "-1rem",
+                fontSize: "1.2rem",
+                color: "var(--font-red-color)",
+              }}
+            >
+              {idError}
+            </p>
+          )}
+          <UserInput
+            id={"user-introduce"}
+            type={"text"}
+            placeholder={"좋아하는 브랜드와 룩을 알려주세요."}
+            value={introduce}
+            onChange={handleIntroduceInput}
+            required
+          >
             소개
           </UserInput>
           {name && id && introduce
             ? !isModify && (
-                <BtnStyle onClick={isModify ? modifyUserProfile : handleForm} type="submit">
+                <Button
+                  category="basic"
+                  type="submit"
+                  onClick={isModify ? modifyUserProfile : handleForm}
+                >
                   입9팔9 즐기러 가기
-                </BtnStyle>
+                </Button>
               )
             : !isModify && (
-                <BtnStyle type="submit" disabled>
+                <Button category="basic" type="submit" disabled="disabled">
                   입9팔9 즐기러 가기
-                </BtnStyle>
+                </Button>
               )}
         </EditForm>
       </ProfileSettingForm>

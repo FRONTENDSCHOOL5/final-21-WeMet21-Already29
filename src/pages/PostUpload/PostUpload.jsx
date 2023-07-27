@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
-import { Upload, Form, UploadInput, Img, Label, Textarea, Div, ImgWrapper } from "./PostUploadStyle";
+import {Upload, Form, UploadInput, Label, Textarea, ImgWrapper} from "./PostUploadStyle";
 import uploadFile from "../../assets/images/uploadFile.png";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import union from "../../assets/images/Union.png";
 
 export default function PostUpload() {
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
-  const { id } = useParams();
+  const {id} = useParams();
 
   const sendImage = image && typeof image === "object" && image.length > 1 ? image.join(",") : image && typeof image === "object" && image.length === 1 ? image[0] : image;
   console.log(sendImage);
@@ -145,9 +145,15 @@ export default function PostUpload() {
   return (
     <>
       <Header type="submitHeader" handlePostUpload={handleUpload}>
-        <Button width="12rem" height="3.4rem" margin="0" type="submit" onClick={id ? modifyPostHandler : handleUpload}>
-          업로드
-        </Button>
+        {post || image ? (
+          <Button category="basic" width="9rem" height="3.2rem" type="submit" onClick={id ? modifyPostHandler : handleUpload}>
+            업로드
+          </Button>
+        ) : (
+          <Button category="basic" width="9rem" height="3.2rem" type="submit" disabled="disabled">
+            업로드
+          </Button>
+        )}
       </Header>
       <Upload>
         <h2 className="a11y-hidden">게시글 작성</h2>

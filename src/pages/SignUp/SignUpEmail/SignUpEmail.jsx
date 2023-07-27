@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { SignUpContainer, Form, H1 } from "./SignUpEmailStyle";
-import BtnStyle from "../../../components/Button/Button";
-import UserInput from "../../../components/UserInput/UserInput"
+import Button from "../../../components/Button/Button";
+import UserInput from "../../../components/UserInput/UserInput";
 
-export default function SignUpEmail({ 
+export default function SignUpEmail({
   setPage,
   email,
   setEmail,
   password,
-  setPassword,}) {
+  setPassword,
+}) {
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(true);
   const [emailError, setEmailError] = useState("");
@@ -36,22 +37,25 @@ export default function SignUpEmail({
   const handleEmailValid = async (event) => {
     const value = event.target.value;
 
-    const postEmailValid = await fetch(`https://api.mandarin.weniv.co.kr/user/emailvalid`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          email: value,
+    const postEmailValid = await fetch(
+      `https://api.mandarin.weniv.co.kr/user/emailvalid`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
+        body: JSON.stringify({
+          user: {
+            email: value,
+          },
+        }),
+      }
+    );
 
     const json = await postEmailValid.json();
 
-    if (json.message === '사용 가능한 이메일 입니다.') {
-      setEmailError('');
+    if (json.message === "사용 가능한 이메일 입니다.") {
+      setEmailError("");
       setEmailValid(true);
     } else {
       setEmailError(json.message);
@@ -59,7 +63,7 @@ export default function SignUpEmail({
     }
   };
 
-  // 이메일, 비밀번호가 통과되어 유효할 시 
+  // 이메일, 비밀번호가 통과되어 유효할 시
   const handleSubmit = (event) => {
     event.preventDefault();
     if (emailValid && passwordValid) {
@@ -68,29 +72,74 @@ export default function SignUpEmail({
 
   // 기존페이지에서 넘어가도록 지정
   const handleForm = (e) => {
-    e.preventDefault(); 
-    setPage('SignUpProfile');
+    e.preventDefault();
+    setPage("SignUpProfile");
   };
 
   return (
     <>
-       <SignUpContainer>
+      <SignUpContainer>
         <H1>이메일로 회원가입</H1>
-        <Form 
-         onSubmit={handleSubmit}>
-          <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleEmailInput} onBlur={handleEmailValid}>이메일</UserInput>
-          {emailError && <p style={{ marginTop: "-0.8rem", marginBottom: "1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{emailError}</p>}
-          <UserInput id={"user-password"} type={"password"} label={"비밀번호"} placeholder={"비밀번호를 설정해 주세요."} value={password} onChange={handlePasswordInput}>비밀번호</UserInput>
-          {passwordError && <p style={{ marginTop: "-1rem", fontSize: "1.2rem", color: "var(--font-red-color)" }}>{passwordError}</p>}
+        <Form onSubmit={handleSubmit}>
+          <UserInput
+            id={"user-email"}
+            type={"email"}
+            label={"이메일"}
+            placeholder={"이메일 주소를 입력해 주세요."}
+            value={email}
+            onChange={handleEmailInput}
+            onBlur={handleEmailValid}
+          >
+            이메일
+          </UserInput>
+          {emailError && (
+            <p
+              style={{
+                marginTop: "-0.8rem",
+                marginBottom: "1rem",
+                fontSize: "1.2rem",
+                color: "var(--font-red-color)",
+              }}
+            >
+              {emailError}
+            </p>
+          )}
+          <UserInput
+            id={"user-password"}
+            type={"password"}
+            label={"비밀번호"}
+            placeholder={"비밀번호를 설정해 주세요."}
+            value={password}
+            onChange={handlePasswordInput}
+          >
+            비밀번호
+          </UserInput>
+          {passwordError && (
+            <p
+              style={{
+                marginTop: "-1rem",
+                fontSize: "1.2rem",
+                color: "var(--font-red-color)",
+              }}
+            >
+              {passwordError}
+            </p>
+          )}
         </Form>
-          {emailValid && passwordValid ? (
-            <BtnStyle onClick={handleForm} type='submit'>
-              다음
-            </BtnStyle>
-          ) : (
-            <BtnStyle onClick={handleForm} type='submit' disabled>
-              다음
-            </BtnStyle>)}
+        {emailValid && passwordValid ? (
+          <Button category="basic" type="submit" onClick={handleForm}>
+            다음
+          </Button>
+        ) : (
+          <Button
+            category="basic"
+            type="submit"
+            disabled="disabled"
+            onClick={handleForm}
+          >
+            다음
+          </Button>
+        )}
       </SignUpContainer>
     </>
   );

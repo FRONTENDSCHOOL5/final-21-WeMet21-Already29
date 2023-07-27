@@ -11,8 +11,10 @@ export default function Error({ children, img }) {
   return (
     <Page>
       <img src={img ? img : error404} alt="" />
-      {children ? children : "페이지를 찾을 수 없습니다 :("}
-      <Button onClick={() => navigator(-1)}>이전 페이지</Button>
+      {children || "페이지를 찾을 수 없습니다 :("}
+      <Button category="basic" width="80%" onClick={() => navigator(-1)}>
+        이전 페이지
+      </Button>
     </Page>
   );
 }

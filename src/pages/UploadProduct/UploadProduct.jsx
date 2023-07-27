@@ -1,15 +1,14 @@
 import React, { useRef, useState } from "react";
-
 import iconAlbum from "../../assets/images/icon-image.png";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, ImgPlace, ImgUploadButton, InputLabel, Page } from "./UploadProductStyle";
+import { ImgPlace, ImgUploadButton, InputLabel, Page } from "./UploadProductStyle";
 import Header from "../../components/Header/Header";
 import UserInput from "../../components/UserInput/UserInput";
+import Button from "../../components/Button/Button";
 
 export default function UploadProduct() {
-  const imgPre = useRef(null),
-    submitBtn = useRef(null);
+  const imgPre = useRef(null);
 
   const [productTitle, setProductTitle] = useState(""),
     [productPrice, setProductPrice] = useState(""),
@@ -29,7 +28,7 @@ export default function UploadProduct() {
     if (param.id === undefined) {
       setIsModify(false);
     }
-  });
+  }, []);
 
   useEffect(() => {
     // 상품 수정이라면 처음 실행시 상품 정보 인풋창으로 불러오기
@@ -56,7 +55,7 @@ export default function UploadProduct() {
       setProductLink("");
       setproductImageUrl("");
     };
-  }, [isModify]);
+  }, [isModify, param.id]);
 
   const inputValueHandler = (e) => {
     switch (e.target.type) {
@@ -154,23 +153,25 @@ export default function UploadProduct() {
     }
   };
 
+  const [btnDisable, setBtnDisable] = useState(false);
+
   useEffect(() => {
     if (productTitle && productPrice && productLink) {
-      submitBtn.current.disabled = false;
+      setBtnDisable(false);
     } else {
-      submitBtn.current.disabled = true;
+      setBtnDisable(true);
     }
   }, [productTitle, productLink, productPrice, productImage]);
 
   return (
     <>
       <Header type="submitHeader">
-        <Button type="submit" form="abc" ref={submitBtn}>
+        <Button category="basic" width="90px" height="32px" form="product" disabled={btnDisable}>
           저장
         </Button>
       </Header>
       <Page>
-        <form id="abc" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
+        <form id="product" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
           <span>이미지 등록</span>
           <ImgPlace>
             <InputLabel htmlFor="productImg">

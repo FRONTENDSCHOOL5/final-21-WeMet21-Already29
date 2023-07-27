@@ -72,15 +72,21 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
         <ProfileNavBar>
           {localStorage.getItem("accountname") === userData.accountname ? (
             <>
-              <WhiteButton to={`modify`}>프로필 수정</WhiteButton>
-              <WhiteButton to="/product/upload">상품 등록</WhiteButton>
+              <Button category="profileNav" to="modify">
+                프로필 수정
+              </Button>
+              <Button category="profileNav" to="/product/upload">
+                상품 등록
+              </Button>
             </>
           ) : (
             <>
               {isfollow ? (
-                <WhiteButton onClick={followUphandler}>언팔로우</WhiteButton>
+                <Button category="white" height="3.4rem" onClick={followUphandler}>
+                  언팔로우
+                </Button>
               ) : (
-                <Button type="button" onClick={followUphandler} width="12rem" height="3.4rem">
+                <Button category="basic" type="button" onClick={followUphandler} width="12rem" height="3.4rem">
                   팔로우
                 </Button>
               )}

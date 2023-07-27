@@ -25,20 +25,6 @@ const InputLabel = styled.label`
   font-size: 1.2rem;
 `;
 
-const Button = styled.button`
-  background-color: var(--main-color);
-  border: 0;
-  color: #fff;
-  font-size: 1.4rem;
-  padding: 7px 32px;
-  border-radius: 32px;
-  cursor: pointer;
-
-  &:disabled {
-    background-color: var(--unactive-color);
-  }
-`;
-
 const ImgUploadButton = styled.div`
   position: absolute;
   width: 22px;
@@ -51,4 +37,4 @@ const ImgUploadButton = styled.div`
   cursor: pointer;
 `;
 
-export { Page, ImgPlace, InputLabel, Button, ImgUploadButton };
+export { Page, ImgPlace, InputLabel, ImgUploadButton };

@@ -4,8 +4,8 @@ import styled from "styled-components";
 const Button = styled.button`
   width: ${(props) => props.width || "100%"};
   height: ${(props) => props.height || "44px"};
+  font-size: ${(props) => props.fontSize || "1.4rem"};
   border-radius: 10px;
-  font-size: 1.4rem;
   box-sizing: border-box;
   text-align: center;
   color: var(--white-color);
@@ -19,9 +19,9 @@ const StyleButton = styled(Button)`
   background-color: var(--main-color);
 `;
 
-const ProfileUna = styled(Button)`
-  width: 120px;
-  padding: 10px 0;
+const WhiteButton = styled(Button)`
+  width: ${(props) => props.width || "120px"};
+  height: ${(props) => props.height || "34px"};
   border: 1px solid var(--gray-color);
   color: var(--gray-color);
 `;
@@ -37,4 +37,4 @@ const ProfileNav = styled(Link)`
   font-size: 1.4rem;
 `;
 
-export { StyleButton, ProfileNav, ProfileUna };
+export { StyleButton, ProfileNav, WhiteButton };

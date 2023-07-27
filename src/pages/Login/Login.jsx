@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Loginh1, LoginForm, NavStyle, FormBox } from "./LoginStyle";
-import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
+import React, {useState} from "react";
+import {Loginh1, LoginForm, NavStyle, FormBox} from "./LoginStyle";
+import {useNavigate} from "react-router-dom"; // eslint-disable-line no-unused-vars
 import Button from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
+import fetchApi from "../../utils/fetchApi";
 
 export default function Login() {
   const [userEmail, setUserEmail] = useState(""),
@@ -39,32 +40,33 @@ export default function Login() {
     return emailRegex.test(email);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    fetch("https://api.mandarin.weniv.co.kr/user/login", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        user: {
-          email: userEmail,
-          password: userPassword,
-        },
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.user) {
-          console.log(json);
-          localStorage.setItem("token", json.user.token);
-          localStorage.setItem("username", json.user.username);
-          localStorage.setItem("accountname", json.user.accountname);
-          navigate("/home");
-        } else {
-          setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
-        }
-      })
-      .catch((error) => console.log(error));
+    try {
+      const json = await fetchApi(
+        "user/login",
+        "POST",
+        JSON.stringify({
+          user: {
+            email: userEmail,
+            password: userPassword,
+          },
+        })
+      );
+
+      if (json.user) {
+        console.log(json);
+        localStorage.setItem("token", json.user.token);
+        localStorage.setItem("username", json.user.username);
+        localStorage.setItem("accountname", json.user.accountname);
+        navigate("/home");
+      } else {
+        setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -72,12 +74,7 @@ export default function Login() {
       <FormBox>
         <Loginh1>로그인</Loginh1>
         <LoginForm onSubmit={submitHandler}>
-          <UserInput
-            type="email"
-            id="user-email"
-            onChange={inputHandler}
-            value={userEmail}
-          >
+          <UserInput type="email" id="user-email" onChange={inputHandler} value={userEmail}>
             이메일
           </UserInput>
           <p
@@ -89,12 +86,7 @@ export default function Login() {
           >
             {emailWarining}
           </p>
-          <UserInput
-            type="password"
-            id="user-password"
-            onChange={inputHandler}
-            value={userPassword}
-          >
+          <UserInput type="password" id="user-password" onChange={inputHandler} value={userPassword}>
             비밀번호
           </UserInput>
           <p
@@ -106,12 +98,8 @@ export default function Login() {
           >
             {passwordWarining}
           </p>
-          <div style={{ height: "2rem" }}>
-            <p
-              style={{ color: "red", fontSize: "1.2rem", textAlign: "center" }}
-            >
-              {warningMessage}
-            </p>
+          <div style={{height: "2rem"}}>
+            <p style={{color: "red", fontSize: "1.2rem", textAlign: "center"}}>{warningMessage}</p>
           </div>
           {userEmail && userPassword && !emailWarining && !passwordWarining ? (
             <Button category="basic" type="submit">

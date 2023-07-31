@@ -1,30 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  ProfileInfo,
-  ImgUploadBtn,
-  UploadInput,
-  EditForm,
-  Label,
-  Img,
-  ImgIcon,
-  ProfileSettingForm,
-  ProfileTitle,
-} from "./SignUpProfileStyle";
-import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../../components/Button/Button";
+import React, {useState, useEffect, useRef} from "react";
+import {ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle} from "./SignUpProfileStyle";
+import {useLocation, useNavigate} from "react-router-dom";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
+
 import uploadIcon from "../../../assets/images/uploadFile.png";
+import Button from "../../../components/Button/Button";
 import Header from "../../../components/Header/Header";
 import UserInput from "../../../components/UserInput/UserInput";
+import fetchApi from "../../../utils/fetchApi";
 
-export default function ProfileSettings({ email, password }) {
+export default function ProfileSettings({email, password}) {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
-  const [post, setPost] = useState("");
+  // const [post, setPost] = useState("");
   const [image, setImage] = useState(basicProfileImage);
   const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태 추가
 
-  // 추후에 다중 이미지로 작업할 때는 image를 배열로!
   const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [introduce, setIntroduce] = useState("");
@@ -36,21 +27,18 @@ export default function ProfileSettings({ email, password }) {
   const isModify = location.pathname.includes("modify");
 
   const modifyUserProfile = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/user`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    fetchApi(
+      "user",
+      "PUT",
+      JSON.stringify({
         user: {
           username: name,
           accountname: id,
           intro: introduce,
           image: imageUrl,
         },
-      }),
-    })
+      })
+    )
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
@@ -58,25 +46,44 @@ export default function ProfileSettings({ email, password }) {
         navigate(`/profile/${json.user.accountname}`);
       });
   };
+  const join = async () => {
+    const userData = {
+      user: {
+        email: email,
+        password: password,
+        image: imageUrl,
+        username: name,
+        accountname: id,
+        intro: introduce,
+      },
+    };
+
+    try {
+      const json = await fetchApi("user", "POST", JSON.stringify(userData)); // fetch 호출을 fetchApi로 대체합니다.
+      console.log(json);
+    } catch (error) {
+      console.error("가입 중 오류 발생:", error);
+    }
+  };
 
   useEffect(() => {
-    const isModify = location.pathname.includes("modify");
+    // const isModify = location.pathname.includes("modify");
+
+    const fetchUserInfo = async () => {
+      try {
+        const json = await fetchApi("user/myinfo", "GET");
+        console.log(json.user);
+        setId(json.user.accountname);
+        setName(json.user.username);
+        setIntroduce(json.user.intro);
+        setImageUrl(json.user.image);
+      } catch (error) {
+        console.error("사용자 정보를 불러오는 중 오류 발생:", error);
+      }
+    };
 
     if (isModify) {
-      fetch(`https://api.mandarin.weniv.co.kr/user/myinfo`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(json.user);
-          setId(json.user.accountname);
-          setName(json.user.username);
-          setIntroduce(json.user.intro);
-          setImageUrl(json.user.image);
-        });
+      fetchUserInfo();
     }
   }, []);
 
@@ -101,13 +108,10 @@ export default function ProfileSettings({ email, password }) {
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const response = await fetch(
-        "https://api.mandarin.weniv.co.kr/image/uploadfile",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
+        method: "POST",
+        body: formData,
+      });
       const data = await response.json();
 
       console.log(data);
@@ -141,24 +145,18 @@ export default function ProfileSettings({ email, password }) {
       setIdValid(true);
       setId(value);
       try {
-        const postIdValid = await fetch(
-          `https://api.mandarin.weniv.co.kr/user/accountnamevalid`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+        const json = await fetchApi(
+          "user/accountnamevalid",
+          "POST",
+          JSON.stringify({
+            user: {
+              accountname: value,
             },
-            body: JSON.stringify({
-              user: {
-                accountname: value,
-              },
-            }),
-          }
+          })
         );
-        const json = await postIdValid.json();
         console.log(json);
       } catch (error) {
-        console.error(error);
+        console.error("계정 유효성 검사 중 오류 발생:", error);
       }
     } else {
       setIdError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
@@ -177,42 +175,11 @@ export default function ProfileSettings({ email, password }) {
     }
   };
 
-  // 회원가입 api 요청 보내기
-  const url = "https://api.mandarin.weniv.co.kr";
-  const join = async () => {
-    const userData = {
-      user: {
-        email: email,
-        password: password,
-        image: imageUrl,
-        username: name,
-        accountname: id,
-        intro: introduce,
-      },
-    };
-    userData.user.intro = introduce || "";
-
-    try {
-      const res = await fetch(url + "/user", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const json = await res.json();
-      console.log(json);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleForm = async (e) => {
     e.preventDefault();
     if (name && id && introduce && idValid) {
       await join(); // 이미지 업로드 및 회원가입 API 요청
-      navigate("/login"); // 페이지 이동
+      navigate("/login");
     }
   };
 
@@ -220,56 +187,25 @@ export default function ProfileSettings({ email, password }) {
     <>
       {isModify && (
         <Header type="submitHeader">
-          <Button
-            onClick={() => modifyUserProfile()}
-            disabled={name && id && introduce ? false : true}
-            form="profileForm"
-          >
+          <Button onClick={() => modifyUserProfile()} disabled={name && id && introduce ? false : true} form="profileForm">
             저장
           </Button>
         </Header>
       )}
 
       <ProfileSettingForm onSubmit={handleSubmit}>
-        <ProfileTitle className={isModify && "a11y-hidden"}>
-          {isModify ? "프로필 수정" : "프로필 설정"}
-        </ProfileTitle>
-        {!isModify && (
-          <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>
-        )}
-        <Label
-          htmlFor="file-sync"
-          className="file-sync"
-          onClick={handleImgClick}
-        >
+        <ProfileTitle className={isModify && "a11y-hidden"}>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
+        {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
+        <Label htmlFor="file-sync" className="file-sync" onClick={handleImgClick}>
           <ImgUploadBtn>
             <Img src={imageUrl || image} alt="uploadFile" />
             <ImgIcon src={uploadIcon} alt="업로드아이콘" />
           </ImgUploadBtn>
         </Label>
-        <UploadInput
-          ref={uploadInputRef}
-          id="profile"
-          type="file"
-          accept=".png, .jpg, .jpeg"
-          multiple
-          hidden
-          onChange={handleFile}
-        />
+        <UploadInput ref={uploadInputRef} id="profile" type="file" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
 
         <EditForm id="profileForm">
-          <UserInput
-            id={"user-name"}
-            type={"text"}
-            minLength={2}
-            maxLength={10}
-            placeholder={"2~10자 이내여야 합니다."}
-            value={name}
-            alertMsg={setNameError}
-            onChange={handleNameInput}
-            onBlur={handleNameInput}
-            required
-          >
+          <UserInput id={"user-name"} type={"text"} minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required>
             사용자이름
           </UserInput>
           {nameError && (
@@ -284,20 +220,10 @@ export default function ProfileSettings({ email, password }) {
               {nameError}
             </p>
           )}
-          <UserInput
-            id={"user-id"}
-            type={"text"}
-            placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."}
-            value={id}
-            valid={idValid}
-            alertMsg={setIdError}
-            onChange={handleIdInput}
-            onBlur={handleIdInput}
-            required
-          >
+          <UserInput id={"user-id"} type={"text"} placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."} value={id} valid={idValid} alertMsg={setIdError} onChange={handleIdInput} onBlur={handleIdInput} required>
             계정 ID
           </UserInput>
-          {idError && (
+          {!isModify && idError && (
             <p
               style={{
                 marginBottom: "2rem",
@@ -309,23 +235,12 @@ export default function ProfileSettings({ email, password }) {
               {idError}
             </p>
           )}
-          <UserInput
-            id={"user-introduce"}
-            type={"text"}
-            placeholder={"좋아하는 브랜드와 룩을 알려주세요."}
-            value={introduce}
-            onChange={handleIntroduceInput}
-            required
-          >
+          <UserInput id={"user-introduce"} type={"text"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required>
             소개
           </UserInput>
           {name && id && introduce
             ? !isModify && (
-                <Button
-                  category="basic"
-                  type="submit"
-                  onClick={isModify ? modifyUserProfile : handleForm}
-                >
+                <Button category="basic" type="submit" onClick={isModify ? modifyUserProfile : handleForm}>
                   입9팔9 즐기러 가기
                 </Button>
               )

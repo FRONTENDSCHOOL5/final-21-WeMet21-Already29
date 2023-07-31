@@ -10,42 +10,25 @@ import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import { imageErrorHandler } from "../../utils/imageErrorHandler";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
+import fetchApi from "../../utils/fetchApi";
 
 export default function ProductDetail() {
-  const param = useParams();
+  const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
   const [productAuthor, setProductAuthor] = useState(null);
   const navigator = useNavigate();
 
   const deleteProductHandler = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        navigator(`/product/list/${productAuthor.accountname}`);
-      });
+    fetchApi(`product/${productId}`, "delete").then(() => {
+      navigator(`../list/${productAuthor.accountname}`);
+    });
   };
 
   useEffect(() => {
-    fetch(`https://api.mandarin.weniv.co.kr/product/detail/${param.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        setProduct(json.product);
-        setProductAuthor(json.product.author);
-      })
-      .catch((e) => console.log(e));
+    fetchApi(`product/detail/${productId}`).then((res) => {
+      setProduct(res.product);
+      setProductAuthor(res.product.author);
+    });
   }, []);
 
   return (
@@ -93,7 +76,7 @@ export default function ProductDetail() {
                           >
                             삭제하기
                           </button>
-                          <Link to={`/product/modify/${param.id}`} onClick={() => setBottomSheetOpen(false)}>
+                          <Link to={`/product/modify/${productId}`} onClick={() => setBottomSheetOpen(false)}>
                             상품 수정하기
                           </Link>
                         </BottomSheet>

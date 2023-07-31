@@ -8,14 +8,13 @@ import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import ModalContext from "../../contexts/ModalContext/ModalContext";
 import { useParams } from "react-router";
-
 import { heartButtonHandler } from "../../utils/heartButtonHandler";
 import { Link, useNavigate } from "react-router-dom";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
-
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import CardContent from "../../components/Card/CardContent/CardContent";
+import fetchApi from "../../utils/fetchApi";
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -24,13 +23,18 @@ export default function PostDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [targetCommentId, setTargetCommentId] = useState("");
   const navigate = useNavigate();
-  const params = useParams();
+  const { id: postId } = useParams();
 
   // 나의 username
   const username = localStorage.getItem("username");
 
   const pageEnd = useRef(null);
-  const { getData, page } = useInfiniteScroll(`post/${params.id}/comments`, pageEnd);
+  const { getData, page } = useInfiniteScroll(`post/${postId}/comments`, pageEnd);
+
+  const fetchPost = () => {
+    fetchApi(`post/${postId}`).then((res) => setPost(res.post));
+  };
+  console.log(post);
 
   useEffect(() => {
     fetchPost();
@@ -49,6 +53,7 @@ export default function PostDetail() {
 
   const addComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
+    setComment("");
     fetchPost();
   };
 
@@ -61,7 +66,9 @@ export default function PostDetail() {
     const elapsedHours = Math.floor(elapsedMinutes / 60);
     const elapsedDays = Math.floor(elapsedHours / 24);
 
-    if (elapsedDays > 0) {
+    if (elapsedDays > 7) {
+      return `${Math.floor(elapsedDays / 7)}주 전`;
+    } else if (elapsedDays > 0) {
       return `${elapsedDays}일 전`;
     } else if (elapsedHours > 0) {
       return `${elapsedHours}시간 전`;
@@ -86,105 +93,43 @@ export default function PostDetail() {
   const handleCommentSubmit = (event) => {
     event.preventDefault();
     if (comment.trim() !== "") {
-      const url = `https://api.mandarin.weniv.co.kr/post/${params.id}/comments`;
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      };
-
       const data = {
         comment: {
           content: comment,
         },
       };
 
-      fetch(url, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.status === 404) throw new Error("댓글 전송 실패");
-          else {
-            setComment("");
-
-            addComment(result.comment);
-          }
-        })
-        .catch((error) => {
-          console.error("댓글 전송 실패:", error);
-        });
+      fetchApi(`post/${postId}/comments`, "POST", JSON.stringify(data)).then((res) => {
+        addComment(res.comment);
+      });
     }
   };
 
   // 댓글 삭제
-  const deleteComment = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}/comments/${targetCommentId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        fetchPost();
-        if (result.status === "200") {
-          setIsModalOpen(false);
-        } else {
-          throw new Error("댓글 삭제 실패");
-        }
-      })
-      .catch((error) => {
-        console.error("댓글 삭제 실패:", error);
+  const deleteComment = async () => {
+    const res = await fetchApi(`post/${postId}/comments/${targetCommentId}`, "delete");
+
+    if (res.status === "200") {
+      setIsModalOpen(false);
+      const filterComment = comments.filter((v) => {
+        console.log(v.id);
+        return v.id !== targetCommentId;
       });
 
-    const filterComment = comments.filter((v) => {
-      console.log(v.id);
-      return v.id !== targetCommentId;
-    });
-
-    setComments(filterComment);
+      setComments(filterComment);
+    }
   };
-
-  const fetchPost = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => setPost(json.post));
-  };
-  console.log(post);
 
   const heartHandler = async (postId, postHeart) => {
     if (postHeart) {
-      const res = await heartButtonHandler.minus(postId);
-      const json = await res.json();
-      console.log(json);
-    } else {
-      const res = await heartButtonHandler.plus(postId);
-      const json = await res.json();
-      console.log(json);
+      heartButtonHandler.minus(postId);
+    } else if (!postHeart) {
+      heartButtonHandler.plus(postId);
     }
-    fetchPost();
   };
 
   const deletePostHandler = () => {
-    fetch(`https://api.mandarin.weniv.co.kr/post/${params.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => console.log(json));
+    fetchApi(`post/${postId}`, "delete");
   };
 
   return (

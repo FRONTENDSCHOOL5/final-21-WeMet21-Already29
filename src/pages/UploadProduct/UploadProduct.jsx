@@ -6,75 +6,19 @@ import { ImgPlace, ImgUploadButton, InputLabel, Page } from "./UploadProductStyl
 import Header from "../../components/Header/Header";
 import UserInput from "../../components/UserInput/UserInput";
 import Button from "../../components/Button/Button";
+import fetchApi from "../../utils/fetchApi";
+import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 
 export default function UploadProduct() {
   const imgPre = useRef(null);
-
   const [productTitle, setProductTitle] = useState(""),
     [productPrice, setProductPrice] = useState(""),
     [productLink, setProductLink] = useState(""),
-    [productImage, setproductImage] = useState(""),
-    [productImageUrl, setproductImageUrl] = useState("https://api.mandarin.weniv.co.kr/1686629045637.png");
+    [productImage, setProductImage] = useState(""),
+    [productImageUrl, setProductImageUrl] = useState("");
 
   const [isModify, setIsModify] = useState(false);
-  const param = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // useParams hook으로 파라미터 값을 가져와서 파라미터가 존재한다면 isModify 상태값을 true로 변경
-    if (param.id !== undefined) {
-      setIsModify(true);
-    }
-    if (param.id === undefined) {
-      setIsModify(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    // 상품 수정이라면 처음 실행시 상품 정보 인풋창으로 불러오기
-    if (isModify) {
-      fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          setProductTitle(json.product.itemName);
-          setProductPrice(json.product.price);
-          setProductLink(json.product.link);
-          setproductImageUrl(json.product.itemImage);
-        });
-    }
-
-    return () => {
-      setProductTitle("");
-      setProductPrice("");
-      setProductLink("");
-      setproductImageUrl("");
-    };
-  }, [isModify, param.id]);
-
-  const inputValueHandler = (e) => {
-    switch (e.target.type) {
-      case "text":
-        setProductTitle(e.target.value);
-        break;
-
-      case "number":
-        setProductPrice(e.target.value);
-        break;
-
-      case "url":
-        setProductLink(e.target.value);
-        break;
-
-      default:
-        break;
-    }
-  };
+  const { id: productId } = useParams();
 
   const data = {
     product: {
@@ -85,49 +29,20 @@ export default function UploadProduct() {
     },
   };
 
-  const modifyProductHandler = (e) => {
-    e.preventDefault();
-
-    fetch(`https://api.mandarin.weniv.co.kr/product/${param.id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((json) => navigate(`/product/detail/${json.product.id}`));
-  };
-
-  const uploadProductHandler = (e) => {
-    e.preventDefault();
-
-    fetch("https://api.mandarin.weniv.co.kr/product", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((json) => navigate(`/product/detail/${json.product.id}`));
-  };
-
-  const handleImgInput = async (e) => {
+  const handleImageInput = async (e) => {
     if (e.target.files.length === 0) {
       return;
     }
     const formData = new FormData();
-    const userImg = e.target.files[0];
-    if (userImg.size > 10000000) {
+    const userImage = e.target.files[0];
+
+    if (userImage.size > 10000000) {
       alert("10MB 미만의 이미지 파일만 업로드 가능합니다.");
       return;
     }
 
-    const fileNamesplitArray = userImg.name.split(".");
-    const fileExtension = fileNamesplitArray[fileNamesplitArray.length - 1];
+    const fileNameArray = userImage.name.split(".");
+    const fileExtension = fileNameArray[fileNameArray.length - 1];
     const fileExtensionValues = ["jpg", "gif", "png", "jpeg", "bmp", "tif", "heic"];
 
     if (!fileExtensionValues.includes(fileExtension)) {
@@ -135,16 +50,57 @@ export default function UploadProduct() {
       return;
     }
 
-    setproductImage(e.target.value);
-    formData.append("image", userImg);
+    setProductImage(e.target.value);
+    formData.append("image", userImage);
 
     const res = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
       method: "POST",
       body: formData,
     });
     const json = await res.json();
-    console.log(json);
-    setproductImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
+
+    setProductImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
+  };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    productId ? setIsModify(true) : setIsModify(false);
+
+    // 상품 수정이라면 처음 실행시 상품 정보 인풋창으로 불러오기
+    if (isModify) {
+      fetchApi(`product/${productId}`, "PUT").then((res) => {
+        setProductTitle(res.product.itemName);
+        setProductPrice(res.product.price);
+        setProductLink(res.product.link);
+        setProductImageUrl(res.product.itemImage);
+      });
+    }
+  }, [isModify, productId]);
+
+  const inputValueHandler = (e) => {
+    switch (e.target.type) {
+      case "text":
+        setProductTitle(e.target.value);
+        break;
+      case "number":
+        setProductPrice(e.target.value);
+        break;
+      case "url":
+        setProductLink(e.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const uploadProductHandler = (e) => {
+    e.preventDefault();
+    if (isModify) {
+      fetchApi(`product/${productId}`, "PUT", JSON.stringify(data)).then((res) => navigate(`/product/detail/${res.product.id}`));
+    } else {
+      fetchApi("product", "post", JSON.stringify(data)).then((res) => navigate(`/product/detail/${res.product.id}`));
+    }
   };
 
   const buttonKeyboardEvent = (e) => {
@@ -156,7 +112,7 @@ export default function UploadProduct() {
   const [btnDisable, setBtnDisable] = useState(false);
 
   useEffect(() => {
-    if (productTitle && productPrice && productLink) {
+    if (productTitle && productPrice && productLink && productImage) {
       setBtnDisable(false);
     } else {
       setBtnDisable(true);
@@ -171,7 +127,7 @@ export default function UploadProduct() {
         </Button>
       </Header>
       <Page>
-        <form id="product" onSubmit={isModify ? modifyProductHandler : uploadProductHandler}>
+        <form id="product" onSubmit={uploadProductHandler}>
           <span>이미지 등록</span>
           <ImgPlace>
             <InputLabel htmlFor="productImg">
@@ -179,10 +135,10 @@ export default function UploadProduct() {
                 <img src={iconAlbum} alt="앨범 아이콘" />
               </ImgUploadButton>
             </InputLabel>
-            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" />
+            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
           </ImgPlace>
 
-          <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImgInput} />
+          <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImageInput} />
           <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required>
             상품명
           </UserInput>

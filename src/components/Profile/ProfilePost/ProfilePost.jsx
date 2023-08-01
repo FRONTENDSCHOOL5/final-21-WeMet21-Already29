@@ -9,10 +9,10 @@ import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 export default function ProfilePost() {
   const [isAlbum, setIsAlbum] = useState(false);
   const [posts, setPosts] = useState(null);
-  const params = useParams();
+  const { id: userID } = useParams();
   const pageEnd = useRef(null);
   const myAccountname = localStorage.getItem("accountname");
-  const { getData, page } = useInfiniteScroll(`post/${params.id}/userpost`, pageEnd);
+  const { getData, page } = useInfiniteScroll(`post/${userID}/userpost`, pageEnd);
 
   const fetchPost = () => {
     getData(page)
@@ -31,7 +31,7 @@ export default function ProfilePost() {
   useEffect(() => {
     // 게시글이 있는 다른 프로필에서 내 프로필로 넘어올 때,
     // 이전에 있던 포스트 데이터의 작성자가 로그인한 유저가 아닐 때
-    if (posts && posts.length !== 0 && posts[0].author.accountname !== params.id) {
+    if (posts && posts.length !== 0 && posts[0].author.accountname !== userID) {
       console.log("case0");
       // 이전 포스트 데이터 삭제
       setPosts(null);
@@ -40,14 +40,14 @@ export default function ProfilePost() {
         .then((json) => setPosts(json.post));
     }
     // 게시글이 없는 다른 프로필에서 내 프로필로 넘어올 때
-    else if (posts && posts.length === 0 && myAccountname === params.id) {
+    else if (posts && posts.length === 0 && myAccountname === userID) {
       console.log("case1");
       getData(0)
         .then((res) => res.json())
         .then((json) => setPosts(json.post));
     }
     // 다른 페이지에서 내 프로필로 넘어올 때
-    else if (myAccountname === params.id) {
+    else if (myAccountname === userID) {
       console.log("case2");
       fetchPost();
     }
@@ -57,7 +57,7 @@ export default function ProfilePost() {
       fetchPost();
     }
     // eslint-disable-next-line
-  }, [page, params]);
+  }, [page, userID]);
 
   return (
     <>

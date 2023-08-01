@@ -7,22 +7,21 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import union from "../../assets/images/Union.png";
 import fetchApi from "../../utils/fetchApi";
+import { useMultiImage } from "../../hooks/useImage";
 
 export default function PostUpload() {
   const [post, setPost] = useState("");
-  const [image, setImage] = useState(null);
+  const { image, setImage, inputImageHandler } = useMultiImage();
   const { id: postId } = useParams();
   const isModify = !!postId;
   const imageArray = image && image.split(",");
-  const baseUrl = "https://api.mandarin.weniv.co.kr/";
+
   const postData = {
     post: {
       content: post,
       image: image,
     },
   };
-  console.log(image);
-  console.log(imageArray);
 
   const navigate = useNavigate();
 
@@ -47,27 +46,6 @@ export default function PostUpload() {
       fetchApi(`post/${postId}`, "PUT", JSON.stringify(postData)).then(() => navigate(`/post/${postId}`));
     } else if (!isModify) {
       fetchApi("post", "POST", JSON.stringify(postData)).then((res) => navigate(`/post/${res.post.id}`));
-    }
-  };
-
-  const handleFile = async (event) => {
-    const file = event.target.files[0];
-
-    const formData = new FormData();
-    formData.append("image", file);
-    try {
-      const response = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      if (image && imageArray.length >= 3) {
-        alert("너무 많아요");
-        return;
-      }
-      setImage((prev) => (prev ? prev + `,${baseUrl}${data.filename}` : `${baseUrl}${data.filename}`));
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -111,7 +89,7 @@ export default function PostUpload() {
               <img src={uploadFile} alt="uploadFile" />
             </Label>
           </div>
-          <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
+          <UploadInput type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden onChange={inputImageHandler} />
         </Form>
         {image &&
           imageArray.map((item, index) => {

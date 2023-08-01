@@ -1,79 +1,42 @@
-import React, { useRef, useState } from "react";
-import iconAlbum from "../../assets/images/icon-image.png";
-import { useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ImgPlace, ImgUploadButton, InputLabel, Page } from "./UploadProductStyle";
+import iconAlbum from "../../assets/images/icon-image.png";
 import Header from "../../components/Header/Header";
 import UserInput from "../../components/UserInput/UserInput";
 import Button from "../../components/Button/Button";
 import fetchApi from "../../utils/fetchApi";
 import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
+import { useImage } from "../../hooks/useImage";
 
 export default function UploadProduct() {
   const imgPre = useRef(null);
   const [productTitle, setProductTitle] = useState(""),
     [productPrice, setProductPrice] = useState(""),
-    [productLink, setProductLink] = useState(""),
-    [productImage, setProductImage] = useState(""),
-    [productImageUrl, setProductImageUrl] = useState("");
-
-  const [isModify, setIsModify] = useState(false);
+    [productLink, setProductLink] = useState("");
+  const { image: productImage, setImage: setProductImage, inputImageHandler } = useImage();
   const { id: productId } = useParams();
+  const isModify = !!productId;
 
   const data = {
     product: {
       itemName: productTitle,
       price: parseInt(productPrice),
       link: productLink,
-      itemImage: productImageUrl,
+      itemImage: productImage,
     },
-  };
-
-  const handleImageInput = async (e) => {
-    if (e.target.files.length === 0) {
-      return;
-    }
-    const formData = new FormData();
-    const userImage = e.target.files[0];
-
-    if (userImage.size > 10000000) {
-      alert("10MB 미만의 이미지 파일만 업로드 가능합니다.");
-      return;
-    }
-
-    const fileNameArray = userImage.name.split(".");
-    const fileExtension = fileNameArray[fileNameArray.length - 1];
-    const fileExtensionValues = ["jpg", "gif", "png", "jpeg", "bmp", "tif", "heic"];
-
-    if (!fileExtensionValues.includes(fileExtension)) {
-      alert("이미지 파일만 업로드 가능합니다.");
-      return;
-    }
-
-    setProductImage(e.target.value);
-    formData.append("image", userImage);
-
-    const res = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
-      method: "POST",
-      body: formData,
-    });
-    const json = await res.json();
-
-    setProductImageUrl(`https://api.mandarin.weniv.co.kr/${json.filename}`);
   };
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    productId ? setIsModify(true) : setIsModify(false);
-
     // 상품 수정이라면 처음 실행시 상품 정보 인풋창으로 불러오기
     if (isModify) {
       fetchApi(`product/${productId}`, "PUT").then((res) => {
         setProductTitle(res.product.itemName);
         setProductPrice(res.product.price);
         setProductLink(res.product.link);
-        setProductImageUrl(res.product.itemImage);
+        setProductImage(res.product.itemImage);
       });
     }
   }, [isModify, productId]);
@@ -135,10 +98,9 @@ export default function UploadProduct() {
                 <img src={iconAlbum} alt="앨범 아이콘" />
               </ImgUploadButton>
             </InputLabel>
-            <img src={productImageUrl} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
+            <img src={productImage} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
           </ImgPlace>
-
-          <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={handleImageInput} />
+          <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={inputImageHandler} />
           <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required>
             상품명
           </UserInput>

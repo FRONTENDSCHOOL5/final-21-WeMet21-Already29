@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import comment from "../../../assets/images/icon-message-circle.png";
-import heart from "../../../assets/images/uil_heart.png";
+import heartImage from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
 import { SwiperSlide, Swiper } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper";
@@ -9,26 +9,35 @@ import "swiper/swiper.min.css";
 import { PostContent, PostMenuWrap } from "./CardContentStyle";
 import { Link, useNavigate } from "react-router-dom";
 import { imageErrorHandler } from "../../../utils/imageErrorHandler";
+import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 SwiperCore.use([Pagination]);
 
-export default function CardContent({ post, index, heartHandler, heartCountArray, isheartedArray }) {
+export default function CardContent({ post }) {
   const navigator = useNavigate();
-  const isPostFeed = heartHandler && heartCountArray && isheartedArray;
   const [postHeart, setPostHeart] = useState(false);
-  const [heartCount, setCount] = useState(0);
-  console.log(post);
+  const [heartCount, setHeartCount] = useState(0);
 
   useEffect(() => {
     setPostHeart(post.hearted);
-    setCount(post.heartCount);
+    setHeartCount(post.heartCount);
   }, [post]);
 
-  const heartCountHanlder = () => {
-    if (postHeart) {
-      setCount((prev) => prev - 1);
-    } else {
-      setCount((prev) => prev + 1);
-    }
+  const heart = {
+    serverRequest() {
+      postHeart ? heartButtonHandler.minus(post.id) : heartButtonHandler.plus(post.id);
+    },
+    toggle() {
+      setPostHeart((prev) => !prev);
+    },
+    countHandle() {
+      postHeart ? setHeartCount((prev) => prev - 1) : setHeartCount((prev) => prev + 1);
+    },
+  };
+
+  const heartHandler = () => {
+    heart.serverRequest();
+    heart.toggle();
+    heart.countHandle();
   };
 
   return (
@@ -60,55 +69,23 @@ export default function CardContent({ post, index, heartHandler, heartCountArray
       )}
       {post.image && post.image.split(",").length === 1 && <img src={post.image} className="post-image" alt="포스트 이미지" onError={imageErrorHandler} />}
 
-      {isPostFeed ? (
-        <PostMenuWrap>
-          <button
-            type="button"
-            onClick={() => {
-              heartHandler(post.id, isheartedArray[index], index);
-            }}
-          >
-            <img src={isheartedArray[index] ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
-          </button>
-          <p>
-            <span className="a11y-hidden">좋아요 : </span>
-            {heartCountArray[index]}
-          </p>
+      <PostMenuWrap>
+        <button type="button" onClick={() => heartHandler()}>
+          <img src={postHeart ? fillHeart : heartImage} className="heart-image" alt="좋아요 이미지" />
+        </button>
+        <p>
+          <span className="a11y-hidden">좋아요 : </span>
+          {heartCount}
+        </p>
 
-          <Link to={`/post/${post.id}`}>
-            <img src={comment} className="comment-image" alt="댓글 이미지" />
-            <p>
-              <span className="a11y-hidden">댓글 : </span>
-              {post.commentCount}
-            </p>
-          </Link>
-        </PostMenuWrap>
-      ) : (
-        <PostMenuWrap>
-          <button
-            type="button"
-            onClick={() => {
-              heartHandler(post.id, postHeart);
-              setPostHeart((prev) => !prev);
-              heartCountHanlder();
-            }}
-          >
-            <img src={postHeart ? fillHeart : heart} className="heart-image" alt="좋아요 이미지" />
-          </button>
+        <Link to={`/post/${post.id}`}>
+          <img src={comment} className="comment-image" alt="댓글 이미지" />
           <p>
-            <span className="a11y-hidden">좋아요 : </span>
-            {heartCount}
+            <span className="a11y-hidden">댓글 : </span>
+            {post.commentCount}
           </p>
-
-          <Link to={`/post/${post.id}`}>
-            <img src={comment} className="comment-image" alt="댓글 이미지" />
-            <p>
-              <span className="a11y-hidden">댓글 : </span>
-              {post.commentCount}
-            </p>
-          </Link>
-        </PostMenuWrap>
-      )}
+        </Link>
+      </PostMenuWrap>
 
       <time dateTime={post.createdAt.slice(0, 10)}>{post.createdAt.slice(0, 10).replace("-", "년 ").replace("-", "월 ") + "일"}</time>
     </PostContent>

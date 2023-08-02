@@ -33,7 +33,7 @@ export default function ProfileProduct({ userData }) {
         <LinkStyle to={`/product/list/${userData.accountname}`} style={{ userDrag: "none" }}>
           판매 중인 상품
         </LinkStyle>
-        <Products productDatas={productDatas} />
+        <Products page="profilePage" productDatas={productDatas} />
       </ProductSection>
     )
   );

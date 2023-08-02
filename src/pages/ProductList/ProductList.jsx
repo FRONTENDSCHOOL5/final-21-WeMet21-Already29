@@ -22,12 +22,10 @@ export default function ProductList() {
     console.log("리렌더");
   }, [page]);
 
-  console.log(products);
-
   return (
     <>
       <ProductListSection>
-        <Products products={products} />
+        <Products page="listPage" productDatas={products} />
       </ProductListSection>
       <div ref={pageEnd} />
       <Navigation />

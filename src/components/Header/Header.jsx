@@ -1,13 +1,21 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import backImage from "../../assets/images/icon-arrow-left.png";
 import moreImage from "../../assets/images/icon-more-vertical.png";
 import LogoImage from "../../assets/images/Logo.png";
 import { HeaderButton, HeaderInput, HeaderUI, Logo } from "./HeaderStyle";
 import goTop from "../../utils/goTop";
 
-export default function Header({ type, children, setBottomSheetOpen, onChange, value, itemLength }) {
+export default function Header({ type, children, setBottomSheetOpen, onChange, value, href, itemLength }) {
   const navigate = useNavigate();
+
+  const goBack = () => {
+    if (href) {
+      navigate(href);
+    } else {
+      navigate(-1);
+    }
+  };
 
   const UI = {
     logo: (
@@ -22,7 +30,7 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
       <>
         <h2 className="a11y-hidden">검색창</h2>
         <HeaderUI>
-          <HeaderButton onClick={() => navigate(-1)}>
+          <HeaderButton onClick={() => goBack()}>
             <img src={backImage} alt="뒤로 가기" />
           </HeaderButton>
           <HeaderInput type="text" placeholder="계정 검색" onChange={onChange} value={value} />
@@ -32,7 +40,7 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
 
     basic: (
       <HeaderUI>
-        <HeaderButton onClick={() => navigate(-1)}>
+        <HeaderButton onClick={() => goBack()}>
           <img src={backImage} alt="뒤로 가기" />
         </HeaderButton>
         {children && <h2>{children}</h2>}
@@ -44,7 +52,7 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
 
     back: (
       <HeaderUI>
-        <HeaderButton onClick={() => navigate(-1)}>
+        <HeaderButton onClick={() => goBack()}>
           <img src={backImage} alt="뒤로 가기" />
         </HeaderButton>
         {children && <h2>{children}</h2>}
@@ -52,7 +60,7 @@ export default function Header({ type, children, setBottomSheetOpen, onChange, v
     ),
     submitHeader: (
       <HeaderUI>
-        <HeaderButton onClick={() => navigate(-1)}>
+        <HeaderButton onClick={() => goBack()}>
           <img src={backImage} alt="뒤로 가기" />
         </HeaderButton>
         {children}

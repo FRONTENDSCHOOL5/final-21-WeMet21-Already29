@@ -11,10 +11,15 @@ import { imageErrorHandler } from "../../utils/imageErrorHandler";
 export default function Products({ products, productDatas }) {
   // products가 있으면 상품 상세 페이지 리스트 반환
   // productDatas는 프로필 상품 리스트
+  console.log(products);
 
   return (
     <>
-      {products && products.length !== 0 ? <Header type="back">{products[0].author.username}님 판매상품</Header> : ""}
+      {products && products.length !== 0 && (
+        <Header type="back" href={`/profile/${products[0].author.accountname}`}>
+          {products[0].author.username}님 판매상품
+        </Header>
+      )}
       <ul>
         {productDatas && (
           <CustomSwiper slidesPerView={2.5} spaceBetween={10}>

@@ -23,15 +23,19 @@ export default function useInfiniteScroll(fetchPath, pageEnd) {
   }, [isLoading]);
 
   const getData = async (page) => {
-    const res = await fetch(`https://api.mandarin.weniv.co.kr/${fetchPath}/?limit=10&skip=${page * 10}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    });
-    setLoading(true);
-    return res;
+    try {
+      const res = await fetch(`https://api.mandarin.weniv.co.kr/${fetchPath}/?limit=10&skip=${page * 10}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-type": "application/json",
+        },
+      });
+      setLoading(true);
+      return res;
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // 반환 값 getData() : promise | page : 현재 페이지 | isLoading : 현재 로딩 상태

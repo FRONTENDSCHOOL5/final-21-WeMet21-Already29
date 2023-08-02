@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleInput, Stylelabel } from "./UserInputStyle";
 
-export default function UserInput({ type, onChange, value, minLength, maxLength, min, max, id, placeholder, pattern, required, onKeyDown, onWheel, children, onBlur }) {
+export default function UserInput({ type, onChange, disabled, value, minLength, maxLength, min, max, id, placeholder, pattern, required, onKeyDown, onWheel, children, onBlur }) {
   return (
     <>
       <Stylelabel htmlFor={id}>{children}</Stylelabel>
@@ -20,6 +20,7 @@ export default function UserInput({ type, onChange, value, minLength, maxLength,
         onKeyDown={onKeyDown}
         onWheel={onWheel}
         onBlur={onBlur}
+        disabled={disabled}
       />
     </>
   );

@@ -18,6 +18,11 @@ export const StyleInput = styled.input`
     box-shadow: 0 2px 0 0 var(--main-color);
   }
 
+  &:disabled {
+    background-color: var(--white-color);
+    color: var(--line-gray-color);
+  }
+
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;

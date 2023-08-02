@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import category from "../../../contexts/ProductCategoryContext";
 
 const RadioDiv = styled.div`
   display: flex;
@@ -44,16 +45,7 @@ const RadioButtonGroup = ({ title, items, name, onChange, item }) => (
 );
 
 export default function RadioButton({ item, setItem, type }) {
-  const categoryData = {
-    outer: "아우터",
-    onePiece: "원피스",
-    top: "상의",
-    pants: "하의",
-    shoes: "신발",
-    bag: "가방",
-    fassionAcc: "패션소품",
-    jewelry: "주얼리",
-  };
+  const categoryData = useContext(category);
 
   const sizeData = ["FREE", "XS", "S", "M", "L", "XL"].map((size) => [size, size]);
 

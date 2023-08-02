@@ -8,35 +8,51 @@ import Button from "../../components/Button/Button";
 import fetchApi from "../../utils/fetchApi";
 import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 import { useImage } from "../../hooks/useImage";
+import RadioButton from "../../components/RadioButton/RadioButton";
 
 export default function UploadProduct() {
   const imgPre = useRef(null);
   const [productTitle, setProductTitle] = useState(""),
     [productPrice, setProductPrice] = useState(""),
-    [productLink, setProductLink] = useState("");
+    [isShare, setIsShare] = useState(""), // isShare : 나눔 상태를 Boolean으로 나타냄
+    [category, setCategory] = useState(""), // 상품 종류 (상의, 하의 ..)
+    [size, setSize] = useState(""); // 상품 사이즈
   const { image: productImage, setImage: setProductImage, inputImageHandler } = useImage();
   const { id: productId } = useParams();
+  const navigate = useNavigate();
   const isModify = !!productId;
+  const sizeDataArray = ["outer", "onePiece", "top", "pants"];
+  const isHaveSize = sizeDataArray.includes(category);
+
+  const saleData = {
+    isShare: isShare,
+    category: category,
+    size: isHaveSize ? size : null,
+  };
 
   const data = {
     product: {
       itemName: productTitle,
-      price: parseInt(productPrice),
-      link: productLink,
+      price: isShare ? 0 : parseInt(productPrice),
+      link: JSON.stringify(saleData),
       itemImage: productImage,
     },
   };
 
-  const navigate = useNavigate();
+  console.log(data.product.link);
 
   useEffect(() => {
     // 상품 수정이라면 처음 실행시 상품 정보 인풋창으로 불러오기
     if (isModify) {
       fetchApi(`product/${productId}`, "PUT").then((res) => {
-        setProductTitle(res.product.itemName);
-        setProductPrice(res.product.price);
-        setProductLink(res.product.link);
-        setProductImage(res.product.itemImage);
+        const product = res.product;
+        const resSaleData = JSON.parse(res.product.link);
+        setProductTitle(product.itemName);
+        setProductPrice(product.price);
+        setProductImage(product.itemImage);
+        setCategory(resSaleData.category);
+        setIsShare(resSaleData.isShare);
+        setSize(resSaleData.size);
       });
     }
   }, [isModify, productId]);
@@ -48,9 +64,6 @@ export default function UploadProduct() {
         break;
       case "number":
         setProductPrice(e.target.value);
-        break;
-      case "url":
-        setProductLink(e.target.value);
         break;
       default:
         break;
@@ -75,12 +88,24 @@ export default function UploadProduct() {
   const [btnDisable, setBtnDisable] = useState(false);
 
   useEffect(() => {
-    if (productTitle && productPrice && productLink && productImage) {
+    let entered = productTitle && productPrice && category && productImage;
+    if (isShare) {
+      entered = productTitle && category && productImage;
+    }
+    if (entered) {
       setBtnDisable(false);
     } else {
       setBtnDisable(true);
     }
-  }, [productTitle, productLink, productPrice, productImage]);
+
+    if (isShare === "true") {
+      setIsShare(true);
+      setProductPrice(0);
+    } else if (isShare === "false") {
+      setIsShare(false);
+      setProductPrice("");
+    }
+  }, [productTitle, category, productPrice, productImage, isShare]);
 
   return (
     <>
@@ -90,6 +115,7 @@ export default function UploadProduct() {
         </Button>
       </Header>
       <Page>
+        <h1 className="a11y-hidden">상품 {isModify ? "수정" : "등록"}</h1>
         <form id="product" onSubmit={uploadProductHandler}>
           <span>이미지 등록</span>
           <ImgPlace>
@@ -100,10 +126,15 @@ export default function UploadProduct() {
             </InputLabel>
             <img src={productImage} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
           </ImgPlace>
+
+          <RadioButton type="saleType" item={"" + isShare} setItem={setIsShare} />
+
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={inputImageHandler} />
-          <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="2~15자 이내여야 합니다." required>
+          <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
             상품명
           </UserInput>
+
+          <RadioButton type="clothes" item={category} setItem={setCategory} />
           <UserInput
             type="number"
             onWheel={(e) => {
@@ -118,25 +149,16 @@ export default function UploadProduct() {
             id="productPriceInput"
             value={productPrice}
             onChange={inputValueHandler}
-            placeholder="숫자만 입력 가능합니다."
+            placeholder={isShare ? 0 : "가격을 입력해주세요"}
             pattern="[0-9]*"
-            required
+            disabled={Boolean(isShare)}
+            required={Boolean(isShare)}
             min={100}
             max={999999999}
           >
             가격
           </UserInput>
-          <UserInput
-            type="url"
-            id="productUrlInput"
-            // pattern="//^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?$/;/"
-            value={productLink}
-            onChange={inputValueHandler}
-            placeholder="URL을 입력해주세요."
-            required
-          >
-            판매 링크
-          </UserInput>
+          {isHaveSize && <RadioButton type="size" item={size} setItem={setSize} />}
         </form>
       </Page>
     </>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import category from "../../../contexts/ProductCategoryContext";
+import category from "../../contexts/ProductCategoryContext";
 
 const RadioDiv = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Input = styled.input`
   }
 `;
 
-const RadioButtonGroup = ({ title, items, name, onChange, item }) => (
+const RadioButton = ({ title, items, name, onChange, item }) => (
   <>
     <p>{title}</p>
     <RadioDiv>
@@ -44,7 +44,7 @@ const RadioButtonGroup = ({ title, items, name, onChange, item }) => (
   </>
 );
 
-export default function RadioButton({ item, setItem, type }) {
+export default function RadioButtonGroup({ item, setItem, type }) {
   const categoryData = useContext(category);
 
   const sizeData = ["FREE", "XS", "S", "M", "L", "XL"].map((size) => [size, size]);
@@ -55,9 +55,9 @@ export default function RadioButton({ item, setItem, type }) {
   };
 
   const components = {
-    clothes: <RadioButtonGroup title="상품 종류" items={Object.entries(categoryData)} name="category" onChange={(id) => setItem(id)} item={item} />,
-    size: <RadioButtonGroup title="사이즈" items={sizeData} name="size" onChange={(id) => setItem(id)} item={item} />,
-    saleType: <RadioButtonGroup title="거래 방식" items={Object.entries(isShareData)} name="sale-type" onChange={(id) => setItem(id)} item={item} />,
+    clothes: <RadioButton title="상품 종류" items={Object.entries(categoryData)} name="category" onChange={(id) => setItem(id)} item={item} />,
+    size: <RadioButton title="사이즈" items={sizeData} name="size" onChange={(id) => setItem(id)} item={item} />,
+    saleType: <RadioButton title="거래 방식" items={Object.entries(isShareData)} name="sale-type" onChange={(id) => setItem(id)} item={item} />,
   };
 
   return components[type];

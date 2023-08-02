@@ -8,7 +8,7 @@ import Button from "../../components/Button/Button";
 import fetchApi from "../../utils/fetchApi";
 import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 import { useImage } from "../../hooks/useImage";
-import RadioButton from "../../components/RadioButton/RadioButton";
+import RadioButtonGroup from "../../components/RadioButtonGroup/RadioButtonGroup";
 
 export default function UploadProduct() {
   const imgPre = useRef(null);
@@ -46,13 +46,18 @@ export default function UploadProduct() {
     if (isModify) {
       fetchApi(`product/${productId}`, "PUT").then((res) => {
         const product = res.product;
-        const resSaleData = JSON.parse(res.product.link);
+        try {
+          const resSaleData = JSON.parse(res.product.link);
+          setCategory(resSaleData.category);
+          setIsShare(resSaleData.isShare);
+          setSize(resSaleData.size);
+        } catch (e) {
+          console.error(e);
+        }
+
         setProductTitle(product.itemName);
         setProductPrice(product.price);
         setProductImage(product.itemImage);
-        setCategory(resSaleData.category);
-        setIsShare(resSaleData.isShare);
-        setSize(resSaleData.size);
       });
     }
   }, [isModify, productId]);
@@ -88,10 +93,8 @@ export default function UploadProduct() {
   const [btnDisable, setBtnDisable] = useState(false);
 
   useEffect(() => {
-    let entered = productTitle && productPrice && category && productImage;
-    if (isShare) {
-      entered = productTitle && category && productImage;
-    }
+    const entered = isShare ? productTitle && category && productImage : productTitle && productPrice && category && productImage;
+
     if (entered) {
       setBtnDisable(false);
     } else {
@@ -127,14 +130,14 @@ export default function UploadProduct() {
             <img src={productImage} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
           </ImgPlace>
 
-          <RadioButton type="saleType" item={"" + isShare} setItem={setIsShare} />
+          <RadioButtonGroup type="saleType" item={"" + isShare} setItem={setIsShare} />
 
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={inputImageHandler} />
           <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
             상품명
           </UserInput>
 
-          <RadioButton type="clothes" item={category} setItem={setCategory} />
+          <RadioButtonGroup type="clothes" item={category} setItem={setCategory} />
           <UserInput
             type="number"
             onWheel={(e) => {
@@ -158,7 +161,7 @@ export default function UploadProduct() {
           >
             가격
           </UserInput>
-          {isHaveSize && <RadioButton type="size" item={size} setItem={setSize} />}
+          {isHaveSize && <RadioButtonGroup type="size" item={size} setItem={setSize} />}
         </form>
       </Page>
     </>

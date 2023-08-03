@@ -130,14 +130,14 @@ export default function UploadProduct() {
             <img src={productImage} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
           </ImgPlace>
 
-          <RadioButtonGroup type="saleType" item={"" + isShare} setItem={setIsShare} />
+          <RadioButtonGroup type="saleType" state={"" + isShare} setState={setIsShare} />
 
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={inputImageHandler} />
           <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
             상품명
           </UserInput>
 
-          <RadioButtonGroup type="clothes" item={category} setItem={setCategory} />
+          <RadioButtonGroup type="clothes" state={category} setState={setCategory} />
           <UserInput
             type="number"
             onWheel={(e) => {
@@ -161,7 +161,7 @@ export default function UploadProduct() {
           >
             가격
           </UserInput>
-          {isHaveSize && <RadioButtonGroup type="size" item={size} setItem={setSize} />}
+          {isHaveSize && <RadioButtonGroup type="size" state={size} setState={setSize} />}
         </form>
       </Page>
     </>

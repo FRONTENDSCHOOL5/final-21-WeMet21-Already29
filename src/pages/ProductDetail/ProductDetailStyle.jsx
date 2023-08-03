@@ -32,16 +32,6 @@ const ProductPrice = styled.p`
 
 const ProductDetailSection = styled.section`
   padding: 0 20px;
-  .distributor {
-    border: 2px solid var(--line-gray-color);
-    text-align: center;
-    border-radius: 5px;
-    padding: 13px;
-    margin-top: 20px;
-    background-color: var(--white-color);
-    color: var(--gray-color);
-    font-size: 1.4rem;
-  }
 
   span {
     color: var(--gray-color);

@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import category from "../../contexts/ProductCategoryContext";
+import SquareButton from "../Button/SquareButton/SquareButton";
 
 const RadioDiv = styled.div`
   display: flex;
@@ -9,42 +10,20 @@ const RadioDiv = styled.div`
   margin: 10px 0 16px;
 `;
 
-const Input = styled.input`
-  + label {
-    transition: all.2s;
-    font-size: 1.4rem;
-    user-select: none;
-    cursor: pointer;
-    background-color: var(--unactive-color);
-    border-radius: 30px;
-    padding: 10px 15px;
-    font-weight: 500;
-
-    :hover {
-      background-color: var(--main-color);
-    }
-  }
-  :checked + label {
-    background-color: var(--main-color);
-    color: var(--white-color);
-  }
-`;
-
-const RadioButton = ({ title, items, name, onChange, item }) => (
+const RadioInput = ({ title, saleData, name, setState, state }) => (
   <>
     <p>{title}</p>
     <RadioDiv>
-      {items.map(([key, value]) => (
+      {saleData.map(([key, value]) => (
         <React.Fragment key={key}>
-          <Input type="radio" id={key} name={name} value={value} className="a11y-hidden" onChange={(e) => onChange(e.target.id)} checked={key === item} required />
-          <label htmlFor={key}>{value}</label>
+          <SquareButton type="radio" state={state} data={key} name={name} value={value} className="a11y-hidden" setState={setState} required />
         </React.Fragment>
       ))}
     </RadioDiv>
   </>
 );
 
-export default function RadioButtonGroup({ item, setItem, type }) {
+export default function RadioButtonGroup({ state, setState, type }) {
   const categoryData = useContext(category);
 
   const sizeData = ["FREE", "XS", "S", "M", "L", "XL"].map((size) => [size, size]);
@@ -55,9 +34,9 @@ export default function RadioButtonGroup({ item, setItem, type }) {
   };
 
   const components = {
-    clothes: <RadioButton title="상품 종류" items={Object.entries(categoryData)} name="category" onChange={(id) => setItem(id)} item={item} />,
-    size: <RadioButton title="사이즈" items={sizeData} name="size" onChange={(id) => setItem(id)} item={item} />,
-    saleType: <RadioButton title="거래 방식" items={Object.entries(isShareData)} name="sale-type" onChange={(id) => setItem(id)} item={item} />,
+    clothes: <RadioInput title="상품 종류" saleData={Object.entries(categoryData)} name="category" setState={setState} state={state} />,
+    size: <RadioInput title="사이즈" saleData={sizeData} name="size" setState={setState} state={state} />,
+    saleType: <RadioInput title="거래 방식" saleData={Object.entries(isShareData)} name="sale-type" setState={setState} state={state} />,
   };
 
   return components[type];

@@ -30,7 +30,7 @@ export default function PostDetail() {
   const { userInfo } = useContext(UserInfo);
 
   // 나의 username
-  const { username } = userInfo;
+  const { username, accountname } = userInfo;
 
   const pageEnd = useRef(null);
   const { getData, page } = useInfiniteScroll(`post/${postId}/comments`, pageEnd);
@@ -53,7 +53,7 @@ export default function PostDetail() {
           return prev.length === 0 ? json.comments : [...prev, ...json.comments];
         });
       });
-  }, [page, comments, getData]);
+  }, [page]);
 
   const addComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
@@ -155,7 +155,7 @@ export default function PostDetail() {
             comments.map((comment, index) => (
               <CommentArticle key={index}>
                 <CardHeader image={comment.author.image} username={comment.author.username} accountname={comment.author.accountname} time={calculateElapsedTime(comment.createdAt)}>
-                  {comment.author.username === username && (
+                  {comment.author.accountname === accountname && (
                     <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
                       <img src={IconMoreVertical} alt="더보기" width="22" height="22" />
                     </VerticalBtn>
@@ -169,7 +169,7 @@ export default function PostDetail() {
         <Form onSubmit={handleCommentSubmit}>
           {/* <Label htmlFor="file-sync" className="file-sync"></Label>
             <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden /> */}
-          <Img src={profileImg} alt="profileImg" onError={profileImgErrorHandler} />
+          <Img src={userInfo.image} alt="profileImg" onError={profileImgErrorHandler} />
           <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
           <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
             게시

@@ -10,7 +10,7 @@ import { imageErrorHandler } from "../../utils/imageErrorHandler";
 import category from "../../contexts/ProductCategoryContext";
 import SquareButton from "../Button/SquareButton/SquareButton";
 
-const RenderItemList = ({ item }) => {
+const RenderItem = ({ item }) => {
   const [isShare, setIsShare] = useState("");
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const ListPage = ({ productDatas }) => {
     <>
       {productDatas && (
         <Header type="back" href={`/profile/${productDatas[0].author.accountname}`}>
-          {productDatas[0].author.username}님 판매상품
+          {productDatas[0].author.username}님의 상품
         </Header>
       )}
       <FilterAside>
@@ -95,11 +95,11 @@ const ListPage = ({ productDatas }) => {
       <ul>
         {filterProductDatas && checkedItems.size
           ? filterProductDatas.map((item, index) => {
-              return <RenderItemList item={item} key={index} />;
+              return <RenderItem item={item} key={index} />;
             })
           : productDatas &&
             productDatas.map((item, index) => {
-              return <RenderItemList item={item} key={index} />;
+              return <RenderItem item={item} key={index} />;
             })}
       </ul>
     </>

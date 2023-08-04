@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import profileImg from "../../assets/images/profileImg.png";
 import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
@@ -20,10 +20,12 @@ export default function PostDetail() {
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [CommentModalOpen, setCommentModalOpen] = useState(false);
   const [targetCommentId, setTargetCommentId] = useState("");
   const navigate = useNavigate();
   const { id: postId } = useParams();
+  const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
+  const { isModalOpen, setModalOpen } = useContext(ModalContext);
 
   // 나의 username
   const username = localStorage.getItem("username");
@@ -86,7 +88,7 @@ export default function PostDetail() {
 
   const handleOpenModal = (commentId) => {
     setTargetCommentId(commentId);
-    setIsModalOpen(true); // 모달 오픈
+    setCommentModalOpen(true); // 모달 오픈
   };
 
   // 댓글 작성
@@ -110,7 +112,7 @@ export default function PostDetail() {
     const res = await fetchApi(`post/${postId}/comments/${targetCommentId}`, "delete");
 
     if (res.status === "200") {
-      setIsModalOpen(false);
+      setCommentModalOpen(false);
       const filterComment = comments.filter((v) => {
         console.log(v.id);
         return v.id !== targetCommentId;
@@ -134,50 +136,7 @@ export default function PostDetail() {
 
   return (
     <>
-      <BottomSheetContext.Consumer>
-        {({ isBottomSheetOpen, setBottomSheetOpen }) => (
-          <>
-            {post && username === post.author.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen} /> : <Header type="back" />}
-            <ModalContext.Consumer>
-              {({ setModalOpen }) =>
-                isBottomSheetOpen && (
-                  <BottomSheet>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setBottomSheetOpen(false);
-                        setModalOpen(true);
-                      }}
-                    >
-                      게시물 삭제
-                    </button>
-                    <Link to={post && `../modify/${post.id}`} onClick={() => setBottomSheetOpen(false)}>
-                      수정
-                    </Link>
-                  </BottomSheet>
-                )
-              }
-            </ModalContext.Consumer>
-            <ModalContext.Consumer>
-              {({ isModalOpen, setModalOpen }) =>
-                isModalOpen && (
-                  <AlertModal
-                    submitText="삭제"
-                    onSubmit={() => {
-                      deletePostHandler();
-                      navigate(`/profile/${post.author.accountname}`);
-                      setModalOpen(false);
-                    }}
-                    onCancel={() => setModalOpen(false)}
-                  >
-                    게시글을 삭제할까요?
-                  </AlertModal>
-                )
-              }
-            </ModalContext.Consumer>
-          </>
-        )}
-      </BottomSheetContext.Consumer>
+      {post && username === post.author.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen} /> : <Header type="back" />}
       <main>
         <article>
           {post && (
@@ -214,7 +173,36 @@ export default function PostDetail() {
             게시
           </button>
         </Form>
-        {isModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setIsModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
+        {CommentModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setCommentModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
+        {isBottomSheetOpen && (
+          <BottomSheet>
+            <button
+              type="button"
+              onClick={() => {
+                setBottomSheetOpen(false);
+                setModalOpen(true);
+              }}
+            >
+              게시물 삭제
+            </button>
+            <Link to={post && `../modify/${post.id}`} onClick={() => setBottomSheetOpen(false)}>
+              수정
+            </Link>
+          </BottomSheet>
+        )}
+        {isModalOpen && (
+          <AlertModal
+            submitText="삭제"
+            onSubmit={() => {
+              deletePostHandler();
+              navigate(`/profile/${post.author.accountname}`);
+              setModalOpen(false);
+            }}
+            onCancel={() => setModalOpen(false)}
+          >
+            게시글을 삭제할까요?
+          </AlertModal>
+        )}
       </main>
     </>
   );

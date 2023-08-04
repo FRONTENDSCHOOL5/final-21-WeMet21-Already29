@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
@@ -15,6 +15,8 @@ export default function Profile() {
   const [userData, setUserData] = useState(null);
   const [ShareModalOpen, setShareModalOpen] = useState(false);
   const navigator = useNavigate();
+  const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
+  const { isModalOpen, setModalOpen } = useContext(ModalContext);
 
   const logoutHandler = () => {
     navigator("/");
@@ -22,53 +24,39 @@ export default function Profile() {
 
   return (
     <>
-      <BottomSheetContext.Consumer>
-        {({ isBottomSheetOpen, setBottomSheetOpen }) => (
-          <>
-            {userData && localStorage.getItem("username") === userData.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
-
-            <ModalContext.Consumer>
-              {({ isModalOpen, setModalOpen }) => (
-                <>
-                  {isBottomSheetOpen && (
-                    <BottomSheet>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setModalOpen(true);
-                          setBottomSheetOpen(false);
-                        }}
-                      >
-                        로그아웃
-                      </button>
-                    </BottomSheet>
-                  )}
-
-                  {isModalOpen && (
-                    <AlertModal
-                      submitText="로그아웃"
-                      onSubmit={() => {
-                        logoutHandler();
-                        setModalOpen(false);
-                      }}
-                      onCancel={() => setModalOpen(false)}
-                    >
-                      로그아웃하시겠어요?
-                    </AlertModal>
-                  )}
-                </>
-              )}
-            </ModalContext.Consumer>
-          </>
-        )}
-      </BottomSheetContext.Consumer>
+      {userData && localStorage.getItem("username") === userData.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
       <main>
         <ProfileHeader userData={userData} setUserData={setUserData} setShareModalOpen={setShareModalOpen} />
         <ProfileProduct userData={userData} />
         <ProfilePost />
         <Navigation />
-        {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
       </main>
+      {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
+      {isBottomSheetOpen && (
+        <BottomSheet>
+          <button
+            type="button"
+            onClick={() => {
+              setModalOpen(true);
+              setBottomSheetOpen(false);
+            }}
+          >
+            로그아웃
+          </button>
+        </BottomSheet>
+      )}
+      {isModalOpen && (
+        <AlertModal
+          submitText="로그아웃"
+          onSubmit={() => {
+            logoutHandler();
+            setModalOpen(false);
+          }}
+          onCancel={() => setModalOpen(false)}
+        >
+          로그아웃하시겠어요?
+        </AlertModal>
+      )}
     </>
   );
 }

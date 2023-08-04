@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
@@ -16,6 +16,25 @@ export default function ProductDetail() {
   const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
   const [productAuthor, setProductAuthor] = useState(null);
+  const [isShare, setIsShare] = useState(""),
+    [category, setCategory] = useState(""),
+    [size, setSize] = useState("");
+  const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
+  const { isModalOpen, setModalOpen } = useContext(ModalContext);
+
+  useEffect(() => {
+    if (product) {
+      try {
+        const saleData = JSON.parse(product.link);
+        setIsShare(saleData.isShare);
+        setCategory(saleData.category);
+        setSize(saleData.size);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, [product]);
+
   const navigator = useNavigate();
 
   const deleteProductHandler = () => {
@@ -32,81 +51,64 @@ export default function ProductDetail() {
   }, []);
 
   return (
-    <ProductPage>
-      <BottomSheetContext.Consumer>
-        {({ setBottomSheetOpen }) => {
-          return productAuthor && localStorage.getItem("username") === productAuthor.username ? (
-            <Header type="basic" href={`/product/list/${localStorage.getItem("accountname")}`} setBottomSheetOpen={setBottomSheetOpen}></Header>
-          ) : (
-            <Header type="back" />
-          );
-        }}
-      </BottomSheetContext.Consumer>
-      {product ? (
-        <>
-          <ProductImageWrapper>
-            <ProductImage src={product.itemImage} alt="상품 이미지" onError={imageErrorHandler} />
-          </ProductImageWrapper>
-          <ProductDetailSection>
-            <ProductTitle>{product.itemName}</ProductTitle>
-            <ProductPrice>
-              {new Intl.NumberFormat().format(product.price)}
-              <span>원</span>
-            </ProductPrice>
-            <span>{uploadDateCalculate(product.updatedAt)}</span>
-            <p className="distributor">
-              구매링크 : <a href={product.link}>{product.link}</a>
-            </p>
-          </ProductDetailSection>
+    product && (
+      <ProductPage>
+        {productAuthor && localStorage.getItem("username") === productAuthor.username ? <Header type="basic" href={`/product/list/${localStorage.getItem("accountname")}`} setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
 
-          <AuthorInfo>
-            <CardHeader image={productAuthor.image} username={productAuthor.username} accountname={productAuthor.accountname} />
-          </AuthorInfo>
+        <ProductImageWrapper>
+          <ProductImage src={product.itemImage} alt="상품 이미지" onError={imageErrorHandler} />
+        </ProductImageWrapper>
+        <ProductDetailSection>
+          <ProductTitle>{product.itemName}</ProductTitle>
 
-          <BottomSheetContext.Consumer>
-            {({ isBottomSheetOpen, setBottomSheetOpen }) => (
-              <ModalContext.Consumer>
-                {({ isModalOpen, setModalOpen }) => {
-                  return (
-                    <>
-                      {isBottomSheetOpen && (
-                        <BottomSheet>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setModalOpen(true);
-                              setBottomSheetOpen(false);
-                            }}
-                          >
-                            삭제하기
-                          </button>
-                          <Link to={`/product/modify/${productId}`} onClick={() => setBottomSheetOpen(false)}>
-                            상품 수정하기
-                          </Link>
-                        </BottomSheet>
-                      )}
-                      {isModalOpen && (
-                        <AlertModal
-                          submitText="삭제"
-                          onSubmit={() => {
-                            deleteProductHandler();
-                            setModalOpen(false);
-                          }}
-                          onCancel={() => setModalOpen(false)}
-                        >
-                          상품을 삭제할까요?
-                        </AlertModal>
-                      )}
-                    </>
-                  );
-                }}
-              </ModalContext.Consumer>
+          <ProductPrice>
+            {isShare ? (
+              "나눔"
+            ) : (
+              <>
+                {new Intl.NumberFormat().format(product.price)}
+                <span>원</span>
+              </>
             )}
-          </BottomSheetContext.Consumer>
-        </>
-      ) : (
-        <Loading />
-      )}
-    </ProductPage>
+          </ProductPrice>
+          <span>{uploadDateCalculate(product.updatedAt)}</span>
+          {`나눔: ${isShare} 상품 종류: ${category} 사이즈: ${size}`}
+        </ProductDetailSection>
+
+        <AuthorInfo>
+          <CardHeader image={productAuthor.image} username={productAuthor.username} accountname={productAuthor.accountname} />
+        </AuthorInfo>
+
+        {isBottomSheetOpen && (
+          <BottomSheet>
+            <button
+              type="button"
+              onClick={() => {
+                setModalOpen(true);
+                setBottomSheetOpen(false);
+              }}
+            >
+              삭제하기
+            </button>
+            <Link to={`/product/modify/${productId}`} onClick={() => setBottomSheetOpen(false)}>
+              상품 수정하기
+            </Link>
+          </BottomSheet>
+        )}
+
+        {isModalOpen && (
+          <AlertModal
+            submitText="삭제"
+            onSubmit={() => {
+              deleteProductHandler();
+              setModalOpen(false);
+            }}
+            onCancel={() => setModalOpen(false)}
+          >
+            상품을 삭제할까요?
+          </AlertModal>
+        )}
+      </ProductPage>
+    )
   );
 }

@@ -1,9 +1,10 @@
-import React, {useState} from "react";
-import {Loginh1, LoginForm, NavStyle, FormBox} from "./LoginStyle";
-import {useNavigate} from "react-router-dom"; // eslint-disable-line no-unused-vars
+import React, { useContext, useState } from "react";
+import { Loginh1, LoginForm, NavStyle, FormBox } from "./LoginStyle";
+import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
 import Button from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
 import fetchApi from "../../utils/fetchApi";
+import UserInfo from "../../contexts/LoginContext";
 
 export default function Login() {
   const [userEmail, setUserEmail] = useState(""),
@@ -11,8 +12,8 @@ export default function Login() {
   const [warningMessage, setWarningMessage] = useState("");
   const [emailWarining, setEmailWarining] = useState("");
   const [passwordWarining, setPasswordWarining] = useState("");
-
   const navigate = useNavigate();
+  const { setUserInfo } = useContext(UserInfo);
 
   const inputHandler = (e) => {
     if (e.target.type === "email") {
@@ -54,12 +55,11 @@ export default function Login() {
           },
         })
       );
+      console.log(json);
 
       if (json.user) {
-        console.log(json);
-        localStorage.setItem("token", json.user.token);
-        localStorage.setItem("username", json.user.username);
-        localStorage.setItem("accountname", json.user.accountname);
+        localStorage.setItem("userInfo", JSON.stringify(json.user));
+        setUserInfo(json.user);
         navigate("/home");
       } else {
         setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
@@ -98,8 +98,8 @@ export default function Login() {
           >
             {passwordWarining}
           </p>
-          <div style={{height: "2rem"}}>
-            <p style={{color: "red", fontSize: "1.2rem", textAlign: "center"}}>{warningMessage}</p>
+          <div style={{ height: "2rem" }}>
+            <p style={{ color: "red", fontSize: "1.2rem", textAlign: "center" }}>{warningMessage}</p>
           </div>
           {userEmail && userPassword && !emailWarining && !passwordWarining ? (
             <Button category="basic" type="submit">

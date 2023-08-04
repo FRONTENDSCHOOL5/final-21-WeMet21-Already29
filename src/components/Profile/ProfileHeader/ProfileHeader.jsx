@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { followButtonHandler, unfollowButtonHandler } from "../../../utils/followUpButttonHandler";
 import { FollowCountSpan, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, WhiteButton, ProfileSectionHeader } from "./ProfileHeaderStyle";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../Button/Button";
 import share from "../../../assets/images/share.png";
 import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
+import fetchApi from "../../../utils/fetchApi";
+import UserInfo from "../../../contexts/LoginContext";
 
 export default function ProfileHeader({ setShareModalOpen, userData, setUserData }) {
   const [isfollow, setIsFollow] = useState(null);
   const [followCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
-  const params = useParams();
-
-  const fetchUserData = async () => {
-    const res = await fetch(`https://api.mandarin.weniv.co.kr/profile/${params.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-type": "application/json",
-      },
-    });
-    return res;
-
-    // });
-  };
+  const { id: accountname } = useParams();
+  const { userInfo } = useContext(UserInfo);
+  const UserAccountname = userInfo.accountname;
 
   const followUphandler = async () => {
     if (isfollow) {
@@ -40,15 +31,13 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
   };
 
   useEffect(() => {
-    fetchUserData()
-      .then((res) => res.json())
-      .then((json) => {
-        setUserData(json.profile);
-        setIsFollow(json.profile.isfollow);
-        setFollowCount(json.profile.followerCount);
-        setFollowingCount(json.profile.followingCount);
-      });
-  }, [params]);
+    fetchApi(`profile/${accountname}`).then((res) => {
+      setUserData(res.profile);
+      setIsFollow(res.profile.isfollow);
+      setFollowCount(res.profile.followerCount);
+      setFollowingCount(res.profile.followingCount);
+    });
+  }, [accountname, setUserData]);
 
   return (
     userData && (
@@ -70,7 +59,7 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
           <p className="intro">{userData.intro ? userData.intro : "소개글이 작성되지 않았습니다"}</p>
         </ProfileIntro>
         <ProfileNavBar>
-          {localStorage.getItem("accountname") === userData.accountname ? (
+          {UserAccountname === userData.accountname ? (
             <>
               <Button category="profileNav" to="modify">
                 프로필 수정

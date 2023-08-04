@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
@@ -16,12 +16,17 @@ import Home from "../pages/HomeFeed/HomeFeed";
 import SignUpProfile from "../pages/SignUp/SignUpProfile/SignUpProfile";
 import Error from "../pages/404/Error";
 import FollowerList from "../pages/FollowerList/FollowerList";
-import UserInfo from "../contexts/UserInfo";
+import UserInfo from "../contexts/LoginContext";
 
 const Providers = ({ children }) => {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+  const getUserInfo = () => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    userInfo && localStorage.setItem("token", userInfo.token);
+    return userInfo ? userInfo : null;
+  };
+  const [userInfo, setUserInfo] = useState(getUserInfo());
 
   return (
     <BottomSheetContext.Provider value={{ isBottomSheetOpen, setBottomSheetOpen }}>

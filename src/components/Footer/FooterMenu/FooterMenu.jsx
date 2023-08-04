@@ -9,11 +9,18 @@ import userIcon from "../../../assets/images/IconUser.png";
 import fillUserIcon from "../../../assets/images/FillIconUser.png";
 import { NavWrapper, NavLink, StyledNavText } from "./FooterMenuStyle";
 import goTop from "../../../utils/goTop";
+import { useContext, useEffect, useState } from "react";
+import UserInfo from "../../../contexts/LoginContext";
 
 export default function Navigation({ itemLength }) {
   const location = useLocation();
-  const accountname = localStorage.getItem("accountname");
   const pathname = location.pathname;
+  const { userInfo } = useContext(UserInfo);
+  const [accountname, setAccountname] = useState("");
+  useEffect(() => {
+    setAccountname(userInfo.accountname);
+  }, [userInfo]);
+
   return (
     <NavWrapper>
       <NavLink to="/home" className={`nav-link ${pathname === "/home" ? "active" : ""}`} onClick={() => goTop(itemLength)}>

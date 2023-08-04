@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Loading from "../../components/Loading/Loading";
 import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
 import Header from "../../components/Header/Header";
@@ -11,6 +10,7 @@ import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import { imageErrorHandler } from "../../utils/imageErrorHandler";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import fetchApi from "../../utils/fetchApi";
+import UserInfo from "../../contexts/LoginContext";
 
 export default function ProductDetail() {
   const { id: productId } = useParams();
@@ -21,6 +21,7 @@ export default function ProductDetail() {
     [size, setSize] = useState("");
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
+  const { userInfo } = useContext(UserInfo);
 
   useEffect(() => {
     if (product) {
@@ -53,7 +54,7 @@ export default function ProductDetail() {
   return (
     product && (
       <ProductPage>
-        {productAuthor && localStorage.getItem("username") === productAuthor.username ? <Header type="basic" href={`/product/list/${localStorage.getItem("accountname")}`} setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
+        {productAuthor && userInfo.username === productAuthor.username ? <Header type="basic" href={`/product/list/${userInfo.accountname}`} setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
 
         <ProductImageWrapper>
           <ProductImage src={product.itemImage} alt="상품 이미지" onError={imageErrorHandler} />

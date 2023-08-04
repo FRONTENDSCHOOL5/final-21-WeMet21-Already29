@@ -15,6 +15,7 @@ import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import CardContent from "../../components/Card/CardContent/CardContent";
 import fetchApi from "../../utils/fetchApi";
+import UserInfo from "../../contexts/LoginContext";
 
 export default function PostDetail() {
   const [post, setPost] = useState(null);
@@ -26,9 +27,10 @@ export default function PostDetail() {
   const { id: postId } = useParams();
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
+  const { userInfo } = useContext(UserInfo);
 
   // 나의 username
-  const username = localStorage.getItem("username");
+  const { username } = userInfo;
 
   const pageEnd = useRef(null);
   const { getData, page } = useInfiniteScroll(`post/${postId}/comments`, pageEnd);
@@ -51,7 +53,7 @@ export default function PostDetail() {
           return prev.length === 0 ? json.comments : [...prev, ...json.comments];
         });
       });
-  }, [page]);
+  }, [page, comments, getData]);
 
   const addComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);

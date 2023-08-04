@@ -10,6 +10,7 @@ import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
 import ProfileHeader from "../../components/Profile/ProfileHeader/ProfileHeader";
 import ProfileProduct from "../../components/Profile/ProfileProduct/ProfileProduct";
 import ProfilePost from "../../components/Profile/ProfilePost/ProfilePost";
+import UserInfo from "../../contexts/LoginContext";
 
 export default function Profile() {
   const [userData, setUserData] = useState(null);
@@ -17,14 +18,19 @@ export default function Profile() {
   const navigator = useNavigate();
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
+  const { userInfo } = useContext(UserInfo);
+  const { accountname } = userInfo;
+  // console.log(userInfo);
 
   const logoutHandler = () => {
-    navigator("/");
+    setModalOpen(false);
+    localStorage.removeItem("userInfo");
+    navigator("/login");
   };
 
   return (
     <>
-      {userData && localStorage.getItem("username") === userData.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
+      {userData && accountname === userData.accountname ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
       <main>
         <ProfileHeader userData={userData} setUserData={setUserData} setShareModalOpen={setShareModalOpen} />
         <ProfileProduct userData={userData} />

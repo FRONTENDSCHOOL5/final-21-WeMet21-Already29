@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useRef} from "react";
-import {ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle} from "./SignUpProfileStyle";
-import {useLocation, useNavigate} from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfileStyle";
+import { useLocation, useNavigate } from "react-router-dom";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
-
 import uploadIcon from "../../../assets/images/uploadFile.png";
 import Button from "../../../components/Button/Button";
 import Header from "../../../components/Header/Header";
 import UserInput from "../../../components/UserInput/UserInput";
 import fetchApi from "../../../utils/fetchApi";
+import UserInfo from "../../../contexts/LoginContext";
 
-export default function ProfileSettings({email, password}) {
+export default function ProfileSettings({ email, password }) {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
   // const [post, setPost] = useState("");
@@ -25,6 +25,7 @@ export default function ProfileSettings({email, password}) {
   const [idError, setIdError] = useState("");
   const location = useLocation();
   const isModify = location.pathname.includes("modify");
+  const { userInfo, setUserInfo } = useContext(UserInfo);
 
   const modifyUserProfile = () => {
     fetchApi(
@@ -38,14 +39,22 @@ export default function ProfileSettings({email, password}) {
           image: imageUrl,
         },
       })
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        localStorage.setItem("username", json.user.username);
-        navigate(`/profile/${json.user.accountname}`);
+    ).then((res) => {
+      console.log(res.user);
+      const accountname = res.user.accountname,
+        image = res.user.image,
+        username = res.user.username,
+        intro = res.user.intro;
+
+      setUserInfo((prev) => {
+        console.log(prev);
+        return { ...prev, accountname, image, username, intro };
       });
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      navigate(`/profile/${res.user.accountname}`);
+    });
   };
+
   const join = async () => {
     const userData = {
       user: {
@@ -67,25 +76,19 @@ export default function ProfileSettings({email, password}) {
   };
 
   useEffect(() => {
-    // const isModify = location.pathname.includes("modify");
-
-    const fetchUserInfo = async () => {
+    if (isModify) {
       try {
-        const json = await fetchApi("user/myinfo", "GET");
-        console.log(json.user);
-        setId(json.user.accountname);
-        setName(json.user.username);
-        setIntroduce(json.user.intro);
-        setImageUrl(json.user.image);
+        fetchApi("user/myinfo", "GET").then((res) => {
+          setId(res.user.accountname);
+          setName(res.user.username);
+          setIntroduce(res.user.intro);
+          setImageUrl(res.user.image);
+        });
       } catch (error) {
         console.error("사용자 정보를 불러오는 중 오류 발생:", error);
       }
-    };
-
-    if (isModify) {
-      fetchUserInfo();
     }
-  }, []);
+  }, [isModify]);
 
   const handleImgClick = () => {
     uploadInputRef.current.click();
@@ -102,7 +105,6 @@ export default function ProfileSettings({email, password}) {
 
     reader.readAsDataURL(event.target.files[0]);
 
-    const profile = document.querySelector("#profile");
     const url = "https://api.mandarin.weniv.co.kr/";
 
     const formData = new FormData();
@@ -187,7 +189,7 @@ export default function ProfileSettings({email, password}) {
     <>
       {isModify && (
         <Header type="submitHeader">
-          <Button onClick={() => modifyUserProfile()} disabled={name && id && introduce ? false : true} form="profileForm">
+          <Button category="basic" width="9rem" height="3.2rem" onClick={() => modifyUserProfile()} disabled={name && id && introduce ? false : true} form="profileForm">
             저장
           </Button>
         </Header>
@@ -240,7 +242,7 @@ export default function ProfileSettings({email, password}) {
           </UserInput>
           {name && id && introduce
             ? !isModify && (
-                <Button category="basic" type="submit" onClick={isModify ? modifyUserProfile : handleForm}>
+                <Button category="basic" type="submit" onClick={handleForm}>
                   입9팔9 즐기러 가기
                 </Button>
               )

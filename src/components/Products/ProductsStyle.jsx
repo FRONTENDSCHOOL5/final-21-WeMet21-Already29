@@ -25,3 +25,14 @@ export const CustomSwiper = styled(Swiper)`
     font-size: 1.2rem;
   }
 `;
+
+export const FilterAside = styled.aside`
+  form {
+    overflow: auto;
+  }
+  fieldset {
+    display: flex;
+    gap: 5px;
+    width: max-content;
+  }
+`;

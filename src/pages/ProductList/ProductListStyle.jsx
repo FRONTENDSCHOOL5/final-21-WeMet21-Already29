@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const ProductListSection = styled.section`
-  min-height: 100vh;
   padding-bottom: 60px;
 
   li {

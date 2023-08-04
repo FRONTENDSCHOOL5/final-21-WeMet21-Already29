@@ -93,14 +93,12 @@ export default function UploadProduct() {
   const [btnDisable, setBtnDisable] = useState(false);
 
   useEffect(() => {
-    const entered = isShare ? productTitle && category && productImage : productTitle && productPrice && category && productImage;
+    const entered = productTitle && productImage && category && (!isHaveSize || size) && (isShare || productPrice);
 
-    if (entered) {
-      setBtnDisable(false);
-    } else {
-      setBtnDisable(true);
-    }
+    setBtnDisable(!entered);
+  }, [productTitle, category, productPrice, productImage, isShare, isHaveSize, size]);
 
+  useEffect(() => {
     if (isShare === "true") {
       setIsShare(true);
       setProductPrice(0);
@@ -108,7 +106,7 @@ export default function UploadProduct() {
       setIsShare(false);
       setProductPrice("");
     }
-  }, [productTitle, category, productPrice, productImage, isShare]);
+  }, [isShare]);
 
   return (
     <>

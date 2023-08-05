@@ -43,13 +43,11 @@ export const ProductItem = ({ item }) => {
   );
 };
 
-const ListProduct = ({ productDatas, skip, setSkip }) => {
+const ListProduct = ({ productDatas, skip, setSkip, hasMore }) => {
   const categoryData = useContext(category);
   const [checkedItems, setcheckedItems] = useState("");
   const [filterProductDatas, setFilterProductDatas] = useState("");
-  // console.log(checkedItems, filterProductDatas);
-  // console.log(filterProductDatas);
-  // console.log(skip);
+
   useEffect(() => {
     if (productDatas) {
       const filterDatas = productDatas.filter((item) => {
@@ -63,6 +61,17 @@ const ListProduct = ({ productDatas, skip, setSkip }) => {
     }
   }, [checkedItems, productDatas]);
 
+  useEffect(() => {
+    if (filterProductDatas && filterProductDatas.length) {
+      while (hasMore) {
+        if (filterProductDatas.length >= 6 || hasMore) {
+          break;
+        }
+        setSkip((prev) => prev + 1);
+      }
+    }
+  }, [filterProductDatas, setSkip, hasMore]);
+
   const filterCheckboxHandler = (e) => {
     if (e.target.checked) {
       setcheckedItems((prev) => new Set([...prev, e.target.id]));
@@ -73,10 +82,6 @@ const ListProduct = ({ productDatas, skip, setSkip }) => {
         return copy;
       });
     }
-  };
-
-  const plusSkip = () => {
-    setSkip((prev) => prev + 1);
   };
 
   return (
@@ -115,7 +120,6 @@ const ListProduct = ({ productDatas, skip, setSkip }) => {
             productDatas.map((item, index) => {
               return <ProductItem item={item} key={index} />;
             })}
-        {filterProductDatas && checkedItems.size && <button onClick={plusSkip}>ㅎㅇ</button>}
       </ul>
     </>
   );

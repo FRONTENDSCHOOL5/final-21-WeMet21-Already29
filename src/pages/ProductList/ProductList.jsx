@@ -9,7 +9,7 @@ export default function ProductList() {
   const userAccountName = useParams();
   const pageEnd = useRef(null);
   const [products, setProducts] = useState(null);
-  const { getData, page, setPage } = useInfiniteScroll(`product/${userAccountName.id}`, pageEnd);
+  const { getData, page, setPage, hasMore } = useInfiniteScroll(`product/${userAccountName.id}`, pageEnd);
 
   useEffect(() => {
     getData(page).then((json) =>
@@ -23,7 +23,7 @@ export default function ProductList() {
   return (
     <>
       <ProductListSection>
-        <Products page="listPage" productDatas={products} skip={page} setSkip={setPage} />
+        <Products page="listPage" productDatas={products} skip={page} setSkip={setPage} hasMore={hasMore} />
       </ProductListSection>
       <div ref={pageEnd} />
       <Navigation />

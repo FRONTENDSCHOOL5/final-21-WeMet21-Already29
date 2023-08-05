@@ -17,17 +17,15 @@ export default function ProfilePost() {
   const { getData, page } = useInfiniteScroll(`post/${userID}/userpost`, pageEnd);
 
   const fetchPost = () => {
-    getData(page)
-      .then((res) => res.json())
-      .then((json) =>
-        setPosts((prev) => {
-          if (prev) {
-            return [...prev, ...json.post];
-          } else {
-            return json.post;
-          }
-        })
-      );
+    getData(page).then((json) =>
+      setPosts((prev) => {
+        if (prev) {
+          return [...prev, ...json.post];
+        } else {
+          return json.post;
+        }
+      })
+    );
   };
 
   useEffect(() => {
@@ -37,16 +35,12 @@ export default function ProfilePost() {
       console.log("case0");
       // 이전 포스트 데이터 삭제
       setPosts(null);
-      getData(0)
-        .then((res) => res.json())
-        .then((json) => setPosts(json.post));
+      getData(0).then((json) => setPosts(json.post));
     }
     // 게시글이 없는 다른 프로필에서 내 프로필로 넘어올 때
     else if (posts && posts.length === 0 && userAccountName === userID) {
       console.log("case1");
-      getData(0)
-        .then((res) => res.json())
-        .then((json) => setPosts(json.post));
+      getData(0).then((json) => setPosts(json.post));
     }
     // 다른 페이지에서 내 프로필로 넘어올 때
     else if (userAccountName === userID) {

@@ -45,14 +45,12 @@ export default function PostDetail() {
   }, []);
 
   useEffect(() => {
-    getData(page)
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(comments);
-        setComments((prev) => {
-          return prev.length === 0 ? json.comments : [...prev, ...json.comments];
-        });
+    getData(page).then((json) => {
+      console.log(comments);
+      setComments((prev) => {
+        return prev.length === 0 ? json.comments : [...prev, ...json.comments];
       });
+    });
   }, [page]);
 
   const addComment = (newComment) => {

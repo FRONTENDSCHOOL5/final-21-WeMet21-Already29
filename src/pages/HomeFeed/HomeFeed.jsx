@@ -12,17 +12,15 @@ export default function Home() {
   const { getData, page } = useInfiniteScroll("post/feed", pageEnd);
 
   useEffect(() => {
-    getData(page)
-      .then((res) => res.json())
-      .then((json) =>
-        setMyFeed((prev) => {
-          if (prev) {
-            return [...prev, ...json.posts];
-          } else {
-            return json.posts;
-          }
-        })
-      );
+    getData(page).then((json) =>
+      setMyFeed((prev) => {
+        if (prev) {
+          return [...prev, ...json.posts];
+        } else {
+          return json.posts;
+        }
+      })
+    );
   }, [page]);
 
   return (

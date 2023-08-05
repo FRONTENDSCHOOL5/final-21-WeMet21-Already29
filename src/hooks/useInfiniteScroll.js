@@ -4,23 +4,19 @@ export default function useInfiniteScroll(fetchPath, pageEnd) {
   const [page, setPage] = useState(0);
   const [isLoading, setLoading] = useState(false);
 
-  const loadMore = () => {
-    setPage((prev) => prev + 1);
-  };
-
   useEffect(() => {
     if (isLoading) {
       const observer = new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
-            loadMore();
+            setPage((prev) => prev + 1);
           }
         },
         { threshold: 1 }
       );
       observer.observe(pageEnd.current);
     }
-  }, [isLoading]);
+  }, [isLoading, pageEnd]);
 
   const getData = async (page) => {
     try {
@@ -32,12 +28,13 @@ export default function useInfiniteScroll(fetchPath, pageEnd) {
         },
       });
       setLoading(true);
-      return res;
+      const json = await res.json();
+      return json;
     } catch (e) {
       console.error(e);
     }
   };
 
   // 반환 값 getData() : promise | page : 현재 페이지 | isLoading : 현재 로딩 상태
-  return { getData, page, isLoading };
+  return { getData, page, setPage, isLoading };
 }

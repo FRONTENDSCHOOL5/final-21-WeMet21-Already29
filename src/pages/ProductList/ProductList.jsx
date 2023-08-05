@@ -9,23 +9,21 @@ export default function ProductList() {
   const userAccountName = useParams();
   const pageEnd = useRef(null);
   const [products, setProducts] = useState(null);
-  const { getData, page } = useInfiniteScroll(`product/${userAccountName.id}`, pageEnd);
+  const { getData, page, setPage } = useInfiniteScroll(`product/${userAccountName.id}`, pageEnd);
 
   useEffect(() => {
-    getData(page)
-      .then((res) => res.json())
-      .then((json) =>
-        setProducts((prev) => {
-          return prev ? [...prev, ...json.product] : json.product;
-        })
-      );
-    console.log("리렌더");
+    getData(page).then((json) =>
+      setProducts((prev) => {
+        return prev ? [...prev, ...json.product] : json.product;
+      })
+    );
+    // console.log("리렌더");
   }, [page]);
 
   return (
     <>
       <ProductListSection>
-        <Products page="listPage" productDatas={products} />
+        <Products page="listPage" productDatas={products} skip={page} setSkip={setPage} />
       </ProductListSection>
       <div ref={pageEnd} />
       <Navigation />

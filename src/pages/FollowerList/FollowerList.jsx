@@ -18,10 +18,7 @@ export default function FollowerList({ isfollow, followType }) {
   const [followState, setFollowState] = useState([]);
   const pageEnd = useRef(null);
   const token = localStorage.getItem("token");
-  const { getData, page } = useInfiniteScroll(
-    `profile/${accountname}/${pageType}`,
-    pageEnd
-  );
+  const { getData, page } = useInfiniteScroll(`profile/${accountname}/${pageType}`, pageEnd);
 
   const followArrayHandler = () => {
     const arr = [];
@@ -45,7 +42,7 @@ export default function FollowerList({ isfollow, followType }) {
 
   const Follow = (targetAccount) => {
     try {
-      fetchApi(`profile/${targetAccount}/follow`, "POST");;
+      fetchApi(`profile/${targetAccount}/follow`, "POST");
     } catch (err) {
       console.error("에러!", err);
     }
@@ -60,34 +57,32 @@ export default function FollowerList({ isfollow, followType }) {
   };
 
   useEffect(() => {
-    getData(page)
-      .then((res) => res.json())
-      .then((json) => {
-        switch (pageType) {
-          case "follower":
-            console.log("팔로워 페이지");
-            setFollowerList((prev) => {
-              if (prev) {
-                return [...prev, ...json];
-              } else {
-                return json;
-              }
-            });
-            break;
-          case "following":
-            console.log("팔로잉 페이지");
-            setFollowingList((prev) => {
-              if (prev) {
-                return [...prev, ...json];
-              } else {
-                return json;
-              }
-            });
-            break;
-          default:
-            break;
-        }
-      });
+    getData(page).then((json) => {
+      switch (pageType) {
+        case "follower":
+          console.log("팔로워 페이지");
+          setFollowerList((prev) => {
+            if (prev) {
+              return [...prev, ...json];
+            } else {
+              return json;
+            }
+          });
+          break;
+        case "following":
+          console.log("팔로잉 페이지");
+          setFollowingList((prev) => {
+            if (prev) {
+              return [...prev, ...json];
+            } else {
+              return json;
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    });
     followArrayHandler();
   }, [page]);
 
@@ -99,11 +94,7 @@ export default function FollowerList({ isfollow, followType }) {
           {followerList.map((follower, index) => {
             return (
               <FollowListItem key={index}>
-                <CardHeader
-                  image={follower.image}
-                  username={follower.username}
-                  accountname={follower.accountname}
-                />
+                <CardHeader image={follower.image} username={follower.username} accountname={follower.accountname} />
                 <Button
                   category={followState[index] ? "white" : "basic"}
                   type="button"
@@ -137,11 +128,7 @@ export default function FollowerList({ isfollow, followType }) {
           {followingList.map((following, index) => {
             return (
               <FollowListItem key={index}>
-                <CardHeader
-                  image={following.image}
-                  username={following.username}
-                  accountname={following.accountname}
-                ></CardHeader>
+                <CardHeader image={following.image} username={following.username} accountname={following.accountname}></CardHeader>
                 {following.accountname !== accountname && (
                   <Button
                     category={followState[index] ? "white" : "basic"}

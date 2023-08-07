@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
-import {ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle} from "./SignUpProfileStyle";
-import {useLocation, useNavigate} from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfileStyle";
+import { useLocation, useNavigate } from "react-router-dom";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 import Button from "../../../components/Button/Button";
@@ -8,8 +8,9 @@ import Header from "../../../components/Header/Header";
 import UserInput from "../../../components/UserInput/UserInput";
 import fetchApi from "../../../utils/fetchApi";
 import UserInfo from "../../../contexts/LoginContext";
+import useDebounce from "../../../hooks/useDebounce";
 
-export default function ProfileSettings({email, password}) {
+export default function ProfileSettings({ email, password }) {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
   const [image, setImage] = useState(basicProfileImage);
@@ -18,13 +19,21 @@ export default function ProfileSettings({email, password}) {
   const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [introduce, setIntroduce] = useState("");
-  const [idValid, setIdValid] = useState(true);
-  const [nameValid, setNameValid] = useState(true);
+  const [idValid, setIdValid] = useState(false);
+  const [nameValid, setNameValid] = useState(false);
   const [nameError, setNameError] = useState("");
   const [idError, setIdError] = useState("");
   const location = useLocation();
   const isModify = location.pathname.includes("modify");
-  const {userInfo, setUserInfo} = useContext(UserInfo);
+  const { userInfo, setUserInfo } = useContext(UserInfo);
+  const { output: accountResult, setKeyword: setAccountKeyword } = useDebounce(
+    "user/accountnamevalid",
+    JSON.stringify({
+      user: {
+        accountname: id,
+      },
+    })
+  );
 
   const modifyUserProfile = () => {
     fetchApi(
@@ -47,7 +56,7 @@ export default function ProfileSettings({email, password}) {
 
       setUserInfo((prev) => {
         console.log(prev);
-        return {...prev, accountname, image, username, intro};
+        return { ...prev, accountname, image, username, intro };
       });
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       navigate(`/profile/${res.user.accountname}`);
@@ -136,39 +145,34 @@ export default function ProfileSettings({email, password}) {
     }
   };
 
+  useEffect(() => {
+    setAccountKeyword(id);
+
+    const pat = /^[A-Za-z0-9._]+$/;
+    if (id && pat.test(id)) {
+      switch (accountResult.message) {
+        case "사용 가능한 계정ID 입니다.":
+          setIdValid(true);
+          setIdError("");
+          break;
+        default:
+          setIdValid(false);
+          setIdError(accountResult.message);
+          break;
+      }
+    } else if (id && !pat.test(id)) {
+      setIdValid(false);
+      setIdError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
+    } else {
+      setIdValid(false);
+      setIdError("");
+    }
+  }, [id, setAccountKeyword, accountResult]);
+
   // 계정 유효성 검사
   const handleIdInput = async (event) => {
     const value = event.target.value;
     setId(value); // 입력된 값을 그대로 유지 (첫번째 글자 지워지지 않는 오류 해결)
-    const idPattern = /^[A-Za-z0-9._]+$/;
-    if (idPattern.test(value)) {
-      setIdError("");
-      setIdValid(true);
-      setId(value);
-      try {
-        const json = await fetchApi(
-          "user/accountnamevalid",
-          "POST",
-          JSON.stringify({
-            user: {
-              accountname: value,
-            },
-          })
-        );
-        console.log(json);
-        if (!json.valid) {
-          setIdError("이미 가입된 id입니다.");
-          setIdValid(false);
-        } else {
-          setIdValid(true);
-        }
-      } catch (error) {
-        console.error("계정 유효성 검사 중 오류 발생:", error);
-      }
-    } else {
-      setIdError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
-      setIdValid(false);
-    }
   };
 
   // 소개 입력란 핸들러
@@ -176,15 +180,9 @@ export default function ProfileSettings({email, password}) {
     setIntroduce(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (name && id && introduce && idValid) {
-    }
-  };
-
   const handleForm = async (e) => {
     e.preventDefault();
-    if (name && id && introduce && idValid) {
+    if (nameValid && idValid) {
       await join(); // 이미지 업로드 및 회원가입 API 요청
       navigate("/login");
     }
@@ -200,7 +198,7 @@ export default function ProfileSettings({email, password}) {
         </Header>
       )}
 
-      <ProfileSettingForm onSubmit={handleSubmit}>
+      <ProfileSettingForm onSubmit={handleForm}>
         <ProfileTitle className={isModify && "a11y-hidden"}>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
         {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
         <Label htmlFor="file-sync" className="file-sync" onClick={handleImgClick}>
@@ -245,17 +243,11 @@ export default function ProfileSettings({email, password}) {
           <UserInput id={"user-introduce"} type={"text"} placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={handleIntroduceInput} required>
             소개
           </UserInput>
-          {name && id && introduce
-            ? !isModify && (
-                <Button category="basic" type="submit" onClick={handleForm}>
-                  입9팔9 즐기러 가기
-                </Button>
-              )
-            : !isModify && (
-                <Button category="basic" type="submit" disabled="disabled">
-                  입9팔9 즐기러 가기
-                </Button>
-              )}
+          {!isModify && (
+            <Button category="basic" type="submit" onClick={handleForm} disabled={!(nameValid && idValid)}>
+              입9팔9 즐기러 가기
+            </Button>
+          )}
         </EditForm>
       </ProfileSettingForm>
     </>

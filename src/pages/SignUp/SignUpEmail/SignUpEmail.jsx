@@ -1,15 +1,39 @@
-import {useState} from "react";
-import {SignUpContainer, Form, H1} from "./SignUpEmailStyle";
+import { useEffect, useState } from "react";
+import { SignUpContainer, Form, H1 } from "./SignUpEmailStyle";
 import Button from "../../../components/Button/Button";
 import UserInput from "../../../components/UserInput/UserInput";
 import fetchApi from "../../../utils/fetchApi";
+import useDebounce from "../../../hooks/useDebounce";
 
-export default function SignUpEmail({setPage, email, setEmail, password, setPassword}) {
+export default function SignUpEmail({ setPage, email, setEmail, password, setPassword }) {
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState("");
+  const { output: emailValidResult, setKeyword: setEmailKeyword } = useDebounce(
+    "user/emailvalid",
+    JSON.stringify({
+      user: {
+        email: email,
+      },
+    })
+  );
+
+  useEffect(() => {
+    setEmailKeyword(email);
+
+    switch (emailValidResult.message) {
+      case "사용 가능한 이메일 입니다.":
+        setEmailError("");
+        setEmailValid(true);
+        break;
+      default:
+        setEmailError(emailValidResult.message);
+        setEmailValid(false);
+        break;
+    }
+  }, [email, setEmailKeyword, emailValidResult]);
 
   //이메일 주소 기입
   const handleEmailInput = (event) => {
@@ -26,35 +50,6 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
     } else {
       setPasswordError("비밀번호는 6자 이상이어야 합니다.");
       setPasswordValid(false);
-    }
-  };
-
-  // 이메일 유효성 검사
-  const handleEmailValid = async (event) => {
-    const value = event.target.value;
-
-    try {
-      const json = await fetchApi(
-        "user/emailvalid",
-        "POST",
-        JSON.stringify({
-          user: {
-            email: value,
-          },
-        })
-      );
-
-      if (json.message === "사용 가능한 이메일 입니다.") {
-        setEmailError("");
-        setEmailValid(true);
-      } else {
-        setEmailError(json.message);
-        setEmailValid(false);
-      }
-    } catch (error) {
-      console.error("이메일 유효성 검사 중 오류 발생:", error);
-      setEmailError("이메일 유효성 검사 중 오류가 발생했습니다.");
-      setEmailValid(false);
     }
   };
 
@@ -96,7 +91,7 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
       <SignUpContainer>
         <H1>이메일로 회원가입</H1>
         <Form onSubmit={handleSubmit}>
-          <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleEmailInput} onBlur={handleEmailValid}>
+          <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleEmailInput}>
             이메일
           </UserInput>
           {emailError && (

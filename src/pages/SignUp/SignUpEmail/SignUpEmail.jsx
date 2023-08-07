@@ -6,7 +6,7 @@ import fetchApi from "../../../utils/fetchApi";
 
 export default function SignUpEmail({setPage, email, setEmail, password, setPassword}) {
   const [emailValid, setEmailValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState("");

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfileStyle";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, {useState, useEffect, useRef, useContext} from "react";
+import {ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle} from "./SignUpProfileStyle";
+import {useLocation, useNavigate} from "react-router-dom";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 import Button from "../../../components/Button/Button";
@@ -9,10 +9,9 @@ import UserInput from "../../../components/UserInput/UserInput";
 import fetchApi from "../../../utils/fetchApi";
 import UserInfo from "../../../contexts/LoginContext";
 
-export default function ProfileSettings({ email, password }) {
+export default function ProfileSettings({email, password}) {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
-  // const [post, setPost] = useState("");
   const [image, setImage] = useState(basicProfileImage);
   const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태 추가
 
@@ -25,7 +24,7 @@ export default function ProfileSettings({ email, password }) {
   const [idError, setIdError] = useState("");
   const location = useLocation();
   const isModify = location.pathname.includes("modify");
-  const { userInfo, setUserInfo } = useContext(UserInfo);
+  const {userInfo, setUserInfo} = useContext(UserInfo);
 
   const modifyUserProfile = () => {
     fetchApi(
@@ -48,7 +47,7 @@ export default function ProfileSettings({ email, password }) {
 
       setUserInfo((prev) => {
         console.log(prev);
-        return { ...prev, accountname, image, username, intro };
+        return {...prev, accountname, image, username, intro};
       });
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       navigate(`/profile/${res.user.accountname}`);
@@ -157,6 +156,12 @@ export default function ProfileSettings({ email, password }) {
           })
         );
         console.log(json);
+        if (!json.valid) {
+          setIdError("이미 가입된 id입니다.");
+          setIdValid(false);
+        } else {
+          setIdValid(true);
+        }
       } catch (error) {
         console.error("계정 유효성 검사 중 오류 발생:", error);
       }

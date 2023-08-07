@@ -32,7 +32,7 @@ export default function SquareButton({ type, state, setState, data, name, value 
     ),
     checkbox: (
       <>
-        <Input type={type} className="a11y-hidden" id={data} value={value} onChange={(e) => setState(e)} checked={state && typeof state === "object" && state.has(data)} required />
+        <Input type={type} className="a11y-hidden" id={data} value={value} onChange={(e) => setState(e)} checked={state && typeof state === "object" && state.size && state.has(data)} required />
         <label htmlFor={data}>{value}</label>
       </>
     ),

@@ -41,21 +41,19 @@ export default function ProfileSettings({ email, password }) {
       "PUT",
       JSON.stringify({
         user: {
-          username: name,
-          accountname: id,
+          username: "입구팔구",
+          accountname: "21JO",
           intro: introduce,
           image: imageUrl,
         },
       })
     ).then((res) => {
-      console.log(res.user);
       const accountname = res.user.accountname,
         image = res.user.image,
         username = res.user.username,
         intro = res.user.intro;
 
       setUserInfo((prev) => {
-        console.log(prev);
         return { ...prev, accountname, image, username, intro };
       });
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -192,7 +190,7 @@ export default function ProfileSettings({ email, password }) {
     <>
       {isModify && (
         <Header type="submitHeader">
-          <Button category="basic" width="9rem" height="3.2rem" onClick={() => modifyUserProfile()} disabled={name && id && introduce ? false : true} form="profileForm">
+          <Button category="basic" width="9rem" height="3.2rem" onClick={() => modifyUserProfile()} disabled={nameValid && idValid ? false : true} form="profileForm">
             저장
           </Button>
         </Header>
@@ -228,7 +226,7 @@ export default function ProfileSettings({ email, password }) {
           <UserInput id={"user-id"} type={"text"} placeholder={"영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."} value={id} valid={idValid} alertMsg={setIdError} onChange={handleIdInput} onBlur={handleIdInput} required>
             계정 ID
           </UserInput>
-          {!isModify && idError && (
+          {idError && (
             <p
               style={{
                 marginBottom: "2rem",

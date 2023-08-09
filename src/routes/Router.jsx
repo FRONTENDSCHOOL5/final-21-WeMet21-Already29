@@ -50,8 +50,8 @@ function Router() {
         <Route path="/profile/*" element={<Outlet />}>
           <Route path=":id/*" element={<Outlet />}>
             <Route path="" element={<Profile />} />
-            <Route path="following" element={<FollowerList followType="followingList" />} />
-            <Route path="follower" element={<FollowerList followType="followerList" type="followers" />} />
+            <Route path="following" element={<FollowerList />} />
+            <Route path="follower" element={<FollowerList />} />
             <Route path="modify" element={<SignUpProfile />} />
           </Route>
         </Route>

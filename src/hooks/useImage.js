@@ -55,8 +55,8 @@ export function useMultiImage() {
   return { image, setImage, inputImageHandler };
 }
 
-export function useImage() {
-  const [image, setImage] = useState(null);
+export function useImage(initial) {
+  const [image, setImage] = useState(initial || null);
 
   async function inputImageHandler(e) {
     const formData = new FormData();

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfileStyle";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, {useState, useEffect, useRef, useContext} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useImage} from "../../../hooks/useImage";
+import {ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle} from "./SignUpProfileStyle";
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
 import uploadIcon from "../../../assets/images/uploadFile.png";
 import Button from "../../../components/Button/Button";
@@ -10,11 +11,11 @@ import fetchApi from "../../../utils/fetchApi";
 import UserInfo from "../../../contexts/LoginContext";
 import useDebounce from "../../../hooks/useDebounce";
 
-export default function ProfileSettings({ email, password }) {
+export default function ProfileSettings({email, password}) {
   const navigate = useNavigate();
   const uploadInputRef = useRef(null);
-  const [image, setImage] = useState(basicProfileImage);
-  const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태 추가
+  const {image, setImage, inputImageHandler} = useImage(basicProfileImage);
+  // const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태 추가
 
   const [name, setName] = useState("");
   const [id, setId] = useState("");
@@ -25,8 +26,8 @@ export default function ProfileSettings({ email, password }) {
   const [idError, setIdError] = useState("");
   const location = useLocation();
   const isModify = location.pathname.includes("modify");
-  const { userInfo, setUserInfo } = useContext(UserInfo);
-  const { output: accountResult, setKeyword: setAccountKeyword } = useDebounce(
+  const {userInfo, setUserInfo} = useContext(UserInfo);
+  const {output: accountResult, setKeyword: setAccountKeyword} = useDebounce(
     "user/accountnamevalid",
     JSON.stringify({
       user: {
@@ -36,37 +37,58 @@ export default function ProfileSettings({ email, password }) {
   );
 
   const modifyUserProfile = () => {
-    fetchApi(
-      "user",
-      "PUT",
-      JSON.stringify({
-        user: {
-          username: "입구팔구",
-          accountname: "21JO",
-          intro: introduce,
-          image: imageUrl,
-        },
-      })
-    ).then((res) => {
+    const userData = {
+      user: {
+        username: userInfo.username,
+        accountname: userInfo.accountname,
+        intro: introduce,
+        image: image,
+      },
+    };
+
+    // 계정 ID가 중복된 경우에도 저장 가능하도록 변경
+    fetchApi("user", "PUT", JSON.stringify(userData)).then((res) => {
       const accountname = res.user.accountname,
         image = res.user.image,
         username = res.user.username,
         intro = res.user.intro;
 
       setUserInfo((prev) => {
-        return { ...prev, accountname, image, username, intro };
+        return {...prev, accountname, image, username, intro};
       });
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       navigate(`/profile/${res.user.accountname}`);
     });
   };
 
+  // useEffect를 활용하여 계정 ID 중복 체크를 할 수 있도록 변경
+  useEffect(() => {
+    if (id) {
+      setAccountKeyword(id);
+    }
+  }, [id, setAccountKeyword]);
+
+  useEffect(() => {
+    if (accountResult) {
+      switch (accountResult.message) {
+        case "사용 가능한 계정ID 입니다.":
+          setIdValid(true);
+          setIdError("");
+          break;
+        default:
+          setIdValid(false);
+          setIdError(accountResult.message);
+          break;
+      }
+    }
+  }, [accountResult]);
+
   const join = async () => {
     const userData = {
       user: {
         email: email,
         password: password,
-        image: imageUrl,
+        image: image,
         username: name,
         accountname: id,
         intro: introduce,
@@ -88,47 +110,20 @@ export default function ProfileSettings({ email, password }) {
           setId(res.user.accountname);
           setName(res.user.username);
           setIntroduce(res.user.intro);
-          setImageUrl(res.user.image);
+          setImage(res.user.image);
         });
       } catch (error) {
         console.error("사용자 정보를 불러오는 중 오류 발생:", error);
       }
     }
-  }, [isModify]);
+  }, [isModify, setImage]);
 
   const handleImgClick = () => {
     uploadInputRef.current.click();
   };
 
   //프로필 사진 업로드
-  const handleFile = async (event) => {
-    const file = event.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      reader.result && setImage(reader.result);
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-
-    const url = "https://api.mandarin.weniv.co.kr/";
-
-    const formData = new FormData();
-    formData.append("image", file);
-    try {
-      const response = await fetch("https://api.mandarin.weniv.co.kr/image/uploadfile", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-
-      console.log(data);
-      const path = url + data.filename;
-      setImageUrl(path);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const handleFile = inputImageHandler;
 
   // 사용자 이름 유효성 검사
   const handleNameInput = (event) => {
@@ -190,7 +185,7 @@ export default function ProfileSettings({ email, password }) {
     <>
       {isModify && (
         <Header type="submitHeader">
-          <Button category="basic" width="9rem" height="3.2rem" onClick={() => modifyUserProfile()} disabled={nameValid && idValid ? false : true} form="profileForm">
+          <Button category="basic" width="9rem" height="3.2rem" onClick={() => modifyUserProfile()} disabled={nameValid ? false : true} form="profileForm">
             저장
           </Button>
         </Header>
@@ -201,11 +196,11 @@ export default function ProfileSettings({ email, password }) {
         {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
         <Label htmlFor="file-sync" className="file-sync" onClick={handleImgClick}>
           <ImgUploadBtn>
-            <Img src={imageUrl || image} alt="uploadFile" />
+            <Img src={image} alt="uploadFile" />
             <ImgIcon src={uploadIcon} alt="업로드아이콘" />
           </ImgUploadBtn>
         </Label>
-        <UploadInput ref={uploadInputRef} id="profile" type="file" accept=".png, .jpg, .jpeg" multiple hidden onChange={handleFile} />
+        <UploadInput ref={uploadInputRef} id="profile" type="file" accept=".png, .jpg, .jpeg" multiple hidden onChange={inputImageHandler} />
 
         <EditForm id="profileForm">
           <UserInput id={"user-name"} type={"text"} minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required>

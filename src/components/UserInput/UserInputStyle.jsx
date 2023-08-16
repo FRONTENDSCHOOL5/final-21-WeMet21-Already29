@@ -8,6 +8,7 @@ export const StyleInput = styled.input`
   outline: var(--main-color);
   background-color: var(--box-gray-color);
   border-radius: 10px;
+  box-sizing: border-box;
 
   &::placeholder {
     color: var(--gray-color);

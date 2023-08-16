@@ -1,23 +1,24 @@
 import styled from "styled-components";
 
-export const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 3.4rem;
+const SignUpContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 390px;
+  height: 100vh;
 `;
-export const H1 = styled.h1`
-  width: 100%;
+const H1 = styled.h1`
+  margin-top: 54px;
   text-align: center;
-  margin: 2.5rem 0px 4rem;
-  font-size: 2.4rem;
+  font-size: var(--font-lg-size);
+  margin-bottom: 40px;
+  font-weight: bold;
 `;
 
-export const Form = styled.form`
+const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin-bottom: 3rem;
+  margin: 0 3.4rem;
 `;
 
+export {SignUpContainer, H1, SignUpForm};

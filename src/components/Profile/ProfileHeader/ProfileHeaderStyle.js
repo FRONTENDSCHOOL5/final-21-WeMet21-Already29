@@ -45,19 +45,25 @@ export const FollowCountSpan = styled.span`
 `;
 
 export const ProfileIntro = styled.div`
+  color: var(--gray-color);
+
   .user-name {
+    color: initial;
     font-size: 1.6rem;
     font-weight: bold;
   }
 
   .account-name {
     font-size: 1.2rem;
-    color: var(--gray-color);
-    margin: 10px 0 20px;
+    margin: 10px 0 14px;
   }
 
   .intro {
-    color: var(--gray-color);
+    font-size: 1.4rem;
+  }
+
+  .fassion-info {
+    margin: 10px 0 5px;
     font-size: 1.4rem;
   }
 `;

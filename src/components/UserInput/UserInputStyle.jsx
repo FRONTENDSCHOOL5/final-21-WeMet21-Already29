@@ -1,17 +1,16 @@
 import styled from "styled-components";
 
 export const StyleInput = styled.input`
-  width: 100%;
-  padding-bottom: 8px;
+  padding: 1.2rem;
   margin: 10px 0 16px;
-  border: 0;
-  box-shadow: 0 2px 0 0 var(--line-gray-color);
-  outline: none;
-  font-family: inherit;
+  border: none;
+  outline: var(--main-color);
+  background-color: var(--box-gray-color);
+  border-radius: 10px;
 
   &::placeholder {
-    color: #bdbdbd;
-    font-size: 1.4rem;
+    color: var(--gray-color);
+    font-size: 14px;
   }
 
   &:focus {
@@ -32,5 +31,6 @@ export const StyleInput = styled.input`
 
 export const Stylelabel = styled.label`
   font-size: 1.2rem;
-  color: var(--gray-color);
+  color: var(--font-black-color);
+  font-weight: bold;
 `;

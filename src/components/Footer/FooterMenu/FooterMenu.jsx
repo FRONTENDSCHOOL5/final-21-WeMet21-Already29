@@ -16,10 +16,7 @@ export default function Navigation({ itemLength }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { userInfo } = useContext(UserInfo);
-  const [accountname, setAccountname] = useState("");
-  useEffect(() => {
-    setAccountname(userInfo.accountname);
-  }, [userInfo]);
+  const { accountname } = userInfo;
 
   return (
     <NavWrapper>

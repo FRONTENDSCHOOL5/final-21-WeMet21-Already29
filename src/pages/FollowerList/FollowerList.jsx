@@ -75,7 +75,7 @@ export default function FollowerList() {
       <Header type="back">{pageType}s</Header>
       <FollowList>
         {followDataList.map((user, index) => (
-          <FollowItem isfollow={user.isfollow} accountname={user.accountname} itIsMe={accountname === user.accountname} image={user.image} username={user.username} />
+          <FollowItem key={index} isfollow={user.isfollow} accountname={user.accountname} itIsMe={accountname === user.accountname} image={user.image} username={user.username} />
         ))}
       </FollowList>
       <div ref={pageEnd} />

@@ -1,8 +1,16 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 
-const Loginh1 = styled.h1`
+const LoginContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 390px;
+  height: 100vh;
+`;
+
+const H1 = styled.h1`
   margin-top: 54px;
   text-align: center;
   font-size: var(--font-lg-size);
@@ -25,15 +33,7 @@ const NavStyle = styled(NavLink)`
   text-align: center;
   margin-top: 20px;
   color: var(--gray-color);
-  font-size: var( --font-sm-size);
+  font-size: var(--font-sm-size);
 `;
 
-const FormBox = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 390px;
-  height: 100vh;
-`;
-
-export { Loginh1, LoginForm, NavStyle, FormBox, StyleLink };
+export {LoginContainer, H1, LoginForm, StyleLink, NavStyle};

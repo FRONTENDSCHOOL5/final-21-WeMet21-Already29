@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import { Loginh1, LoginForm, NavStyle, FormBox } from "./LoginStyle";
-import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
+import React, {useContext, useState} from "react";
+import {H1, LoginContainer, LoginForm, NavStyle} from "./LoginStyle";
+import {useNavigate} from "react-router-dom"; // eslint-disable-line no-unused-vars
 import Button from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
 import fetchApi from "../../utils/fetchApi";
@@ -13,7 +13,7 @@ export default function Login() {
   const [emailWarining, setEmailWarining] = useState("");
   const [passwordWarining, setPasswordWarining] = useState("");
   const navigate = useNavigate();
-  const { setUserInfo } = useContext(UserInfo);
+  const {setUserInfo} = useContext(UserInfo);
 
   const inputHandler = (e) => {
     if (e.target.type === "email") {
@@ -71,8 +71,9 @@ export default function Login() {
 
   return (
     <>
-      <FormBox>
-        <Loginh1>로그인</Loginh1>
+      <LoginContainer>
+        <h2 className="a11y-hidden">로그인</h2>
+        <H1>로그인</H1>
         <LoginForm onSubmit={submitHandler}>
           <UserInput type="email" id="user-email" onChange={inputHandler} value={userEmail}>
             이메일
@@ -80,8 +81,8 @@ export default function Login() {
           <p
             style={{
               color: "red",
-              fontSize: "1.2rem",
-              margin: " -1rem 0 3rem",
+              fontSize: "1.1rem",
+              margin: " -1rem 0 1.5rem",
             }}
           >
             {emailWarining}
@@ -92,14 +93,14 @@ export default function Login() {
           <p
             style={{
               color: "red",
-              fontSize: "1.2rem",
-              margin: " -1rem 0 3rem",
+              fontSize: "1.1rem",
+              margin: " -1rem 0 1.5rem",
             }}
           >
             {passwordWarining}
           </p>
-          <div style={{ height: "2rem" }}>
-            <p style={{ color: "red", fontSize: "1.2rem", textAlign: "center" }}>{warningMessage}</p>
+          <div style={{height: "2rem"}}>
+            <p style={{color: "red", fontSize: "1.2rem", textAlign: "center"}}>{warningMessage}</p>
           </div>
           {userEmail && userPassword && !emailWarining && !passwordWarining ? (
             <Button category="basic" type="submit">
@@ -112,7 +113,7 @@ export default function Login() {
           )}
         </LoginForm>
         <NavStyle to={"/signup"}>이메일로 회원가입하기</NavStyle>
-      </FormBox>
+      </LoginContainer>
     </>
   );
 }

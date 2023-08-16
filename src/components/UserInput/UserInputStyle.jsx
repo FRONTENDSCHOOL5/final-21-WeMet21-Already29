@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyleInput = styled.input`
+  width: 100%;
   padding: 1.2rem;
   margin: 10px 0 16px;
   border: none;
@@ -14,7 +15,7 @@ export const StyleInput = styled.input`
   }
 
   &:focus {
-    box-shadow: 0 2px 0 0 var(--main-color);
+    border: 2px solid var(--main-color);
   }
 
   &:disabled {

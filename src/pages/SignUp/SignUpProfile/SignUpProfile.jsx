@@ -48,7 +48,7 @@ export default function ProfileSettings({ email, password }) {
     })
   );
   const [introduce, setIntroduce] = useState("");
-  const splitString = "[sp!it$tr1ng}";
+  const splitString = "{[split]}";
 
   const [userFassion, setUserFassion] = useState(new Set());
 
@@ -57,7 +57,7 @@ export default function ProfileSettings({ email, password }) {
       user: {
         username: name,
         accountname: accountname,
-        intro: `${introduce}${splitString}${[...userFassion].join(",")}`,
+        intro: (introduce || userFassion.size) && `${introduce}${splitString}${[...userFassion].join(",")}`,
         image: image,
       },
     };

@@ -3,11 +3,8 @@ import {NavLink} from "react-router-dom";
 import {Link} from "react-router-dom";
 
 const LoginContainer = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 390px;
   height: 100vh;
+  padding: 0 3.4rem;
 `;
 
 const H1 = styled.h1`
@@ -19,9 +16,9 @@ const H1 = styled.h1`
 `;
 
 const LoginForm = styled.form`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  margin: 0 3.4rem;
 `;
 
 const StyleLink = styled(Link)`

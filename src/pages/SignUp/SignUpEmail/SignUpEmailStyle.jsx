@@ -1,12 +1,9 @@
 import styled from "styled-components";
 
 const SignUpContainer = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 390px;
   height: 100vh;
 `;
+
 const H1 = styled.h1`
   margin-top: 54px;
   text-align: center;

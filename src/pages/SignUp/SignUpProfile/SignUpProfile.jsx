@@ -240,7 +240,7 @@ export default function ProfileSettings({ email, password }) {
           <UserInput
             id="user-id"
             type="text"
-            placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.."
+            placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
             value={accountname}
             valid={accountnameValid}
             alertMsg={setAccountnameError}
@@ -263,11 +263,11 @@ export default function ProfileSettings({ email, password }) {
               {accountnameError}
             </p>
           )}
-          <UserInput id="user-introduce" type="text" placeholder={"좋아하는 브랜드와 룩을 알려주세요."} value={introduce} onChange={(e) => setIntroduce(e.target.value)} required>
+          <UserInput id="user-introduce" type="text" placeholder="나를 소개하는 글을 작성해주세요." value={introduce} onChange={(e) => setIntroduce(e.target.value)} required>
             소개
           </UserInput>
-          <p>
-            나를 소개하는 키워드<small>/최대3개까지 선택가능합니다</small>
+          <p style={{ fontSize: "12px", color: "var(--gray-color)", marginBottom: "10px" }}>
+            나를 소개하는 키워드<small> / 최대 3개</small>
           </p>
           <UserSelectDiv ref={buttons}>
             {Object.entries(fassionData).map((item) => {

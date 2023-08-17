@@ -32,6 +32,10 @@ export const ProductDetailSection = styled.section`
   .gr {
     color: var(--gray-color);
   }
+  .update-time {
+    margin-bottom: 30px;
+    display: block;
+  }
 `;
 
 export const AuthorInfo = styled.section`
@@ -55,16 +59,8 @@ export const SaleText = styled.span`
   display: inline-block;
 `;
 
-export const ProductData = styled.div`
-  padding: 10px 20px;
-  line-height: 2;
-  border-radius: 10px;
-  border: 1px solid var(--line-gray-color);
-  box-shadow: 3px 3px 3px var(--line-gray-color);
-  margin-top: 37px;
-`;
-
 export const CategoryUl = styled.ul`
+  line-height: 2;
   p {
     font-size: 1.4rem;
   }

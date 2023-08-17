@@ -12,6 +12,7 @@ import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import fetchApi from "../../utils/fetchApi";
 import UserInfo from "../../contexts/LoginContext";
 import category from "../../contexts/ProductCategoryContext";
+import ShadowBox from "../../components/ShadowBox/ShadowBox";
 
 export default function ProductDetail() {
   const { id: productId } = useParams();
@@ -66,9 +67,8 @@ export default function ProductDetail() {
           <ProductTitle>{product.itemName}</ProductTitle>
 
           {!isShare && <ProductPrice>₩ {new Intl.NumberFormat().format(product.price)}</ProductPrice>}
-          <span className="gr">{uploadDateCalculate(product.updatedAt)}</span>
-
-          <ProductData>
+          <span className="update-time gr">{uploadDateCalculate(product.updatedAt)}</span>
+          <ShadowBox>
             <h2 className="a11y-hidden">상품정보</h2>
             <CategoryUl>
               <li>
@@ -86,7 +86,7 @@ export default function ProductDetail() {
                 </li>
               )}
             </CategoryUl>
-          </ProductData>
+          </ShadowBox>
         </ProductDetailSection>
 
         <AuthorInfo>

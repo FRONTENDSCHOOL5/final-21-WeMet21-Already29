@@ -65,7 +65,7 @@ export default function ProductDetail() {
           <SaleText isShare={isShare}>{isShare ? "나눔" : "판매중"}</SaleText>
           <ProductTitle>{product.itemName}</ProductTitle>
 
-          <ProductPrice>{isShare ? "나눔" : <>₩ {new Intl.NumberFormat().format(product.price)}</>}</ProductPrice>
+          {!isShare && <ProductPrice>₩ {new Intl.NumberFormat().format(product.price)}</ProductPrice>}
           <span className="gr">{uploadDateCalculate(product.updatedAt)}</span>
 
           <ProductData>
@@ -77,12 +77,14 @@ export default function ProductDetail() {
                   <span>{categoryData[itemCategory]}</span>
                 </p>
               </li>
-              <li>
-                <p>
-                  <span className="category-title gr">사이즈</span>
-                  <span>{size}</span>
-                </p>
-              </li>
+              {size && (
+                <li>
+                  <p>
+                    <span className="category-title gr">사이즈</span>
+                    <span>{size}</span>
+                  </p>
+                </li>
+              )}
             </CategoryUl>
           </ProductData>
         </ProductDetailSection>

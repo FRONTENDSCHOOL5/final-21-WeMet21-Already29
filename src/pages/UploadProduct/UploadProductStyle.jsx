@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
 const Page = styled.main`
-  margin: 10px 34px 0;
+  margin: 10px 14px;
+  padding-bottom: 20px;
 `;
 
 const ImgPlace = styled.div`
   position: relative;
   width: 100%;
   aspect-ratio: 3/2;
-  margin: 18px 0 30px;
+  margin: 15px 0;
   background-color: #f2f2f2;
   border: 0.5px solid var(--line-gray-color);
   border-radius: 10px;

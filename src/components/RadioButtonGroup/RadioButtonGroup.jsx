@@ -3,17 +3,23 @@ import styled from "styled-components";
 import category from "../../contexts/ProductCategoryContext";
 import SquareButton from "../Button/SquareButton/SquareButton";
 
+const Title = styled.p`
+  font-size: 1.4rem;
+  font-weight: 500;
+`;
+
 const RadioDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin: 10px 0 16px;
+  margin: 10px 0;
+  gap: ${({ name }) => (name === "size" ? "12px" : "15px")};
+  justify-content: ${({ name }) => name === "size" && "space-between"};
 `;
 
 const RadioInput = ({ title, data, name, setState, state }) => (
   <>
-    <p>{title}</p>
-    <RadioDiv>
+    <Title>{title}</Title>
+    <RadioDiv name={name}>
       {data.map(([key, value]) => (
         <React.Fragment key={key}>
           <SquareButton type="radio" state={state} data={key} name={name} value={value} className="a11y-hidden" setState={setState} required />

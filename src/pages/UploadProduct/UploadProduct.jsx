@@ -9,6 +9,7 @@ import fetchApi from "../../utils/fetchApi";
 import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 import { useImage } from "../../hooks/useImage";
 import RadioButtonGroup from "../../components/RadioButtonGroup/RadioButtonGroup";
+import ShadowBox from "../../components/ShadowBox/ShadowBox";
 
 export default function UploadProduct() {
   const imgPre = useRef(null);
@@ -33,7 +34,7 @@ export default function UploadProduct() {
   const data = {
     product: {
       itemName: productTitle,
-      price: isShare ? parseInt(1) : parseInt(productPrice),
+      price: isShare ? parseInt(0) : parseInt(productPrice),
       link: JSON.stringify(saleData),
       itemImage: productImage,
     },
@@ -128,39 +129,49 @@ export default function UploadProduct() {
             </InputLabel>
             <img src={productImage} alt="" ref={imgPre} id="productImagePre" onError={profileImgErrorHandler} />
           </ImgPlace>
-
-          <RadioButtonGroup type="saleType" state={"" + isShare} setState={setIsShare} />
-
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={inputImageHandler} />
-          <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
-            상품명
-          </UserInput>
+          <ShadowBox>
+            <RadioButtonGroup type="saleType" state={"" + isShare} setState={setIsShare} />
+          </ShadowBox>
+          <ShadowBox>
+            <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
+              상품명
+            </UserInput>
 
-          <RadioButtonGroup type="clothes" state={category} setState={setCategory} />
-          <UserInput
-            type="number"
-            onWheel={(e) => {
-              // 마우스휠로 값 변경되는 것 방지
-              e.target.blur();
-              // 포커스 잃지 않게
-              setTimeout(() => {
-                e.target.focus();
-              }, 0);
-            }}
-            onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
-            id="productPriceInput"
-            value={productPrice}
-            onChange={inputValueHandler}
-            placeholder={isShare ? 0 : "가격을 입력해주세요"}
-            pattern="[0-9]*"
-            disabled={Boolean(isShare)}
-            required={Boolean(isShare)}
-            min={100}
-            max={999999999}
-          >
-            가격
-          </UserInput>
-          {isHaveSize && <RadioButtonGroup type="size" state={size} setState={setSize} />}
+            <UserInput
+              type="number"
+              onWheel={(e) => {
+                // 마우스휠로 값 변경되는 것 방지
+                e.target.blur();
+                // 포커스 잃지 않게
+                setTimeout(() => {
+                  e.target.focus();
+                }, 0);
+              }}
+              onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+              id="productPriceInput"
+              value={productPrice}
+              onChange={inputValueHandler}
+              placeholder={isShare ? 0 : "가격을 입력해주세요"}
+              pattern="[0-9]*"
+              disabled={Boolean(isShare)}
+              required={Boolean(isShare)}
+              min={100}
+              max={999999999}
+            >
+              가격
+            </UserInput>
+          </ShadowBox>
+
+          <ShadowBox>
+            <RadioButtonGroup type="clothes" state={category} setState={setCategory} />
+          </ShadowBox>
+
+          {isHaveSize && (
+            <ShadowBox>
+              <RadioButtonGroup type="size" state={size} setState={setSize} />
+            </ShadowBox>
+          )}
         </form>
       </Page>
     </>

@@ -1,28 +1,23 @@
 import styled from "styled-components";
 
-const ProductPage = styled.main``;
-
-const ProductImage = styled.img`
-  width: 100%;
-`;
-
-const ProductImageWrapper = styled.section`
+export const ProductImageWrapper = styled.section`
   display: flex;
   height: 400px;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
 `;
 
-const ProductTitle = styled.h2`
+export const ProductTitle = styled.h2`
   font-size: 1.8rem;
-  font-weight: bold;
-  margin: 20px 0;
+  font-weight: 500;
+  margin: 11px 0 9px;
 `;
 
-const ProductPrice = styled.p`
+export const ProductPrice = styled.p`
   font-size: 2.4rem;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 700;
+  margin-bottom: 15px;
 
   span {
     font-size: 2rem;
@@ -30,15 +25,16 @@ const ProductPrice = styled.p`
   }
 `;
 
-const ProductDetailSection = styled.section`
+export const ProductDetailSection = styled.section`
+  margin-top: 20px;
   padding: 0 20px;
 
-  span {
+  .gr {
     color: var(--gray-color);
   }
 `;
 
-const AuthorInfo = styled.section`
+export const AuthorInfo = styled.section`
   padding: 10px 0 20px;
   width: 100%;
   font-size: 1.6rem;
@@ -51,4 +47,43 @@ const AuthorInfo = styled.section`
   box-sizing: border-box;
 `;
 
-export { ProductImage, ProductPage, AuthorInfo, ProductImageWrapper, ProductPrice, ProductTitle, ProductDetailSection };
+export const SaleText = styled.span`
+  background-color: ${(props) => (props.isShare ? "#FFA200" : "var(--unactive-color)")};
+  padding: 6px 10px;
+  border-radius: 30px;
+  color: #000;
+  display: inline-block;
+`;
+
+export const ProductData = styled.div`
+  padding: 10px 20px;
+  line-height: 2;
+  border-radius: 10px;
+  border: 1px solid var(--line-gray-color);
+  box-shadow: 3px 3px 3px var(--line-gray-color);
+  margin-top: 37px;
+`;
+
+export const CategoryUl = styled.ul`
+  p {
+    font-size: 1.4rem;
+  }
+
+  li {
+    display: flex;
+
+    align-items: center;
+    &::before {
+      content: "";
+      margin-right: 10px;
+      width: 5px;
+      height: 5px;
+      background-color: var(--gray-color);
+      border-radius: 50%;
+    }
+  }
+  .category-title {
+    display: inline-block;
+    width: 6rem;
+  }
+`;

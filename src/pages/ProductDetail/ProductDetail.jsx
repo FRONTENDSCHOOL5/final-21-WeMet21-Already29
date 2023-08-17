@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AuthorInfo, ProductDetailSection, ProductImage, ProductImageWrapper, ProductPage, ProductPrice, ProductTitle } from "./ProductDetailStyle";
+import { AuthorInfo, CategoryUl, ProductData, ProductDetailSection, ProductImageWrapper, ProductPrice, ProductTitle, SaleText } from "./ProductDetailStyle";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
 import Header from "../../components/Header/Header";
 import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
@@ -11,24 +11,26 @@ import { imageErrorHandler } from "../../utils/imageErrorHandler";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import fetchApi from "../../utils/fetchApi";
 import UserInfo from "../../contexts/LoginContext";
+import category from "../../contexts/ProductCategoryContext";
 
 export default function ProductDetail() {
   const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
   const [productAuthor, setProductAuthor] = useState(null);
   const [isShare, setIsShare] = useState(""),
-    [category, setCategory] = useState(""),
+    [itemCategory, setItemCategory] = useState(""),
     [size, setSize] = useState("");
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
   const { userInfo } = useContext(UserInfo);
+  const categoryData = useContext(category);
 
   useEffect(() => {
     if (product) {
       try {
         const saleData = JSON.parse(product.link);
         setIsShare(saleData.isShare);
-        setCategory(saleData.category);
+        setItemCategory(saleData.category);
         setSize(saleData.size);
       } catch (e) {
         console.error(e);
@@ -53,27 +55,36 @@ export default function ProductDetail() {
 
   return (
     product && (
-      <ProductPage>
+      <main>
         {productAuthor && userInfo.username === productAuthor.username ? <Header type="basic" href={`/product/list/${userInfo.accountname}`} setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
 
         <ProductImageWrapper>
-          <ProductImage src={product.itemImage} alt="상품 이미지" onError={imageErrorHandler} />
+          <img src={product.itemImage} alt="상품 이미지" onError={imageErrorHandler} />
         </ProductImageWrapper>
         <ProductDetailSection>
+          <SaleText isShare={isShare}>{isShare ? "나눔" : "판매중"}</SaleText>
           <ProductTitle>{product.itemName}</ProductTitle>
 
-          <ProductPrice>
-            {isShare ? (
-              "나눔"
-            ) : (
-              <>
-                {new Intl.NumberFormat().format(product.price)}
-                <span>원</span>
-              </>
-            )}
-          </ProductPrice>
-          <span>{uploadDateCalculate(product.updatedAt)}</span>
-          {`나눔: ${isShare} 상품 종류: ${category} 사이즈: ${size}`}
+          <ProductPrice>{isShare ? "나눔" : <>₩ {new Intl.NumberFormat().format(product.price)}</>}</ProductPrice>
+          <span className="gr">{uploadDateCalculate(product.updatedAt)}</span>
+
+          <ProductData>
+            <h2 className="a11y-hidden">상품정보</h2>
+            <CategoryUl>
+              <li>
+                <p className="category-text">
+                  <span className="category-title gr">상품종류</span>
+                  <span>{categoryData[itemCategory]}</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  <span className="category-title gr">사이즈</span>
+                  <span>{size}</span>
+                </p>
+              </li>
+            </CategoryUl>
+          </ProductData>
         </ProductDetailSection>
 
         <AuthorInfo>
@@ -109,7 +120,7 @@ export default function ProductDetail() {
             상품을 삭제할까요?
           </AlertModal>
         )}
-      </ProductPage>
+      </main>
     )
   );
 }

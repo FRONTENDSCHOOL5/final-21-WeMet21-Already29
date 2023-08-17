@@ -4,8 +4,8 @@ import category from "../../contexts/ProductCategoryContext";
 import SquareButton from "../Button/SquareButton/SquareButton";
 
 const Title = styled.p`
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 700;
 `;
 
 const RadioDiv = styled.div`

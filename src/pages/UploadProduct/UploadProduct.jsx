@@ -120,7 +120,7 @@ export default function UploadProduct() {
       <Page>
         <h1 className="a11y-hidden">상품 {isModify ? "수정" : "등록"}</h1>
         <form id="product" onSubmit={uploadProductHandler}>
-          <span>이미지 등록</span>
+          <span style={{ fontWeight: "700" }}> 이미지 등록</span>
           <ImgPlace>
             <InputLabel htmlFor="productImg">
               <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>

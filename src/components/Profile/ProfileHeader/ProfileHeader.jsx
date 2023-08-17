@@ -62,7 +62,7 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
           <p className="fassion-info">
             {fassionStyle &&
               fassionStyle.map((fassion) => {
-                return <span key={fassion}>#{fassion}</span>;
+                return <span key={fassion}>#{fassion} </span>;
               })}
           </p>
         </ProfileIntro>

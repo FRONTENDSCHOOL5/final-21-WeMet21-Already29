@@ -18,7 +18,7 @@ const StartSplash = () => {
   }, []);
 
   useEffect(() => {
-    if (userInfo && userInfo.token) {
+    if (userInfo && localStorage.getItem("token")) {
       // 로그인된 사용자인 경우 홈으로 이동
       navigate("/home");
     }

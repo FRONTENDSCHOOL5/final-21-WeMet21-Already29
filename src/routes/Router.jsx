@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
@@ -21,8 +21,11 @@ import UserInfo from "../contexts/LoginContext";
 const Providers = ({ children }) => {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState("");
 
-  const [userInfo, setUserInfo] = useState(localStorage.getItem("userInfo"));
+  useEffect(() => {
+    setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+  }, []);
 
   return (
     <BottomSheetContext.Provider value={{ isBottomSheetOpen, setBottomSheetOpen }}>

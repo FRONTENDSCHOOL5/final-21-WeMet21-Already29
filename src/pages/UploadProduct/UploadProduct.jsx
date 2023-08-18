@@ -34,14 +34,11 @@ export default function UploadProduct() {
   const data = {
     product: {
       itemName: productTitle,
-      price: isShare ? parseInt(0) : parseInt(productPrice),
+      price: isShare ? parseInt(1) : parseInt(productPrice),
       link: JSON.stringify(saleData),
       itemImage: productImage,
     },
   };
-
-  console.log(data.product.link);
-  console.log(data.product.price);
 
   useEffect(() => {
     // 상품 수정이라면 처음 실행시 상품 정보 인풋창으로 불러오기
@@ -58,11 +55,11 @@ export default function UploadProduct() {
         }
 
         setProductTitle(product.itemName);
-        setProductPrice(product.price);
+        setProductPrice(product.price === 1 ? 0 : product.price);
         setProductImage(product.itemImage);
       });
     }
-  }, [isModify, productId]);
+  }, [isModify, productId, setProductImage]);
 
   const inputValueHandler = (e) => {
     switch (e.target.type) {

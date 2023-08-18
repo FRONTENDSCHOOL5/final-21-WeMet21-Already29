@@ -10,12 +10,14 @@ import { PostContent, PostMenuWrap } from "./CardContentStyle";
 import { Link, useNavigate } from "react-router-dom";
 import { imageErrorHandler } from "../../../utils/imageErrorHandler";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
+import useGetUserInfo from "../../../hooks/useGetUserInfo";
 SwiperCore.use([Pagination]);
 
 export default function CardContent({ post }) {
   const navigator = useNavigate();
   const [postHeart, setPostHeart] = useState(false);
   const [heartCount, setHeartCount] = useState(0);
+  const getUserInfo = useGetUserInfo();
 
   useEffect(() => {
     setPostHeart(post.hearted);
@@ -78,7 +80,7 @@ export default function CardContent({ post }) {
           {heartCount}
         </p>
 
-        <Link to={`/post/${post.id}`}>
+        <Link to={`/post/${post.id}`} onMouseDown={getUserInfo}>
           <img src={comment} className="comment-image" alt="댓글 이미지" />
           <p>
             <span className="a11y-hidden">댓글 : </span>

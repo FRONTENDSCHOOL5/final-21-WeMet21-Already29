@@ -21,12 +21,8 @@ import UserInfo from "../contexts/LoginContext";
 const Providers = ({ children }) => {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const getUserInfo = () => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    userInfo && localStorage.setItem("token", userInfo.token);
-    return userInfo ? userInfo : null;
-  };
-  const [userInfo, setUserInfo] = useState(getUserInfo());
+
+  const [userInfo, setUserInfo] = useState(localStorage.getItem("userInfo"));
 
   return (
     <BottomSheetContext.Provider value={{ isBottomSheetOpen, setBottomSheetOpen }}>

@@ -1,6 +1,6 @@
-import React, {useContext, useState} from "react";
-import {H1, LoginContainer, LoginForm, NavStyle} from "./LoginStyle";
-import {useNavigate} from "react-router-dom"; // eslint-disable-line no-unused-vars
+import React, { useContext, useState } from "react";
+import { H1, LoginContainer, LoginForm, NavStyle } from "./LoginStyle";
+import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
 import Button from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
 import fetchApi from "../../utils/fetchApi";
@@ -13,7 +13,7 @@ export default function Login() {
   const [emailWarining, setEmailWarining] = useState("");
   const [passwordWarining, setPasswordWarining] = useState("");
   const navigate = useNavigate();
-  const {setUserInfo} = useContext(UserInfo);
+  const { setUserInfo } = useContext(UserInfo);
 
   const inputHandler = (e) => {
     if (e.target.type === "email") {
@@ -58,8 +58,9 @@ export default function Login() {
       console.log(json);
 
       if (json.user) {
-        localStorage.setItem("userInfo", JSON.stringify(json.user));
         setUserInfo(json.user);
+        localStorage.setItem("userInfo", JSON.stringify(json.user));
+        localStorage.setItem("token", json.user.token);
         navigate("/home");
       } else {
         setWarningMessage("이메일과 비밀번호가 일치하지 않습니다.");
@@ -99,8 +100,8 @@ export default function Login() {
           >
             {passwordWarining}
           </p>
-          <div style={{height: "2rem"}}>
-            <p style={{color: "red", fontSize: "1.2rem", textAlign: "center"}}>{warningMessage}</p>
+          <div style={{ height: "2rem" }}>
+            <p style={{ color: "red", fontSize: "1.2rem", textAlign: "center" }}>{warningMessage}</p>
           </div>
           {userEmail && userPassword && !emailWarining && !passwordWarining ? (
             <Button category="basic" type="submit">

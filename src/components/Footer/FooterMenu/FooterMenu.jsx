@@ -9,14 +9,17 @@ import userIcon from "../../../assets/images/IconUser.png";
 import fillUserIcon from "../../../assets/images/FillIconUser.png";
 import { NavWrapper, NavLink, StyledNavText } from "./FooterMenuStyle";
 import goTop from "../../../utils/goTop";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import UserInfo from "../../../contexts/LoginContext";
+import useGetUserInfo from "../../../hooks/useGetUserInfo";
 
 export default function Navigation({ itemLength }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { userInfo } = useContext(UserInfo);
   const { accountname } = userInfo;
+  console.log(accountname);
+  const getUserInfo = useGetUserInfo();
 
   return (
     <NavWrapper>
@@ -45,6 +48,7 @@ export default function Navigation({ itemLength }) {
             e.preventDefault();
           }
         }}
+        onMouseDown={getUserInfo}
       >
         <img src={pathname.includes(`profile/${accountname}`) || pathname.includes(`product/list/${accountname}`) ? fillUserIcon : userIcon} alt="프로필" width="24px" />
         <StyledNavText>프로필</StyledNavText>

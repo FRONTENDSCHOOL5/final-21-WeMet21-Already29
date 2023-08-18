@@ -18,8 +18,9 @@ export default function Navigation({ itemLength }) {
   const pathname = location.pathname;
   const { userInfo } = useContext(UserInfo);
   const { accountname } = userInfo;
-  console.log(accountname);
   const getUserInfo = useGetUserInfo();
+
+  console.log(userInfo);
 
   return (
     <NavWrapper>
@@ -39,7 +40,7 @@ export default function Navigation({ itemLength }) {
       </NavLink>
 
       <NavLink
-        to={`/profile/${accountname}`}
+        to={accountname && `/profile/${accountname}`}
         className={pathname.includes(`profile/${accountname}`) ? "nav-link active" : pathname.includes(`list/${accountname}`) ? "active" : ""}
         // nav-link active
         onClick={(e) => {

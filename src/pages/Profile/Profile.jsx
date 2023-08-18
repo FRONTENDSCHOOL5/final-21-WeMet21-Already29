@@ -25,6 +25,7 @@ export default function Profile() {
   const logoutHandler = () => {
     setModalOpen(false);
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("token");
     navigator("/login");
   };
 

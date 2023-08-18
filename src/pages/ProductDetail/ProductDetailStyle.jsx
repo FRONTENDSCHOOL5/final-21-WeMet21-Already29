@@ -27,7 +27,7 @@ export const ProductPrice = styled.p`
 
 export const ProductDetailSection = styled.section`
   margin-top: 20px;
-  padding: 0 20px;
+  padding: 0 20px 80px;
 
   .gr {
     color: var(--gray-color);

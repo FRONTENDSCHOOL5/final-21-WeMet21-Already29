@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
@@ -11,16 +11,18 @@ import ProfileHeader from "../../components/Profile/ProfileHeader/ProfileHeader"
 import ProfileProduct from "../../components/Profile/ProfileProduct/ProfileProduct";
 import ProfilePost from "../../components/Profile/ProfilePost/ProfilePost";
 import UserInfo from "../../contexts/LoginContext";
+import useFetch from "../../hooks/useFetch";
+import Loading from "../../components/Loading/Loading";
 
 export default function Profile() {
-  const [userData, setUserData] = useState(null);
   const [ShareModalOpen, setShareModalOpen] = useState(false);
   const navigator = useNavigate();
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
   const { userInfo } = useContext(UserInfo);
   const { accountname } = userInfo;
-  // console.log(userInfo);
+  const { id: currentAccountName } = useParams();
+  const { data: userData, isLoading } = useFetch(`profile/${currentAccountName}`, "GET");
 
   const logoutHandler = () => {
     setModalOpen(false);
@@ -29,11 +31,13 @@ export default function Profile() {
     navigator("/login");
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       {userData && accountname === userData.accountname ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
       <main>
-        <ProfileHeader userData={userData} setUserData={setUserData} setShareModalOpen={setShareModalOpen} />
+        <ProfileHeader userData={userData} setShareModalOpen={setShareModalOpen} />
         <ProfileProduct userData={userData} />
         <ProfilePost />
         <Navigation />

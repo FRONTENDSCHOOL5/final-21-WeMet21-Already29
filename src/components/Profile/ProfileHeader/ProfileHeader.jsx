@@ -5,19 +5,19 @@ import { Link, useParams } from "react-router-dom";
 import Button from "../../Button/Button";
 import share from "../../../assets/images/share.png";
 import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
-import fetchApi from "../../../utils/fetchApi";
 import UserInfo from "../../../contexts/LoginContext";
 
-export default function ProfileHeader({ setShareModalOpen, userData, setUserData }) {
+export default function ProfileHeader({ setShareModalOpen, userData }) {
   const [isfollow, setIsFollow] = useState(null);
   const [followCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
-  const { id: accountname } = useParams();
   const { userInfo } = useContext(UserInfo);
   const UserAccountname = userInfo.accountname;
   const splitString = "{[split]}";
+  const { id: accountname } = useParams();
   const introduce = userData && userData.intro.includes(splitString) ? userData.intro.split(splitString)[0] : userData && userData.intro;
   const fassionStyle = userData && userData.intro.includes(splitString) && userData.intro.split(splitString)[1].split(",");
+
   const followUphandler = async () => {
     if (isfollow) {
       const res = await unfollowButtonHandler(userData.accountname);
@@ -33,13 +33,12 @@ export default function ProfileHeader({ setShareModalOpen, userData, setUserData
   };
 
   useEffect(() => {
-    fetchApi(`profile/${accountname}`).then((res) => {
-      setUserData(res.profile);
-      setIsFollow(res.profile.isfollow);
-      setFollowCount(res.profile.followerCount);
-      setFollowingCount(res.profile.followingCount);
-    });
-  }, [accountname, setUserData]);
+    if (userData) {
+      setIsFollow(userData.isfollow);
+      setFollowCount(userData.followerCount);
+      setFollowingCount(userData.followingCount);
+    }
+  }, [accountname, userData]);
 
   return (
     userData && (

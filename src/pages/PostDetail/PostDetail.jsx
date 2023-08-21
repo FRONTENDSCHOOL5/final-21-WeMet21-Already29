@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import profileImg from "../../assets/images/profileImg.png";
 import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import { Form, Text, VerticalBtn, Img, CommentSection, CommentArticle } from "./PostDetailStyle";
@@ -16,37 +15,27 @@ import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import CardContent from "../../components/Card/CardContent/CardContent";
 import fetchApi from "../../utils/fetchApi";
 import UserInfo from "../../contexts/LoginContext";
-
+import useFetch from "../../hooks/useFetch";
+import Loading from "../../components/Loading/Loading";
 export default function PostDetail() {
-  const [post, setPost] = useState(null);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [CommentModalOpen, setCommentModalOpen] = useState(false);
   const [targetCommentId, setTargetCommentId] = useState("");
-  const navigate = useNavigate();
-  const { id: postId } = useParams();
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
   const { userInfo } = useContext(UserInfo);
-
+  const navigate = useNavigate();
+  const { id: postId } = useParams();
+  const { data: post, isLoading } = useFetch(`post/${postId}`, "GET");
   // 나의 username
   const { username, accountname } = userInfo;
 
   const pageEnd = useRef(null);
   const { getData, page } = useInfiniteScroll(`post/${postId}/comments`, pageEnd);
 
-  const fetchPost = () => {
-    fetchApi(`post/${postId}`).then((res) => setPost(res.post));
-  };
-  console.log(post);
-
-  useEffect(() => {
-    fetchPost();
-  }, []);
-
   useEffect(() => {
     getData(page).then((json) => {
-      console.log(comments);
       setComments((prev) => {
         return prev.length === 0 ? json.comments : [...prev, ...json.comments];
       });
@@ -56,7 +45,6 @@ export default function PostDetail() {
   const addComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
     setComment("");
-    fetchPost();
   };
 
   const calculateElapsedTime = (timestamp) => {
@@ -83,7 +71,6 @@ export default function PostDetail() {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-    fetchPost();
   };
 
   const handleOpenModal = (commentId) => {
@@ -114,7 +101,6 @@ export default function PostDetail() {
     if (res.status === "200") {
       setCommentModalOpen(false);
       const filterComment = comments.filter((v) => {
-        console.log(v.id);
         return v.id !== targetCommentId;
       });
 
@@ -136,74 +122,76 @@ export default function PostDetail() {
 
   return (
     <>
-      {post && username === post.author.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen} /> : <Header type="back" />}
-      <main>
-        <article>
-          {post && (
-            <>
+      {post && !isLoading ? (
+        <>
+          {post && username === post.author.username ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen} /> : <Header type="back" />}
+          <main>
+            <article>
               <CardHeader image={post.author.image} username={post.author.username} accountname={post.author.accountname} />
-              <CardContent post={post} heartHandler={heartHandler} />
-            </>
-          )}
-        </article>
+              <CardContent post={post} heartHandler={heartHandler} commentLen={comments.length} />
+            </article>
 
-        <CommentSection>
-          <h2 className="a11y-hidden">댓글</h2>
-          {comments.length > 0 &&
-            comments.map((comment, index) => (
-              <CommentArticle key={index}>
-                <CardHeader image={comment.author.image} username={comment.author.username} accountname={comment.author.accountname} time={calculateElapsedTime(comment.createdAt)}>
-                  {comment.author.accountname === accountname && (
-                    <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
-                      <img src={IconMoreVertical} alt="더보기" width="22" height="22" />
-                    </VerticalBtn>
-                  )}
-                </CardHeader>
-                <Text>{comment.content}</Text>
-              </CommentArticle>
-            ))}
-          <div ref={pageEnd} />
-        </CommentSection>
-        <Form onSubmit={handleCommentSubmit}>
-          {/* <Label htmlFor="file-sync" className="file-sync"></Label>
+            <CommentSection>
+              <h2 className="a11y-hidden">댓글</h2>
+              {comments.length > 0 &&
+                comments.map((comment, index) => (
+                  <CommentArticle key={index}>
+                    <CardHeader image={comment.author.image} username={comment.author.username} accountname={comment.author.accountname} time={calculateElapsedTime(comment.createdAt)}>
+                      {comment.author.accountname === accountname && (
+                        <VerticalBtn type="button" className="more" onClick={() => handleOpenModal(comment.id)}>
+                          <img src={IconMoreVertical} alt="더보기" width="22" height="22" />
+                        </VerticalBtn>
+                      )}
+                    </CardHeader>
+                    <Text>{comment.content}</Text>
+                  </CommentArticle>
+                ))}
+              <div ref={pageEnd} />
+            </CommentSection>
+            <Form onSubmit={handleCommentSubmit}>
+              {/* <Label htmlFor="file-sync" className="file-sync"></Label>
             <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden /> */}
-          <Img src={userInfo.image} alt="profileImg" onError={profileImgErrorHandler} />
-          <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
-          <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
-            게시
-          </button>
-        </Form>
-        {CommentModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setCommentModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
-        {isBottomSheetOpen && (
-          <BottomSheet>
-            <button
-              type="button"
-              onClick={() => {
-                setBottomSheetOpen(false);
-                setModalOpen(true);
-              }}
-            >
-              게시물 삭제
-            </button>
-            <Link to={post && `../modify/${post.id}`} onClick={() => setBottomSheetOpen(false)}>
-              수정
-            </Link>
-          </BottomSheet>
-        )}
-        {isModalOpen && (
-          <AlertModal
-            submitText="삭제"
-            onSubmit={() => {
-              deletePostHandler();
-              navigate(`/profile/${post.author.accountname}`);
-              setModalOpen(false);
-            }}
-            onCancel={() => setModalOpen(false)}
-          >
-            게시글을 삭제할까요?
-          </AlertModal>
-        )}
-      </main>
+              <Img src={userInfo.image} alt="profileImg" onError={profileImgErrorHandler} />
+              <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
+              <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
+                게시
+              </button>
+            </Form>
+            {CommentModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setCommentModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
+            {isBottomSheetOpen && (
+              <BottomSheet>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBottomSheetOpen(false);
+                    setModalOpen(true);
+                  }}
+                >
+                  게시물 삭제
+                </button>
+                <Link to={post && `../modify/${post.id}`} onClick={() => setBottomSheetOpen(false)}>
+                  수정
+                </Link>
+              </BottomSheet>
+            )}
+            {isModalOpen && (
+              <AlertModal
+                submitText="삭제"
+                onSubmit={() => {
+                  deletePostHandler();
+                  navigate(`/profile/${post.author.accountname}`);
+                  setModalOpen(false);
+                }}
+                onCancel={() => setModalOpen(false)}
+              >
+                게시글을 삭제할까요?
+              </AlertModal>
+            )}
+          </main>
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

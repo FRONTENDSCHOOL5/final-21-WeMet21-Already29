@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
@@ -17,6 +17,7 @@ import SignUpProfile from "../pages/SignUp/SignUpProfile/SignUpProfile";
 import Error from "../pages/404/Error";
 import FollowerList from "../pages/FollowerList/FollowerList";
 import UserInfo from "../contexts/LoginContext";
+import Loading from "../components/Loading/Loading";
 
 const Providers = ({ children }) => {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -36,9 +37,10 @@ const Providers = ({ children }) => {
   );
 };
 
-function Router() {
+export default function Router() {
   return (
     <Providers>
+      <h1 className="a11y-hidden">입구팔구</h1>
       <Routes>
         <Route path="/" element={<StartSplash />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
@@ -73,5 +75,3 @@ function Router() {
     </Providers>
   );
 }
-
-export default Router;

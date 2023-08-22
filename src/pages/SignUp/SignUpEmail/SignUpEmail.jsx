@@ -1,17 +1,17 @@
-import {useEffect, useState} from "react";
-import {SignUpContainer, SignUpForm, H1} from "./SignUpEmailStyle";
+import { useEffect, useState } from "react";
+import { SignUpContainer, SignUpForm, H2 } from "./SignUpEmailStyle";
 import Button from "../../../components/Button/Button";
 import UserInput from "../../../components/UserInput/UserInput";
 import fetchApi from "../../../utils/fetchApi";
 import useDebounce from "../../../hooks/useDebounce";
 
-export default function SignUpEmail({setPage, email, setEmail, password, setPassword}) {
+export default function SignUpEmail({ setPage, email, setEmail, password, setPassword }) {
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState("");
-  const {output: emailValidResult, setKeyword: setEmailKeyword} = useDebounce(
+  const { output: emailValidResult, setKeyword: setEmailKeyword } = useDebounce(
     "user/emailvalid",
     JSON.stringify({
       user: {
@@ -89,8 +89,7 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
   return (
     <>
       <SignUpContainer>
-        <h2 className="a11y-hidden">이메일로 회원가입</h2>
-        <H1>이메일로 회원가입</H1>
+        <H2>이메일로 회원가입</H2>
         <SignUpForm onSubmit={handleSubmit}>
           <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleEmailInput}>
             이메일
@@ -106,7 +105,7 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
               {emailError}
             </p>
           )}
-          <UserInput id={"user-password"} type={"password"} label={"비밀번호"} placeholder={"비밀번호를 설정해 주세요."} value={password} onChange={handlePasswordInput}>
+          <UserInput id={"user-password"} type={"password"} placeholder={"비밀번호를 설정해 주세요."} value={password} onChange={handlePasswordInput}>
             비밀번호
           </UserInput>
           {passwordError && (
@@ -121,11 +120,11 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
             </p>
           )}
           {emailValid && passwordValid ? (
-            <Button category="basic" type="submit" onClick={handleForm} style={{marginTop: "30px"}}>
+            <Button category="basic" type="submit" onClick={handleForm} style={{ marginTop: "30px" }}>
               다음
             </Button>
           ) : (
-            <Button category="basic" type="submit" disabled="disabled" onClick={handleForm} style={{marginTop: "30px"}}>
+            <Button category="basic" type="submit" disabled="disabled" onClick={handleForm} style={{ marginTop: "30px" }}>
               다음
             </Button>
           )}

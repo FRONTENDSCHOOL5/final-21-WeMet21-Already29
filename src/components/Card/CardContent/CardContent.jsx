@@ -7,7 +7,7 @@ import SwiperCore, { Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { PostContent, PostMenuWrap } from "./CardContentStyle";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { imageErrorHandler } from "../../../utils/imageErrorHandler";
 import { heartButtonHandler } from "../../../utils/heartButtonHandler";
 import useGetUserInfo from "../../../hooks/useGetUserInfo";
@@ -18,6 +18,7 @@ export default function CardContent({ post, commentLen }) {
   const [postHeart, setPostHeart] = useState(false);
   const [heartCount, setHeartCount] = useState(0);
   const getUserInfo = useGetUserInfo();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     setPostHeart(post.hearted);
@@ -44,6 +45,7 @@ export default function CardContent({ post, commentLen }) {
 
   return (
     <PostContent>
+      {pathname.includes("post") && <h2 className="a11y-hidden">게시물 상세</h2>}
       <p
         className="post-text"
         onClick={() => {

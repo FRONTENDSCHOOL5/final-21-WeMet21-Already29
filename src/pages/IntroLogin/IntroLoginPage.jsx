@@ -6,7 +6,7 @@ function IntroLoginPage() {
   return (
     <StyledIntroLoginPage>
       <header>
-        <h1 className="title">입9팔9</h1>
+        <h2 className="title">입9팔9</h2>
         <p className="sub-title">
           <span>데일리룩과 취향을 공유하며</span>
           <span>지속가능한 패션을 함께 만들어가는 공간</span>

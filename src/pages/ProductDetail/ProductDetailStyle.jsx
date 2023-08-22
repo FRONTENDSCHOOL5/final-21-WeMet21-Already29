@@ -51,7 +51,7 @@ export const AuthorInfo = styled.section`
   box-sizing: border-box;
 `;
 
-export const SaleText = styled.span`
+export const SaleText = styled.strong`
   background-color: ${(props) => (props.isShare ? "#FFA200" : "var(--unactive-color)")};
   padding: 6px 10px;
   border-radius: 30px;

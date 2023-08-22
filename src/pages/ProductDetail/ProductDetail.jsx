@@ -67,14 +67,14 @@ export default function ProductDetail() {
           <CategoryUl>
             <li>
               <p className="category-text">
-                <span className="category-title gr">상품종류</span>
+                <h3 className="category-title gr">상품종류</h3>
                 <span>{categoryData[itemCategory]}</span>
               </p>
             </li>
             {size && (
               <li>
                 <p>
-                  <span className="category-title gr">사이즈</span>
+                  <h3 className="category-title gr">사이즈</h3>
                   <span>{size}</span>
                 </p>
               </li>

@@ -19,7 +19,8 @@ export const PostHeader = styled.header`
     object-fit: cover;
   }
 
-  h2 {
+  .user-name {
+    color: #000;
     font-size: 1.4rem;
     margin-bottom: 4px;
   }

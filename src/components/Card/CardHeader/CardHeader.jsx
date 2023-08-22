@@ -9,11 +9,11 @@ export default function CardHeader({ image, username, accountname, time, childre
       <Link to={`/profile/${accountname}`}>
         <img src={image} className="profile-image" alt="프로필 사진" onError={profileImgErrorHandler} width={36} height={36} />
         <div>
-          <h2>
+          <p className="user-name">
             <span className="a11y-hidden">이름</span>
             {username}
             {time && <time>{time}</time>}
-          </h2>
+          </p>
           {accountname && <p>@ {accountname}</p>}
         </div>
       </Link>

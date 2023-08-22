@@ -1,7 +1,7 @@
-import { Swiper, SwiperSlide } from "swiper/react";
+import {Swiper, SwiperSlide} from "swiper/react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { imageErrorHandler } from "../../utils/imageErrorHandler";
+import {Link} from "react-router-dom";
+import {imageErrorHandler} from "../../utils/imageErrorHandler";
 
 export const CustomSwiper = styled(Swiper)`
   margin-top: 16px;
@@ -28,7 +28,7 @@ export const CustomSwiper = styled(Swiper)`
   }
 `;
 
-const ProfileProduct = ({ productDatas }) => {
+const ProfileProduct = ({productDatas}) => {
   return (
     <ul>
       {productDatas && (

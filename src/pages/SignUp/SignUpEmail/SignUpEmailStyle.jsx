@@ -4,7 +4,7 @@ const SignUpContainer = styled.div`
   height: 100vh;
 `;
 
-const H1 = styled.h1`
+const H2 = styled.h2`
   margin-top: 54px;
   text-align: center;
   font-size: var(--font-lg-size);
@@ -18,4 +18,4 @@ const SignUpForm = styled.form`
   margin: 0 3.4rem;
 `;
 
-export {SignUpContainer, H1, SignUpForm};
+export { SignUpContainer, H2, SignUpForm };

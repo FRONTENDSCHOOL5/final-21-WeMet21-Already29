@@ -17,9 +17,11 @@ export default function ProfileProduct({ userData }) {
     productDatas &&
     productDatas.length !== 0 && (
       <ProductSection>
-        <LinkStyle to={`/product/list/${userData.accountname}`} style={{ userDrag: "none" }}>
-          판매 중인 상품
-        </LinkStyle>
+        <h2>
+          <LinkStyle to={`/product/list/${userData.accountname}`} style={{ userDrag: "none" }}>
+            판매 중인 상품
+          </LinkStyle>
+        </h2>
         <Products page="profilePage" productDatas={productDatas} />
       </ProductSection>
     )

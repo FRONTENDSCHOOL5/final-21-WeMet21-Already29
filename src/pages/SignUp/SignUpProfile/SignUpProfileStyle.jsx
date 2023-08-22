@@ -7,7 +7,7 @@ export const ProfileSettingForm = styled.form`
   align-items: center;
 `;
 
-export const ProfileTitle = styled.h1`
+export const ProfileTitle = styled.h2`
   margin-top: 4rem;
   font-size: var(--font-lg-size);
 `;

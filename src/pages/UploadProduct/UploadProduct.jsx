@@ -115,9 +115,9 @@ export default function UploadProduct() {
         </Button>
       </Header>
       <Page>
-        <h1 className="a11y-hidden">상품 {isModify ? "수정" : "등록"}</h1>
+        <h2 className="a11y-hidden">상품 {isModify ? "수정" : "등록"}</h2>
         <form id="product" onSubmit={uploadProductHandler}>
-          <span style={{ fontWeight: "700" }}> 이미지 등록</span>
+          <span style={{ fontWeight: "700" }}>이미지 등록</span>
           <ImgPlace>
             <InputLabel htmlFor="productImg">
               <ImgUploadButton tabIndex={0} onKeyDown={buttonKeyboardEvent}>
@@ -134,7 +134,6 @@ export default function UploadProduct() {
             <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
               상품명
             </UserInput>
-
             <UserInput
               type="number"
               onWheel={(e) => {

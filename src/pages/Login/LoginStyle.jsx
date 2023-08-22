@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import {NavLink} from "react-router-dom";
-import {Link} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LoginContainer = styled.div`
   height: 100vh;
   padding: 0 3.4rem;
 `;
 
-const H1 = styled.h1`
+const H2 = styled.h2`
   margin-top: 54px;
   text-align: center;
   font-size: var(--font-lg-size);
@@ -33,4 +33,4 @@ const NavStyle = styled(NavLink)`
   font-size: var(--font-sm-size);
 `;
 
-export {LoginContainer, H1, LoginForm, StyleLink, NavStyle};
+export { LoginContainer, H2, LoginForm, StyleLink, NavStyle };

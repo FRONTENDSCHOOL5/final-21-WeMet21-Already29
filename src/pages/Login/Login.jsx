@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { H1, LoginContainer, LoginForm, NavStyle } from "./LoginStyle";
+import { H2, LoginContainer, LoginForm, NavStyle } from "./LoginStyle";
 import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
 import Button from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
@@ -73,8 +73,7 @@ export default function Login() {
   return (
     <>
       <LoginContainer>
-        <h2 className="a11y-hidden">로그인</h2>
-        <H1>로그인</H1>
+        <H2>로그인</H2>
         <LoginForm onSubmit={submitHandler}>
           <UserInput type="email" id="user-email" onChange={inputHandler} value={userEmail}>
             이메일

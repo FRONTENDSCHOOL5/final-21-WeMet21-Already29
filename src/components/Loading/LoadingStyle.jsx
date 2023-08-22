@@ -7,6 +7,7 @@ export const LoadingImage = styled.img`
   left: 50%;
   transform: translate(-50%, -50%);
   width: max(10vw, 100px);
+  aspect-ratio: 4/3;
   animation-name: rotate;
   animation-duration: 1s;
   animation-iteration-count: infinite;

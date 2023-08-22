@@ -16,7 +16,7 @@ export const StyleInput = styled.input`
   }
 
   &:focus {
-    border: 2px solid var(--main-color);
+    outline: 2px solid var(--main-color);
   }
 
   &:disabled {

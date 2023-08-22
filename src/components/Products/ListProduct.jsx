@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import category from "../../contexts/ProductCategoryContext";
 import Header from "../Header/Header";
 import styled from "styled-components";
 import SquareButton from "../Button/SquareButton/SquareButton";
-import { Link } from "react-router-dom";
-import { imageErrorHandler } from "../../utils/imageErrorHandler";
+import {Link} from "react-router-dom";
+import {imageErrorHandler} from "../../utils/imageErrorHandler";
 import uploadDateCalculate from "../../utils/uploadDateCalculate";
+import refresh from "../../assets/images/Icon-refresh.png";
 
 export const FilterAside = styled.aside`
   form {
@@ -13,12 +14,13 @@ export const FilterAside = styled.aside`
   }
   fieldset {
     display: flex;
-    gap: 5px;
+    gap: 9px;
     width: max-content;
+    padding: 8px 0px;
   }
 `;
 
-export const ProductItem = ({ item }) => {
+export const ProductItem = ({item}) => {
   const [isShare, setIsShare] = useState("");
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export const ProductItem = ({ item }) => {
   );
 };
 
-const ListProduct = ({ productDatas, skip, setSkip, hasMore }) => {
+const ListProduct = ({productDatas, skip, setSkip, hasMore}) => {
   const categoryData = useContext(category);
   const [checkedItems, setcheckedItems] = useState("");
   const [filterProductDatas, setFilterProductDatas] = useState("");
@@ -96,7 +98,7 @@ const ListProduct = ({ productDatas, skip, setSkip, hasMore }) => {
           <fieldset>
             <legend className="a11y-hidden">상품 카테고리 필터</legend>
             <button type="button" onClick={() => setcheckedItems(new Set())}>
-              초기화
+              <img src={refresh} alt="초기화버튼" style={{width: "24px"}} />
             </button>
             {Object.entries(categoryData).map((item) => {
               const key = item[0];

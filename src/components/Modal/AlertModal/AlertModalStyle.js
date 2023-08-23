@@ -29,13 +29,14 @@ export const ButtonGroup = styled.div`
   width: 100%;
   display: flex;
   line-height: 3;
-
+  color: var(--main-color);
   button {
     flex-basis: 100%;
     flex-grow: 1;
     border-top: 1px solid var(--line-gray-color);
   }
   button:first-child {
+    color: initial;
     border-right: 1px solid var(--line-gray-color);
   }
 `;

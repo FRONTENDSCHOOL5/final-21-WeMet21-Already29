@@ -24,6 +24,7 @@ export default function BottomSheet({ children }) {
       }
     });
   }, [bottomSheet]);
+
   return (
     <>
       <BottomSheetBackDrop onClick={() => setBottomSheetOpen(false)} />

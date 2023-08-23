@@ -17,7 +17,6 @@ export const BottomSheetWrapper = styled.article`
   left: 50%;
   transform: translate(-50%, 0);
   width: 390px;
-  overflow: hidden;
   font-size: 1.4rem;
   background-color: #fff;
   padding-top: 20px;

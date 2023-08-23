@@ -77,6 +77,11 @@ const GlobalStyle = createGlobalStyle`
   html::-webkit-scrollbar {
       display: none; /* Chrome, Safari, Opera*/
   }
+
+  // 키보드 접근으로만 outline 보일 수 있도록
+  :focus:not(:focus-visible) {
+    outline: 0;
+  }
 `;
 
 export default GlobalStyle;

@@ -27,7 +27,7 @@ export const ModalWrapper = styled.article`
   z-index: 998;
 `;
 
-export const ButtonWrapper = styled.div`
+export const ButtonGroup = styled.div`
   width: 100%;
   height: 45px;
   display: flex;
@@ -44,6 +44,10 @@ export const ButtonWrapper = styled.div`
     background-color: initial;
     border: 0;
     padding: 0;
+
+    &:focus {
+      border: 1px solid #000;
+    }
   }
 
   button:nth-child(2) {

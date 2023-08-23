@@ -101,14 +101,7 @@ export default function ProductDetail() {
       )}
 
       {isModalOpen && (
-        <AlertModal
-          submitText="삭제"
-          onSubmit={() => {
-            deleteProductHandler();
-            setModalOpen(false);
-          }}
-          onCancel={() => setModalOpen(false)}
-        >
+        <AlertModal submitText="삭제" onSubmit={() => deleteProductHandler()}>
           상품을 삭제할까요?
         </AlertModal>
       )}

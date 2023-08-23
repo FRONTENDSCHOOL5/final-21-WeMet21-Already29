@@ -57,14 +57,7 @@ export default function Profile() {
         </BottomSheet>
       )}
       {isModalOpen && (
-        <AlertModal
-          submitText="로그아웃"
-          onSubmit={() => {
-            logoutHandler();
-            setModalOpen(false);
-          }}
-          onCancel={() => setModalOpen(false)}
-        >
+        <AlertModal submitText="로그아웃" onSubmit={() => logoutHandler()}>
           로그아웃하시겠어요?
         </AlertModal>
       )}

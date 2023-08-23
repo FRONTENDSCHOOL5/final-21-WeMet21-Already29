@@ -157,7 +157,11 @@ export default function PostDetail() {
                 게시
               </button>
             </Form>
-            {CommentModalOpen && <AlertModal onSubmit={deleteComment} onCancel={() => setCommentModalOpen(false)} submitText="삭제" children="댓글을 삭제할까요?" />}
+            {CommentModalOpen && (
+              <AlertModal onSubmit={deleteComment} onCancel={setCommentModalOpen} submitText="삭제">
+                댓글을 삭제할까요?
+              </AlertModal>
+            )}
             {isBottomSheetOpen && (
               <BottomSheet>
                 <button
@@ -180,9 +184,7 @@ export default function PostDetail() {
                 onSubmit={() => {
                   deletePostHandler();
                   navigate(`/profile/${post.author.accountname}`);
-                  setModalOpen(false);
                 }}
-                onCancel={() => setModalOpen(false)}
               >
                 게시글을 삭제할까요?
               </AlertModal>

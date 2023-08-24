@@ -23,7 +23,11 @@ export default function BottomSheet({ children }) {
         firstEl.focus();
       }
     });
-  }, [bottomSheet]);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setBottomSheetOpen(false);
+    });
+  }, [bottomSheet, isBottomSheetOpen, setBottomSheetOpen]);
 
   return (
     <>

@@ -40,6 +40,10 @@ export default function PostDetail() {
         return prev.length === 0 ? json.comments : [...prev, ...json.comments];
       });
     });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setCommentModalOpen(false);
+    });
   }, [page]);
 
   const addComment = (newComment) => {

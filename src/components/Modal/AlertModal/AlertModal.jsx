@@ -24,7 +24,11 @@ export default function AlertModal({ children, onSubmit, submitText, onCancel })
         firstEl.focus();
       }
     });
-  }, []);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setModalOpen(false);
+    });
+  }, [isModalOpen, setModalOpen]);
   return (
     <ModalBackDrop>
       <ModalWrapper>

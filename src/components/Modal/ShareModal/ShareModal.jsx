@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from "react-share";
 import CopyToClipboard from "react-copy-to-clipboard";
 import styled from "styled-components";
@@ -76,6 +76,8 @@ const KakaoIcon = styled.img`
 `;
 
 export default function ShareModal({ setShareModalOpen }) {
+  const firstEl = useRef(null);
+  const lastEl = useRef(null);
   const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
   const currentUrl = window.location.href;
   // kakao sdk 초기화하기
@@ -96,6 +98,27 @@ export default function ShareModal({ setShareModalOpen }) {
     });
   };
 
+  useEffect(() => {
+    firstEl.current.focus();
+
+    firstEl.current.addEventListener("keydown", (e) => {
+      if (e.key === "Tab" && e.shiftKey) {
+        e.preventDefault();
+        lastEl.current.focus();
+      }
+    });
+    lastEl.current.addEventListener("keydown", (e) => {
+      if (e.key === "Tab" && !e.shiftKey) {
+        e.preventDefault();
+        firstEl.current.focus();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setShareModalOpen(false);
+    });
+  }, []);
+
   return (
     <ShareBackdrop
       onClick={(e) => {
@@ -110,7 +133,7 @@ export default function ShareModal({ setShareModalOpen }) {
       <ShareModalWrap>
         <h2>공유하기</h2>
         <ShareItemWrap>
-          <FacebookShareButton url={currentUrl}>
+          <FacebookShareButton url={currentUrl} ref={firstEl}>
             <FacebookIcon round={true} />
           </FacebookShareButton>
           <TwitterShareButton url={currentUrl}>
@@ -123,7 +146,7 @@ export default function ShareModal({ setShareModalOpen }) {
             <KakaoIcon src={KaKaoImage} />
           </KakaoShareButton>
         </ShareItemWrap>
-        <CloseButton type="button" onClick={() => setShareModalOpen(false)}>
+        <CloseButton type="button" onClick={() => setShareModalOpen(false)} ref={lastEl}>
           <img src={CloseImage} alt="닫기" />
         </CloseButton>
       </ShareModalWrap>

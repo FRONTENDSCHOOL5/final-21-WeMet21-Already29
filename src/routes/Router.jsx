@@ -1,5 +1,5 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
 import SearchPage from "../pages/Search/SearchPage";
@@ -17,7 +17,6 @@ import SignUpProfile from "../pages/SignUp/SignUpProfile/SignUpProfile";
 import Error from "../pages/404/Error";
 import FollowerList from "../pages/FollowerList/FollowerList";
 import UserInfo from "../contexts/LoginContext";
-import Loading from "../components/Loading/Loading";
 
 const Providers = ({ children }) => {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -38,6 +37,16 @@ const Providers = ({ children }) => {
 };
 
 export default function Router() {
+  const { pathname } = useLocation();
+  const userInfo = localStorage.getItem("userInfo");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!userInfo && pathname !== "/login") {
+      alert("로그인 후 접근 가능합니다");
+      navigate("/login");
+    }
+  }, [userInfo, navigate, pathname]);
+
   return (
     <Providers>
       <h1 className="a11y-hidden">입구팔구</h1>

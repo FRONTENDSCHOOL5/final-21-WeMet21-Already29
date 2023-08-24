@@ -119,6 +119,10 @@ export default function ShareModal({ setShareModalOpen }) {
     });
   }, []);
 
+  const handleCopyClip = () => {
+    window.alert("클립보드에 복사되었습니다.");
+  };
+
   return (
     <ShareBackdrop
       onClick={(e) => {
@@ -140,7 +144,7 @@ export default function ShareModal({ setShareModalOpen }) {
             <TwitterIcon round={true} />
           </TwitterShareButton>
           <CopyToClipboard text={currentUrl}>
-            <UrlShareButton>URL</UrlShareButton>
+            <UrlShareButton onClick={handleCopyClip}>URL</UrlShareButton>
           </CopyToClipboard>
           <KakaoShareButton onClick={handleKakaoButton} tabIndex={0}>
             <KakaoIcon src={KaKaoImage} />

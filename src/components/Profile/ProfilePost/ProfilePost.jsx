@@ -58,7 +58,7 @@ export default function ProfilePost() {
   return (
     <>
       {posts && posts.length !== 0 && (
-        <PostSection>
+        <PostSection length={posts.length}>
           <PostSectionHeader>
             <h2 className="a11y-hidden">{posts[0].author.username}님의 게시물</h2>
             <button

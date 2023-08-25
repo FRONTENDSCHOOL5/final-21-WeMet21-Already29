@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import fetchApi from "../../utils/fetchApi";
 import { FollowList, FollowListItem } from "./FollowerListStyle";
@@ -7,6 +7,7 @@ import Header from "../../components/Header/Header";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import TabMenu from "../../components/Footer/FooterMenu/FooterMenu";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import UserInfo from "../../contexts/LoginContext";
 
 function getUpdatedList(prev, json) {
   if (prev) {
@@ -60,7 +61,7 @@ export default function FollowerList() {
   const accountname = params.id;
   const pageType = params["*"];
   const [followDataList, setFollowDataList] = useState([]);
-
+  const { userInfo } = useContext(UserInfo);
   const pageEnd = useRef(null);
   const { getData, page } = useInfiniteScroll(`profile/${accountname}/${pageType}`, pageEnd);
 
@@ -75,7 +76,7 @@ export default function FollowerList() {
       <Header type="back">{pageType}s</Header>
       <FollowList>
         {followDataList.map((user, index) => (
-          <FollowItem key={index} isfollow={user.isfollow} accountname={user.accountname} itIsMe={accountname === user.accountname} image={user.image} username={user.username} />
+          <FollowItem key={index} isfollow={user.isfollow} accountname={user.accountname} itIsMe={user.accountname === userInfo.accountname} image={user.image} username={user.username} />
         ))}
       </FollowList>
       <div ref={pageEnd} />

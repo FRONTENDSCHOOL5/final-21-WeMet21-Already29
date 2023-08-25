@@ -16,7 +16,7 @@ export default function ProfileHeader({ setShareModalOpen, userData }) {
   const splitString = "{[split]}";
   const { id: accountname } = useParams();
   const introduce = userData && userData.intro.includes(splitString) ? userData.intro.split(splitString)[0] : userData && userData.intro;
-  const fassionStyle = userData && userData.intro.includes(splitString) && userData.intro.split(splitString)[1].split(",");
+  const fassionStyle = userData && userData.intro.includes(splitString) && userData.intro.split(splitString)[1] !== "" && userData.intro.split(splitString)[1].split(",");
 
   const followUphandler = async () => {
     if (isfollow) {
@@ -60,6 +60,7 @@ export default function ProfileHeader({ setShareModalOpen, userData }) {
           <p className="intro">{introduce || "소개글이 작성되지 않았습니다"}</p>
           <p className="fassion-info">
             {fassionStyle &&
+              fassionStyle.length !== 0 &&
               fassionStyle.map((fassion) => {
                 return <span key={fassion}>#{fassion} </span>;
               })}

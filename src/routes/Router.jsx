@@ -38,18 +38,24 @@ const Providers = ({ children }) => {
 
 export default function Router() {
   const { pathname } = useLocation();
+  console.log(useLocation());
   const userInfo = localStorage.getItem("userInfo");
   const navigate = useNavigate();
-  // const exceptions = ["/login", "/signup", "/"];
 
-  // useEffect(() => {
-  //   exceptions.map((v) => {
-  //     if (!userInfo && pathname !== v) {
-  //       alert("로그인 후 접근 가능합니다");
-  //       navigate("/login");
-  //     }
-  //   });
-  // }, [userInfo, navigate, pathname, exceptions]);
+  const isAcceptpath = (path) => {
+    const acceptPathNames = ["/", "/login", "/signup"];
+
+    for (let i = 0; i < acceptPathNames.length; i++) {
+      if (acceptPathNames[i] === path) return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    if (!userInfo && !isAcceptpath(pathname)) {
+      alert("로그인 후 접근하세요");
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <Providers>

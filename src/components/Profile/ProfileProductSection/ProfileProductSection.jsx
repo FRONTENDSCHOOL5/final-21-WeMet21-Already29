@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Products from "../../Products/Products";
-import { LinkStyle, ProductSection } from "./ProfileProductStyle";
+import { LinkStyle, ProductSection } from "./ProfileProductSectionStyle";
 import { useParams } from "react-router-dom";
 import fetchApi from "../../../utils/fetchApi";
 

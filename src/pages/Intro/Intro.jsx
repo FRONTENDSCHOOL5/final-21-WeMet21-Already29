@@ -1,8 +1,10 @@
 import React from "react";
-import charaterLogo from "../../assets/images/mascot.png";
-import { EmailLoginLink, EmailSignUpLink, StyledIntroLoginPage } from "./IntroLoginStyle";
 
-function IntroLoginPage() {
+import { EmailLoginLink, EmailSignUpLink, StyledIntroLoginPage } from "./Intro.style";
+
+import charaterLogo from "../../assets/images/mascot.png";
+
+function Intro() {
   return (
     <StyledIntroLoginPage>
       <header>
@@ -22,4 +24,4 @@ function IntroLoginPage() {
   );
 }
 
-export default IntroLoginPage;
+export default Intro;

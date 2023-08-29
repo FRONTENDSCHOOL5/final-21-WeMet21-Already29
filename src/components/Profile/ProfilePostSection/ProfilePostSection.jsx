@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { PostSection, PostSectionHeader, Posts } from "./ProfilePostStyle";
+import { useParams } from "react-router-dom";
+
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
+
+import UserPost from "./ProfilePost/ProfilePost";
+import UserInfo from "../../../contexts/LoginContext";
+
 import list from "../../../assets/images/icon-post-list-on.png";
 import album from "../../../assets/images/icon-post-album-on.png";
-import { useParams } from "react-router-dom";
-import UserPost from "../../Post/UserPost/UserPost";
-import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
-import UserInfo from "../../../contexts/LoginContext";
+
+import { PostSection, PostSectionHeader, Posts } from "./ProfilePostSectionStyle";
 
 export default function ProfilePost() {
   const [isAlbum, setIsAlbum] = useState(false);

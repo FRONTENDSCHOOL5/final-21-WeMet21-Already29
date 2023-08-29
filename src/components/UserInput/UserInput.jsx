@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleInput, Stylelabel } from "./UserInputStyle";
+import { StyleInput, Stylelabel } from "./UserInput.style";
 
 export default function UserInput({ type, onChange, disabled, value, minLength, maxLength, min, max, id, placeholder, pattern, required, onKeyDown, onWheel, children, onBlur }) {
   return (

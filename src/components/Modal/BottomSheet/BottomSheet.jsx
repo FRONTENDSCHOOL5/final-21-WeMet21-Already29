@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef } from "react";
+
 import BottomSheetContext from "../../../contexts/ModalContext/BottomSheetContext";
-import { BottomSheetBackDrop, BottomSheetWrapper } from "./BottomSheetStyle";
+
+import { BottomSheetBackDrop, BottomSheetWrapper } from "./BottomSheet.style";
 
 export default function BottomSheet({ children }) {
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);

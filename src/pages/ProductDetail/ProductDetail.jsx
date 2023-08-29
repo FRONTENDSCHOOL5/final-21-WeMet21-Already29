@@ -1,32 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AuthorInfo, CategoryUl, ProductDetailSection, ProductImageWrapper, ProductPrice, ProductTitle, SaleText } from "./ProductDetailStyle";
-import uploadDateCalculate from "../../utils/uploadDateCalculate";
+
+import useFetch from "../../hooks/useFetch";
+
 import Header from "../../components/Header/Header";
-import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
-import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
-import ModalContext from "../../contexts/ModalContext/ModalContext";
-import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import { imageErrorHandler } from "../../utils/imageErrorHandler";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
-import fetchApi from "../../utils/fetchApi";
+import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import ShadowBox from "../../components/ShadowBox/ShadowBox";
+import Loading from "../../components/Loading/Loading";
 import UserInfo from "../../contexts/LoginContext";
 import category from "../../contexts/ProductCategoryContext";
-import ShadowBox from "../../components/ShadowBox/ShadowBox";
-import useFetch from "../../hooks/useFetch";
-import Loading from "../../components/Loading/Loading";
+import ModalContext from "../../contexts/ModalContext/ModalContext";
+import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
+
+import fetchApi from "../../utils/fetchApi";
+import uploadDateCalculate from "../../utils/uploadDateCalculate";
+import { imageErrorHandler } from "../../utils/imageErrorHandler";
+
+import { AuthorInfo, CategoryUl, ProductDetailSection, ProductImageWrapper, ProductPrice, ProductTitle, SaleText } from "./ProductDetail.style";
 
 export default function ProductDetail() {
-  const { id: productId } = useParams();
-  const { data: product, isLoading } = useFetch(`product/detail/${productId}`);
-  const productAuthor = product && product.author;
   const [isShare, setIsShare] = useState(""),
     [itemCategory, setItemCategory] = useState(""),
     [size, setSize] = useState("");
+  const { id: productId } = useParams();
+  const { data: product, isLoading } = useFetch(`product/detail/${productId}`);
+  const productAuthor = product && product.author;
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
   const { userInfo } = useContext(UserInfo);
   const categoryData = useContext(category);
+  const navigator = useNavigate();
 
   useEffect(() => {
     if (product) {
@@ -40,8 +45,6 @@ export default function ProductDetail() {
       }
     }
   }, [product]);
-
-  const navigator = useNavigate();
 
   const deleteProductHandler = () => {
     fetchApi(`product/${productId}`, "delete").then(() => {

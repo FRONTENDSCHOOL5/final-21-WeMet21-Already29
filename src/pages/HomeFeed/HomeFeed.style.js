@@ -1,6 +1,13 @@
 import styled from "styled-components";
 
-const EmptyWrapper = styled.div`
+export const FeedSection = styled.main`
+  margin-bottom: 80px;
+
+  li {
+    list-style: none;
+  }
+`;
+export const EmptyWrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -11,13 +18,11 @@ const EmptyWrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 20px;
-`;
 
-const EmptyText = styled.h2`
-  margin: 0px;
-  font-weight: 400;
-  font-size: 14px;
-  color: #767676;
+  h2 {
+    margin: 0px;
+    font-weight: 400;
+    font-size: 14px;
+    color: #767676;
+  }
 `;
-
-export { EmptyWrapper, EmptyText };

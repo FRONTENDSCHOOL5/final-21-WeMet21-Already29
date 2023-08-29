@@ -1,21 +1,23 @@
 import React, { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+
 import Header from "../../components/Header/Header";
-import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
 import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
-import ModalContext from "../../contexts/ModalContext/ModalContext";
 import AlertModal from "../../components/Modal/AlertModal/AlertModal";
 import ShareModal from "../../components/Modal/ShareModal/ShareModal";
-import Navigation from "../../components/Footer/FooterMenu/FooterMenu";
-import ProfileHeader from "../../components/Profile/ProfileHeader/ProfileHeader";
-import ProfileProduct from "../../components/Profile/ProfileProduct/ProfileProduct";
-import ProfilePost from "../../components/Profile/ProfilePost/ProfilePost";
-import UserInfo from "../../contexts/LoginContext";
-import useFetch from "../../hooks/useFetch";
+import Navigation from "../../components/NavBar/NavBar";
 import Loading from "../../components/Loading/Loading";
+import ProfileHeader from "../../components/Profile/ProfileHeaderSection/ProfileHeaderSection";
+import ProfileProduct from "../../components/Profile/ProfileProductSection/ProfileProductSection";
+import ProfilePost from "../../components/Profile/ProfilePostSection/ProfilePostSection";
+
+import ModalContext from "../../contexts/ModalContext/ModalContext";
+import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
+import UserInfo from "../../contexts/LoginContext";
 
 export default function Profile() {
-  const [ShareModalOpen, setShareModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const navigator = useNavigate();
   const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
@@ -42,7 +44,7 @@ export default function Profile() {
         <ProfilePost />
         <Navigation />
       </main>
-      {ShareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
+      {shareModalOpen && <ShareModal setShareModalOpen={setShareModalOpen} />}
       {isBottomSheetOpen && (
         <BottomSheet>
           <button

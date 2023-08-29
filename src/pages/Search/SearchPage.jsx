@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import StyledSearch from "./SearchPageStyle";
-import Header from "../../components/Header/Header";
-import TabMenu from "../../components/Footer/FooterMenu/FooterMenu";
-import UserList from "../../components/UserList/UserList";
+import React from "react";
 import useDebounce from "../../hooks/useDebounce";
 
-export default function Search() {
+import Header from "../../components/Header/Header";
+import TabMenu from "../../components/NavBar/NavBar";
+import UserList from "../../components/SearchUserList/SearchUserList";
+
+import StyledSearch from "./SearchPage.style";
+
+export default function SearchPage() {
   const { output: searchList, keyword, setKeyword } = useDebounce("user/searchuser/?keyword=");
 
   return (

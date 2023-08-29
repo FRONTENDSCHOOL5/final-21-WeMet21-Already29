@@ -1,42 +1,35 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { ProfileInfo, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle, ImgDiv } from "./SignUpProfileStyle";
 import { useLocation, useNavigate } from "react-router-dom";
-import basicProfileImage from "../../../assets/images/basicProfileImg.png";
-import uploadIcon from "../../../assets/images/uploadFile.png";
+
+import useDebounce from "../../../hooks/useDebounce";
+import { useImage } from "../../../hooks/useImage";
+
 import Button from "../../../components/Button/Button";
 import Header from "../../../components/Header/Header";
 import UserInput from "../../../components/UserInput/UserInput";
-import fetchApi from "../../../utils/fetchApi";
-import UserInfo from "../../../contexts/LoginContext";
-import useDebounce from "../../../hooks/useDebounce";
 import SquareButton from "../../../components/Button/SquareButton/SquareButton";
-import styled from "styled-components";
-import { useImage } from "../../../hooks/useImage";
 
-const UserSelectDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-`;
+import UserInfo from "../../../contexts/LoginContext";
+
+import fetchApi from "../../../utils/fetchApi";
+
+import basicProfileImage from "../../../assets/images/basicProfileImg.png";
+import uploadIcon from "../../../assets/images/uploadFile.png";
+
+import { ProfileInfo, UserSelectDiv, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./SignUpProfile.style";
 
 export default function ProfileSettings({ email, password }) {
   const navigate = useNavigate();
   const location = useLocation();
   const uploadInput = useRef(null);
-
   const { image, setImage, inputImageHandler } = useImage(basicProfileImage);
-  // [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태 추가
-
   const [name, setName] = useState(""),
     [nameValid, setNameValid] = useState(true),
     [nameError, setNameError] = useState("");
-
   const [accountname, setAccountname] = useState(""),
     [accountnameValid, setAccountnameValid] = useState(true),
     [accountnameError, setAccountnameError] = useState("");
-
   const [prevAccount, setPrevAccount] = useState("");
-
   const isModify = location.pathname.includes("modify");
   const { userInfo, setUserInfo } = useContext(UserInfo);
   const { output: accountValidResult, setKeyword: setAccountKeyword } = useDebounce(
@@ -49,7 +42,6 @@ export default function ProfileSettings({ email, password }) {
   );
   const [introduce, setIntroduce] = useState("");
   const splitString = "{[split]}";
-
   const [userFassion, setUserFassion] = useState(new Set());
 
   const modifyUserProfile = () => {

@@ -1,34 +1,41 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
-import AlertModal from "../../components/Modal/AlertModal/AlertModal";
-import { Form, Text, VerticalBtn, Img, CommentSection, CommentArticle } from "./PostDetailStyle";
-import Header from "../../components/Header/Header";
-import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
-import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
-import ModalContext from "../../contexts/ModalContext/ModalContext";
 import { useParams } from "react-router";
-import { heartButtonHandler } from "../../utils/heartButtonHandler";
 import { Link, useNavigate } from "react-router-dom";
+
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
+import useFetch from "../../hooks/useFetch";
+
+import Header from "../../components/Header/Header";
 import CardHeader from "../../components/Card/CardHeader/CardHeader";
 import CardContent from "../../components/Card/CardContent/CardContent";
-import fetchApi from "../../utils/fetchApi";
-import UserInfo from "../../contexts/LoginContext";
-import useFetch from "../../hooks/useFetch";
+import AlertModal from "../../components/Modal/AlertModal/AlertModal";
+import BottomSheet from "../../components/Modal/BottomSheet/BottomSheet";
 import Loading from "../../components/Loading/Loading";
+import BottomSheetContext from "../../contexts/ModalContext/BottomSheetContext";
+import ModalContext from "../../contexts/ModalContext/ModalContext";
+import UserInfo from "../../contexts/LoginContext";
+
+import fetchApi from "../../utils/fetchApi";
+import { heartButtonHandler } from "../../utils/heartButtonHandler";
+import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
+
+import IconMoreVertical from "../../assets/images/IconMoreVertical.png";
+
+import { Form, Text, VerticalBtn, Img, CommentSection, CommentArticle } from "./PostDetail.style";
+
 export default function PostDetail() {
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([]);
-  const [CommentModalOpen, setCommentModalOpen] = useState(false);
+  const [postComments, setPostComments] = useState([]);
+  const [commentInputValue, setCommentInputValue] = useState("");
+  const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] = useState(false);
   const [targetCommentId, setTargetCommentId] = useState("");
-  const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
+
   const { isModalOpen, setModalOpen } = useContext(ModalContext);
+  const { isBottomSheetOpen, setBottomSheetOpen } = useContext(BottomSheetContext);
+
   const { userInfo } = useContext(UserInfo);
   const navigate = useNavigate();
   const { id: postId } = useParams();
   const { data: post, isLoading } = useFetch(`post/${postId}`, "GET");
-  // 나의 username
   const { username, accountname } = userInfo;
 
   const pageEnd = useRef(null);
@@ -36,25 +43,25 @@ export default function PostDetail() {
 
   useEffect(() => {
     getData(page).then((json) => {
-      setComments((prev) => {
+      setPostComments((prev) => {
         return prev.length === 0 ? json.comments : [...prev, ...json.comments];
       });
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") setCommentModalOpen(false);
+      if (e.key === "Escape") setIsDeleteCommentModalOpen(false);
     });
   }, [page]);
 
   const addComment = (newComment) => {
-    setComments((prevComments) => [newComment, ...prevComments]);
-    setComment("");
+    setPostComments((prevComments) => [newComment, ...prevComments]);
+    setCommentInputValue("");
   };
 
   const calculateElapsedTime = (timestamp) => {
     const createdTime = new Date(timestamp).getTime();
     const currentTime = new Date().getTime();
-    const elapsedMilliseconds = currentTime - createdTime; // 여기서 결과가 NaN
+    const elapsedMilliseconds = currentTime - createdTime;
     const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
     const elapsedMinutes = Math.floor(elapsedSeconds / 60);
     const elapsedHours = Math.floor(elapsedMinutes / 60);
@@ -73,22 +80,18 @@ export default function PostDetail() {
     }
   };
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
   const handleOpenModal = (commentId) => {
     setTargetCommentId(commentId);
-    setCommentModalOpen(true); // 모달 오픈
+    setIsDeleteCommentModalOpen(true);
   };
 
   // 댓글 작성
   const handleCommentSubmit = (event) => {
     event.preventDefault();
-    if (comment.trim() !== "") {
+    if (commentInputValue.trim() !== "") {
       const data = {
         comment: {
-          content: comment,
+          content: commentInputValue,
         },
       };
 
@@ -103,12 +106,12 @@ export default function PostDetail() {
     const res = await fetchApi(`post/${postId}/comments/${targetCommentId}`, "delete");
 
     if (res.status === "200") {
-      setCommentModalOpen(false);
-      const filterComment = comments.filter((v) => {
+      setIsDeleteCommentModalOpen(false);
+      const filterComment = postComments.filter((v) => {
         return v.id !== targetCommentId;
       });
 
-      setComments(filterComment);
+      setPostComments(filterComment);
     }
   };
 
@@ -132,13 +135,13 @@ export default function PostDetail() {
           <main>
             <article>
               <CardHeader image={post.author.image} username={post.author.username} accountname={post.author.accountname} />
-              <CardContent post={post} heartHandler={heartHandler} commentLen={comments.length} />
+              <CardContent post={post} heartHandler={heartHandler} commentLen={postComments.length} />
             </article>
 
             <CommentSection>
               <h2 className="a11y-hidden">댓글</h2>
-              {comments.length > 0 &&
-                comments.map((comment, index) => (
+              {postComments.length > 0 &&
+                postComments.map((comment, index) => (
                   <CommentArticle key={index}>
                     <CardHeader image={comment.author.image} username={comment.author.username} accountname={comment.author.accountname} time={calculateElapsedTime(comment.createdAt)}>
                       {comment.author.accountname === accountname && (
@@ -152,17 +155,17 @@ export default function PostDetail() {
                 ))}
               <div ref={pageEnd} />
             </CommentSection>
+
             <Form onSubmit={handleCommentSubmit}>
-              {/* <Label htmlFor="file-sync" className="file-sync"></Label>
-            <input type="file" id="file-sync" accept=".png, .jpg, .jpeg" multiple hidden /> */}
               <Img src={userInfo.image} alt="profileImg" onError={profileImgErrorHandler} />
-              <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={comment} onChange={handleCommentChange} />
-              <button style={{ cursor: "pointer" }} className={comment ? "uploadBtn active" : "uploadBtn"} type="submit">
+              <input className="instaPost_input" type="text" placeholder="댓글 입력하기..." value={commentInputValue} onChange={(e) => setCommentInputValue(e.target.value)} />
+              <button style={{ cursor: "pointer" }} className={commentInputValue ? "uploadBtn active" : "uploadBtn"} type="submit">
                 게시
               </button>
             </Form>
-            {CommentModalOpen && (
-              <AlertModal onSubmit={deleteComment} onCancel={setCommentModalOpen} submitText="삭제">
+
+            {isDeleteCommentModalOpen && (
+              <AlertModal onSubmit={deleteComment} onCancel={setIsDeleteCommentModalOpen} submitText="삭제">
                 댓글을 삭제할까요?
               </AlertModal>
             )}

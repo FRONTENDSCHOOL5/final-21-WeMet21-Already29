@@ -5,17 +5,17 @@ import Login from "../pages/Login/Login";
 import SearchPage from "../pages/Search/SearchPage";
 import ModalContext from "../contexts/ModalContext/ModalContext";
 import BottomSheetContext from "../contexts/ModalContext/BottomSheetContext";
-import UploadProduct from "../pages/UploadProduct/UploadProduct";
-import ProductList from "../pages/ProductList/ProductList";
+import ProductEdit from "../pages/ProductEdit/ProductEdit";
+import ProductSaleList from "../pages/ProductSaleList/ProductSaleList";
 import Profile from "../pages/Profile/Profile";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
-import PostUpload from "../pages/PostUpload/PostUpload";
+import PostEdit from "../pages/PostEdit/PostEdit";
 import PostDetail from "../pages/PostDetail/PostDetail";
 import SignUp from "../pages/SignUp/SignUp";
 import Home from "../pages/HomeFeed/HomeFeed";
 import SignUpProfile from "../pages/SignUp/SignUpProfile/SignUpProfile";
 import Error from "../pages/404/Error";
-import FollowerList from "../pages/FollowerList/FollowerList";
+import FollowList from "../pages/FollowList/FollowList";
 import UserInfo from "../contexts/LoginContext";
 
 const Providers = ({ children }) => {
@@ -40,12 +40,16 @@ export default function Router() {
   const { pathname } = useLocation();
   const userInfo = localStorage.getItem("userInfo");
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!userInfo && pathname !== "/login") {
-      alert("로그인 후 접근 가능합니다");
-      navigate("/login");
-    }
-  }, [userInfo, navigate, pathname]);
+  // const exceptions = ["/login", "/signup", "/"];
+
+  // useEffect(() => {
+  //   exceptions.map((v) => {
+  //     if (!userInfo && pathname !== v) {
+  //       alert("로그인 후 접근 가능합니다");
+  //       navigate("/login");
+  //     }
+  //   });
+  // }, [userInfo, navigate, pathname, exceptions]);
 
   return (
     <Providers>
@@ -60,23 +64,23 @@ export default function Router() {
         <Route path="/profile/*" element={<Outlet />}>
           <Route path=":id/*" element={<Outlet />}>
             <Route path="" element={<Profile />} />
-            <Route path="following" element={<FollowerList />} />
-            <Route path="follower" element={<FollowerList />} />
+            <Route path="following" element={<FollowList />} />
+            <Route path="follower" element={<FollowList />} />
             <Route path="modify" element={<SignUpProfile />} />
           </Route>
         </Route>
 
         <Route path="/product/*" element={<Outlet />}>
           <Route path="detail/:id" element={<ProductDetail />}></Route>
-          <Route path="upload" element={<UploadProduct />}></Route>
-          <Route path="modify/:id" element={<UploadProduct />}></Route>
-          <Route path="list/:id" element={<ProductList />}></Route>
+          <Route path="upload" element={<ProductEdit />}></Route>
+          <Route path="modify/:id" element={<ProductEdit />}></Route>
+          <Route path="list/:id" element={<ProductSaleList />}></Route>
         </Route>
 
         <Route path="post/*" element={<Outlet />}>
           <Route path=":id" element={<PostDetail />}></Route>
-          <Route path="upload" element={<PostUpload />}></Route>
-          <Route path="modify/:id" element={<PostUpload />}></Route>
+          <Route path="upload" element={<PostEdit />}></Route>
+          <Route path="modify/:id" element={<PostEdit />}></Route>
         </Route>
 
         <Route path="*" element={<Error />} />

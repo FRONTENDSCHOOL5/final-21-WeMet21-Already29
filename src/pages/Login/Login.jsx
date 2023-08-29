@@ -1,17 +1,21 @@
 import React, { useContext, useState } from "react";
-import { H2, LoginContainer, LoginForm, NavStyle } from "./LoginStyle";
-import { useNavigate } from "react-router-dom"; // eslint-disable-line no-unused-vars
+import { useNavigate } from "react-router-dom";
+
 import Button from "../../components/Button/Button";
 import UserInput from "../../components/UserInput/UserInput";
-import fetchApi from "../../utils/fetchApi";
 import UserInfo from "../../contexts/LoginContext";
 
+import fetchApi from "../../utils/fetchApi";
+
+import { H2, LoginContainer, LoginForm, NavStyle, WarningMessage } from "./Login.style";
+
 export default function Login() {
-  const [userEmail, setUserEmail] = useState(""),
-    [userPassword, setUserPassword] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
   const [emailWarining, setEmailWarining] = useState("");
   const [passwordWarining, setPasswordWarining] = useState("");
+
   const navigate = useNavigate();
   const { setUserInfo } = useContext(UserInfo);
 
@@ -55,7 +59,6 @@ export default function Login() {
           },
         })
       );
-      console.log(json);
 
       if (json.user) {
         setUserInfo(json.user);
@@ -78,39 +81,15 @@ export default function Login() {
           <UserInput type="email" id="user-email" onChange={inputHandler} value={userEmail}>
             이메일
           </UserInput>
-          <p
-            style={{
-              color: "red",
-              fontSize: "1.1rem",
-              margin: " -1rem 0 1.5rem",
-            }}
-          >
-            {emailWarining}
-          </p>
+          {emailWarining && <WarningMessage>{emailWarining}</WarningMessage>}
           <UserInput type="password" id="user-password" onChange={inputHandler} value={userPassword}>
             비밀번호
           </UserInput>
-          <p
-            style={{
-              color: "red",
-              fontSize: "1.1rem",
-              margin: " -1rem 0 1.5rem",
-            }}
-          >
-            {passwordWarining}
-          </p>
-          <div style={{ height: "2rem" }}>
-            <p style={{ color: "red", fontSize: "1.2rem", textAlign: "center" }}>{warningMessage}</p>
-          </div>
-          {userEmail && userPassword && !emailWarining && !passwordWarining ? (
-            <Button category="basic" type="submit">
-              로그인
-            </Button>
-          ) : (
-            <Button category="basic" type="submit" disabled="disabled">
-              로그인
-            </Button>
-          )}
+          {passwordWarining && <WarningMessage>{passwordWarining}</WarningMessage>}
+          <WarningMessage alignCenter={true}>{warningMessage}</WarningMessage>
+          <Button category="basic" type="submit" disabled={!(userEmail && userPassword && !emailWarining && !passwordWarining)}>
+            로그인
+          </Button>
         </LoginForm>
         <NavStyle to={"/signup"}>이메일로 회원가입하기</NavStyle>
       </LoginContainer>

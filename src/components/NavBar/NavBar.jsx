@@ -1,26 +1,28 @@
-import { useLocation } from "react-router-dom";
-import homeIcon from "../../../assets/images/IconHome.png";
-import fillHomeIcon from "../../../assets/images/FillIconHome.png";
-import searchIcon from "../../../assets/images/IconSearch.png";
-import fillSearchIcon from "../../../assets/images/FillIconSearch.png";
-import editIcon from "../../../assets/images/IconEdit.png";
-import fillEditIcon from "../../../assets/images/FillIconEdit.png";
-import userIcon from "../../../assets/images/IconUser.png";
-import fillUserIcon from "../../../assets/images/FillIconUser.png";
-import { NavWrapper, NavLink, StyledNavText } from "./FooterMenuStyle";
-import goTop from "../../../utils/goTop";
 import { useContext } from "react";
-import UserInfo from "../../../contexts/LoginContext";
-import useGetUserInfo from "../../../hooks/useGetUserInfo";
+import { useLocation } from "react-router-dom";
 
-export default function Navigation({ itemLength }) {
+import useGetUserInfo from "../../hooks/useGetUserInfo";
+import UserInfo from "../../contexts/LoginContext";
+
+import goTop from "../../utils/goTop";
+
+import homeIcon from "../../assets/images/IconHome.png";
+import fillHomeIcon from "../../assets/images/FillIconHome.png";
+import searchIcon from "../../assets/images/IconSearch.png";
+import fillSearchIcon from "../../assets/images/FillIconSearch.png";
+import editIcon from "../../assets/images/IconEdit.png";
+import fillEditIcon from "../../assets/images/FillIconEdit.png";
+import userIcon from "../../assets/images/IconUser.png";
+import fillUserIcon from "../../assets/images/FillIconUser.png";
+
+import { NavWrapper, NavLink, StyledNavText } from "./NavBar.style";
+
+export default function NavBar({ itemLength }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { userInfo } = useContext(UserInfo);
   const { accountname } = userInfo;
   const getUserInfo = useGetUserInfo();
-
-  console.log(userInfo);
 
   return (
     <NavWrapper>
@@ -42,7 +44,6 @@ export default function Navigation({ itemLength }) {
       <NavLink
         to={accountname && `/profile/${accountname}`}
         className={pathname.includes(`profile/${accountname}`) ? "nav-link active" : pathname.includes(`list/${accountname}`) ? "active" : ""}
-        // nav-link active
         onClick={(e) => {
           if (pathname === `/profile/${accountname}`) {
             goTop();

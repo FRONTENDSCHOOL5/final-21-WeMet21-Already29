@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FollowList = styled.ul`
+export const FollowUl = styled.ul`
   padding: 0 16px 60px;
   background-color: #fff;
 `;

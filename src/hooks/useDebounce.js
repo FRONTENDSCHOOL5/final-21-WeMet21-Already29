@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import fetchApi from "../utils/fetchApi";
 
 export default function useDebounce(fetchUrl, body) {
@@ -30,6 +30,3 @@ export default function useDebounce(fetchUrl, body) {
 
   return { output, keyword, setKeyword };
 }
-
-// const [searchList, setSearchList] = useState([]);
-// const [keyword, setKeyword] = useState("");

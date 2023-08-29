@@ -1,17 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ImgPlace, ImgUploadButton, InputLabel, Page } from "./UploadProductStyle";
-import iconAlbum from "../../assets/images/icon-image.png";
+import { useImage } from "../../hooks/useImage";
+
 import Header from "../../components/Header/Header";
 import UserInput from "../../components/UserInput/UserInput";
 import Button from "../../components/Button/Button";
-import fetchApi from "../../utils/fetchApi";
-import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
-import { useImage } from "../../hooks/useImage";
 import RadioButtonGroup from "../../components/RadioButtonGroup/RadioButtonGroup";
 import ShadowBox from "../../components/ShadowBox/ShadowBox";
 
-export default function UploadProduct() {
+import fetchApi from "../../utils/fetchApi";
+import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
+
+import iconAlbum from "../../assets/images/icon-image.png";
+
+import { ImgPlace, ImgUploadButton, InputLabel, Page } from "./ProductEdit.style";
+
+export default function ProductEdit() {
   const imgPre = useRef(null);
   const [productTitle, setProductTitle] = useState(""),
     [productPrice, setProductPrice] = useState(""),

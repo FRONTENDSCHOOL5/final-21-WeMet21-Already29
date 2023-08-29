@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { followButtonHandler, unfollowButtonHandler } from "../../../utils/followUpButttonHandler";
-import { FollowCountSpan, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, WhiteButton, ProfileSectionHeader } from "./ProfileHeaderStyle";
 import { Link, useParams } from "react-router-dom";
+
 import Button from "../../Button/Button";
-import share from "../../../assets/images/share.png";
-import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
 import UserInfo from "../../../contexts/LoginContext";
+
+import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
+import { followButtonHandler, unfollowButtonHandler } from "../../../utils/followUpButttonHandler";
+
+import share from "../../../assets/images/share.png";
+
+import { FollowCountSpan, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, WhiteButton, ProfileSectionHeader } from "./ProfileHeaderSectionStyle";
 
 export default function ProfileHeader({ setShareModalOpen, userData }) {
   const [isfollow, setIsFollow] = useState(null);

@@ -1,8 +1,9 @@
 import React from "react";
+
 import mainLogo from "../../assets/images/main-logo.png";
 import bigEarth from "../../assets/images/bigEarth.png";
 
-import { StyledSplashPage, EarthImageWrap, LogoImageWrap } from "./SplashStyle";
+import { StyledSplashPage, EarthImageWrap, LogoImageWrap } from "./Splash.style";
 
 const SplashPage = () => (
   <StyledSplashPage>

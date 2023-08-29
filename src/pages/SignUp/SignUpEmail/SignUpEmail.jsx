@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { SignUpContainer, SignUpForm, H2 } from "./SignUpEmailStyle";
+
+import useDebounce from "../../../hooks/useDebounce";
+
 import Button from "../../../components/Button/Button";
 import UserInput from "../../../components/UserInput/UserInput";
+
 import fetchApi from "../../../utils/fetchApi";
-import useDebounce from "../../../hooks/useDebounce";
+
+import { SignUpContainer, SignUpForm, H2 } from "./SignUpEmail.style";
 
 export default function SignUpEmail({ setPage, email, setEmail, password, setPassword }) {
   const [emailValid, setEmailValid] = useState(false);
@@ -36,20 +40,23 @@ export default function SignUpEmail({ setPage, email, setEmail, password, setPas
   }, [email, setEmailKeyword, emailValidResult]);
 
   //이메일 주소 기입
-  const handleEmailInput = (event) => {
-    setEmail(event.target.value);
-  };
-
-  // 비밀번호 유효성 검사
-  const handlePasswordInput = (event) => {
-    const value = event.target.value;
-    setPassword(value);
-    if (value.length >= 6) {
-      setPasswordError("");
-      setPasswordValid(true);
-    } else {
-      setPasswordError("비밀번호는 6자 이상이어야 합니다.");
-      setPasswordValid(false);
+  const handleInput = (e) => {
+    switch (e.target.type) {
+      case "email":
+        setEmail(e.target.value);
+        break;
+      case "password":
+        setPassword(e.target.value);
+        if (e.target.value.length >= 6) {
+          setPasswordError("");
+          setPasswordValid(true);
+        } else {
+          setPasswordError("비밀번호는 6자 이상이어야 합니다.");
+          setPasswordValid(false);
+        }
+        break;
+      default:
+        break;
     }
   };
 
@@ -91,7 +98,7 @@ export default function SignUpEmail({ setPage, email, setEmail, password, setPas
       <SignUpContainer>
         <H2>이메일로 회원가입</H2>
         <SignUpForm onSubmit={handleSubmit}>
-          <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleEmailInput}>
+          <UserInput id={"user-email"} type={"email"} label={"이메일"} placeholder={"이메일 주소를 입력해 주세요."} value={email} onChange={handleInput}>
             이메일
           </UserInput>
           {emailError && (
@@ -105,7 +112,7 @@ export default function SignUpEmail({ setPage, email, setEmail, password, setPas
               {emailError}
             </p>
           )}
-          <UserInput id={"user-password"} type={"password"} placeholder={"비밀번호를 설정해 주세요."} value={password} onChange={handlePasswordInput}>
+          <UserInput id={"user-password"} type={"password"} placeholder={"비밀번호를 설정해 주세요."} value={password} onChange={handleInput}>
             비밀번호
           </UserInput>
           {passwordError && (

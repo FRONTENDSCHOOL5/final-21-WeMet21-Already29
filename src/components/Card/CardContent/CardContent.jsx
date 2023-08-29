@@ -1,39 +1,44 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useGetUserInfo from "../../../hooks/useGetUserInfo";
+
+import { SwiperSlide, Swiper } from "swiper/react";
+import SwiperCore, { Pagination } from "swiper";
+
+import { imageErrorHandler } from "../../../utils/imageErrorHandler";
+import { heartButtonHandler } from "../../../utils/heartButtonHandler";
+
 import comment from "../../../assets/images/icon-message-circle.png";
 import heartImage from "../../../assets/images/uil_heart.png";
 import fillHeart from "../../../assets/images/uil_fullHeart.png";
-import { SwiperSlide, Swiper } from "swiper/react";
-import SwiperCore, { Pagination } from "swiper";
+
+import { PostContent, PostMenuWrap } from "./CardContent.style";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
-import { PostContent, PostMenuWrap } from "./CardContentStyle";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { imageErrorHandler } from "../../../utils/imageErrorHandler";
-import { heartButtonHandler } from "../../../utils/heartButtonHandler";
-import useGetUserInfo from "../../../hooks/useGetUserInfo";
+
 SwiperCore.use([Pagination]);
 
 export default function CardContent({ post, commentLen }) {
   const navigator = useNavigate();
-  const [postHeart, setPostHeart] = useState(false);
+  const [isHearted, setIsHearted] = useState(false);
   const [heartCount, setHeartCount] = useState(0);
   const getUserInfo = useGetUserInfo();
   const { pathname } = useLocation();
 
   useEffect(() => {
-    setPostHeart(post.hearted);
+    setIsHearted(post.hearted);
     setHeartCount(post.heartCount);
   }, [post]);
 
   const heart = {
     serverRequest() {
-      postHeart ? heartButtonHandler.minus(post.id) : heartButtonHandler.plus(post.id);
+      isHearted ? heartButtonHandler.minus(post.id) : heartButtonHandler.plus(post.id);
     },
     toggle() {
-      setPostHeart((prev) => !prev);
+      setIsHearted((prev) => !prev);
     },
     countHandle() {
-      postHeart ? setHeartCount((prev) => prev - 1) : setHeartCount((prev) => prev + 1);
+      isHearted ? setHeartCount((prev) => prev - 1) : setHeartCount((prev) => prev + 1);
     },
   };
 
@@ -75,7 +80,7 @@ export default function CardContent({ post, commentLen }) {
 
       <PostMenuWrap>
         <button type="button" onClick={() => heartHandler()}>
-          <img src={postHeart ? fillHeart : heartImage} className="heart-image" alt="좋아요 이미지" />
+          <img src={isHearted ? fillHeart : heartImage} className="heart-image" alt="좋아요 이미지" />
         </button>
         <p>
           <span className="a11y-hidden">좋아요 : </span>

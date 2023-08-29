@@ -1,7 +1,9 @@
 import React from "react";
-import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
-import { PostHeader } from "./CardHeaderStyle";
 import { Link } from "react-router-dom";
+
+import { profileImgErrorHandler } from "../../../utils/imageErrorHandler";
+
+import { PostHeader } from "./CardHeader.style";
 
 export default function CardHeader({ image, username, accountname, time, children }) {
   return (

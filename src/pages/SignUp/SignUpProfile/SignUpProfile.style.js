@@ -28,6 +28,13 @@ export const Img = styled.img`
   object-fit: cover;
 `;
 
+export const UserSelectDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 48px;
+`;
+
 export const ImgUploadBtn = styled.button`
   width: 11rem;
   height: 11rem;

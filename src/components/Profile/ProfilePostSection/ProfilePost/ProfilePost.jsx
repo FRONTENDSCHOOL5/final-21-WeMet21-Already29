@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { imageErrorHandler } from "../../../utils/imageErrorHandler";
-import CardHeader from "../../Card/CardHeader/CardHeader";
-import CardContent from "../../Card/CardContent/CardContent";
+
+import CardHeader from "../../../Card/CardHeader/CardHeader";
+import CardContent from "../../../Card/CardContent/CardContent";
+
+import { imageErrorHandler } from "../../../../utils/imageErrorHandler";
 
 function UserPost({ posts, isAlbum }) {
   return (

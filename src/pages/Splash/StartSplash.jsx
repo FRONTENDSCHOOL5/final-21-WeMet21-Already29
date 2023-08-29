@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import SplashPage from "../Splash/SplashPage";
-import IntroLoginPage from "../IntroLogin/IntroLoginPage";
-import UserInfo from "../../contexts/LoginContext";
 import { useNavigate } from "react-router-dom";
+
+import SplashPage from "../Splash/SplashPage";
+import Intro from "../Intro/Intro";
+import UserInfo from "../../contexts/LoginContext";
 
 const StartSplash = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ const StartSplash = () => {
     }
   }, [userInfo, navigate]);
 
-  return loading ? <SplashPage /> : <IntroLoginPage />;
+  return loading ? <SplashPage /> : <Intro />;
 };
 
 export default StartSplash;

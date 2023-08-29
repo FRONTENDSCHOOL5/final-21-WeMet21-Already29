@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { ButtonGroup, ModalBackDrop, ModalWrapper } from "./AlertModalStyle";
+
 import ModalContext from "../../../contexts/ModalContext/ModalContext";
+
+import { ButtonGroup, ModalBackDrop, ModalWrapper } from "./AlertModal.style";
 
 // props로 submitText : string | onSubmit : 함수 | onCancel : 함수 전달해주시면 됩니다.
 export default function AlertModal({ children, onSubmit, submitText, onCancel }) {

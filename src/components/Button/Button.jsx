@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleButton, ProfileNav, WhiteButton } from "./ButtonStyle";
+
+import { StyleButton, ProfileNav, WhiteButton } from "./Button.style";
 
 export default function Button({ category, type, width, height, to, disabled, children, fontSize, ...props }) {
   const button = {

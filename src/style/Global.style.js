@@ -82,6 +82,10 @@ const GlobalStyle = createGlobalStyle`
   :focus:not(:focus-visible) {
     outline: 0;
   }
+
+  #root .swiper-pagination-bullet-active{
+    background: var(--main-color) ;
+  }
 `;
 
 export default GlobalStyle;

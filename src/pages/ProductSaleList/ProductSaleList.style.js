@@ -1,6 +1,18 @@
 import styled from "styled-components";
 
-const ProductListSection = styled.section`
+export const FilterAside = styled.aside`
+  form {
+    overflow: auto;
+  }
+  fieldset {
+    display: flex;
+    gap: 9px;
+    width: max-content;
+    padding: 8px 0px;
+  }
+`;
+
+export const ProductListSection = styled.section`
   padding-bottom: 60px;
 
   li {
@@ -50,5 +62,3 @@ const ProductListSection = styled.section`
     border-top: 1px solid #ccc;
   }
 `;
-
-export { ProductListSection };

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Products from "../../Products/Products";
-import { LinkStyle, ProductSection } from "./ProfileProductSectionStyle";
 import { useParams } from "react-router-dom";
+
+import ProductItem from "../../ProductItem/ProductItem";
+
+import { SwiperSlide } from "swiper/react";
+
 import fetchApi from "../../../utils/fetchApi";
+
+import { CustomSwiper, LinkStyle, ProductSection } from "./ProfileProductSectionStyle";
 
 export default function ProfileProduct({ userData }) {
   const [productDatas, setProductDatas] = useState(null);
@@ -22,7 +27,20 @@ export default function ProfileProduct({ userData }) {
             판매 중인 상품
           </LinkStyle>
         </h2>
-        <Products page="profilePage" productDatas={productDatas} />
+
+        <ul>
+          {productDatas && (
+            <CustomSwiper slidesPerView={2.5} spaceBetween={10}>
+              {productDatas.map((item) => {
+                return (
+                  <SwiperSlide key={item.id}>
+                    <ProductItem item={item} />
+                  </SwiperSlide>
+                );
+              })}
+            </CustomSwiper>
+          )}
+        </ul>
       </ProductSection>
     )
   );

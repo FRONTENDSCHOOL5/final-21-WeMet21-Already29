@@ -41,10 +41,12 @@ export const FollowCountSpan = styled.span`
   display: block;
   font-size: 1.8rem;
   font-weight: bold;
-  color: var(--font-black-color);
+
+  color: ${({ count }) => (count ? "var(--font-black-color)" : "var(--gray-color)")};
 `;
 
 export const ProfileIntro = styled.div`
+  width: 100%;
   color: var(--gray-color);
 
   .user-name {
@@ -55,11 +57,14 @@ export const ProfileIntro = styled.div`
 
   .account-name {
     font-size: 1.2rem;
-    margin: 10px 0 14px;
+    margin: 10px 15px;
+    line-break: anywhere;
   }
 
   .intro {
     font-size: 1.4rem;
+    line-break: anywhere;
+    margin: 0 15px;
   }
 
   .fassion-info {

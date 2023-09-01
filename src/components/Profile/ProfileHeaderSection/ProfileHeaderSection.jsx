@@ -9,7 +9,8 @@ import { followButtonHandler, unfollowButtonHandler } from "../../../utils/follo
 
 import share from "../../../assets/images/share.png";
 
-import { FollowCountSpan, ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, WhiteButton, ProfileSectionHeader } from "./ProfileHeaderSectionStyle";
+import { ProfileIntro, ProfileNavBar, ProfileSection, ShareButton, ProfileSectionHeader } from "./ProfileHeaderSectionStyle";
+import FollowCountLink from "./FollowCountLink/FollowCountLink";
 
 export default function ProfileHeader({ setShareModalOpen, userData }) {
   const [isfollow, setIsFollow] = useState(null);
@@ -48,15 +49,13 @@ export default function ProfileHeader({ setShareModalOpen, userData }) {
     userData && (
       <ProfileSection>
         <ProfileSectionHeader className="profile-header">
-          <Link to={`./follower`}>
-            <FollowCountSpan>{followCount}</FollowCountSpan>
+          <FollowCountLink count={followCount} to="./follower">
             followers
-          </Link>
+          </FollowCountLink>
           <img src={userData.image} alt="프로필 사진" onError={profileImgErrorHandler} />
-          <Link to={`./following`}>
-            <FollowCountSpan>{followingCount}</FollowCountSpan>
+          <FollowCountLink count={followingCount} to="./following">
             followings
-          </Link>
+          </FollowCountLink>
         </ProfileSectionHeader>
         <ProfileIntro>
           <h2 className="user-name">{userData.username}</h2>

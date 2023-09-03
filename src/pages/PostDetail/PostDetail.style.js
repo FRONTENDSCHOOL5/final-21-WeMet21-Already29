@@ -42,7 +42,7 @@ export const Text = styled.p`
   line-height: 2rem;
   font-size: 1.4rem;
   color: #333333;
-  margin-left: 6.5rem;
+  margin-left: 4.8rem;
   line-break: anywhere;
 `;
 

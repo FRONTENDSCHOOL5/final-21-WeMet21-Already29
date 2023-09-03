@@ -5,7 +5,7 @@ import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import Navigation from "../../components/NavBar/NavBar";
 import category from "../../contexts/ProductCategoryContext";
 import Header from "../../components/Header/Header";
-import SquareButton from "../../components/Button/SquareButton/SquareButton";
+import ToggleButtonGroup from "../../components/ToggleButton/ToggleButton";
 import ProductItem from "../../components/ProductItem/ProductItem";
 
 import refresh from "../../assets/images/Icon-refresh.png";
@@ -17,6 +17,9 @@ export default function ProductSale() {
   const pageEnd = useRef(null);
   const [products, setProducts] = useState(null);
   const { getData, page, setPage, hasMore } = useInfiniteScroll(`product/${userAccountName}`, pageEnd);
+  const categoryData = useContext(category);
+  const [checkedItems, setcheckedItems] = useState("");
+  const [filterProductDatas, setFilterProductDatas] = useState("");
 
   useEffect(() => {
     getData(page).then((json) =>
@@ -26,22 +29,18 @@ export default function ProductSale() {
     );
   }, [page]);
 
-  const categoryData = useContext(category);
-  const [checkedItems, setcheckedItems] = useState("");
-  const [filterProductDatas, setFilterProductDatas] = useState("");
-
   useEffect(() => {
     if (products) {
       const filterDatas = products.filter((item) => {
         try {
-          return checkedItems && checkedItems.has(JSON.parse(item.link).category);
+          return checkedItems && checkedItems.has(categoryData[JSON.parse(item.link).category]);
         } catch (e) {
           return null;
         }
       });
       setFilterProductDatas(filterDatas);
     }
-  }, [checkedItems, products]);
+  }, [checkedItems, products, categoryData]);
 
   useEffect(() => {
     if (filterProductDatas && filterProductDatas.length) {
@@ -56,16 +55,16 @@ export default function ProductSale() {
 
   const filterCheckboxHandler = (e) => {
     if (e.target.checked) {
-      setcheckedItems((prev) => new Set([...prev, e.target.id]));
+      setcheckedItems((prev) => new Set([...prev, e.target.value]));
     } else {
       setcheckedItems((prev) => {
         const copy = new Set(prev);
-        copy.delete(e.target.id);
+        copy.delete(e.target.value);
         return copy;
       });
     }
   };
-
+  console.log(checkedItems);
   return (
     <>
       {products && (
@@ -80,15 +79,7 @@ export default function ProductSale() {
             <button type="button" onClick={() => setcheckedItems(new Set())}>
               <img src={refresh} alt="초기화버튼" style={{ width: "24px" }} />
             </button>
-            {Object.entries(categoryData).map((item) => {
-              const key = item[0];
-              const value = item[1];
-              return (
-                <React.Fragment key={key}>
-                  <SquareButton type="checkbox" data={key} value={value} state={checkedItems} setState={filterCheckboxHandler} />
-                </React.Fragment>
-              );
-            })}
+            <ToggleButtonGroup type="checkbox" data={Object.entries(categoryData)} state={checkedItems} setState={filterCheckboxHandler} />
           </fieldset>
         </form>
       </FilterAside>

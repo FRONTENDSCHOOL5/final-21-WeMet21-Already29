@@ -1,13 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useImage } from "../../hooks/useImage";
 
 import Header from "../../components/Header/Header";
 import UserInput from "../../components/UserInput/UserInput";
 import Button from "../../components/Button/Button";
-import RadioButtonGroup from "../../components/RadioButtonGroup/RadioButtonGroup";
 import ShadowBox from "../../components/ShadowBox/ShadowBox";
-
+import ToggleButtonGroup from "../../components/ToggleButton/ToggleButton";
+import fassionCategory from "../../contexts/ProductCategoryContext";
 import fetchApi from "../../utils/fetchApi";
 import { profileImgErrorHandler } from "../../utils/imageErrorHandler";
 
@@ -28,6 +28,12 @@ export default function ProductEdit() {
   const isModify = !!productId;
   const sizeDataArray = ["outer", "onePiece", "top", "pants"];
   const isHaveSize = sizeDataArray.includes(category);
+  const categoryData = useContext(fassionCategory);
+  const sizeData = ["FREE", "XS", "S", "M", "L", "XL"].map((size) => [size, size]);
+  const isShareData = {
+    false: "판매",
+    true: "무료나눔",
+  };
 
   const saleData = {
     isShare: isShare,
@@ -132,7 +138,7 @@ export default function ProductEdit() {
           </ImgPlace>
           <input type="file" id="productImg" accept="image/*" style={{ display: "none" }} onChange={inputImageHandler} />
           <ShadowBox>
-            <RadioButtonGroup type="saleType" state={"" + isShare} setState={setIsShare} />
+            <ToggleButtonGroup type="radio" title="거래 방식" data={Object.entries(isShareData)} name="sale-type" state={isShare} setState={setIsShare} />
           </ShadowBox>
           <ShadowBox>
             <UserInput type="text" minLength={2} id="productNameInput" value={productTitle} onChange={inputValueHandler} placeholder="상품명을 입력해주세요" required>
@@ -164,12 +170,12 @@ export default function ProductEdit() {
           </ShadowBox>
 
           <ShadowBox>
-            <RadioButtonGroup type="clothes" state={category} setState={setCategory} />
+            <ToggleButtonGroup type="radio" title="상품 종류" data={Object.entries(categoryData)} name="category" setState={setCategory} state={category} />
           </ShadowBox>
 
           {isHaveSize && (
             <ShadowBox>
-              <RadioButtonGroup type="size" state={size} setState={setSize} />
+              <ToggleButtonGroup type="radio" title="사이즈" data={sizeData} name="size" setState={setSize} state={size} />
             </ShadowBox>
           )}
         </form>

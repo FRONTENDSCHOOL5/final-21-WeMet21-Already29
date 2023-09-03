@@ -68,3 +68,16 @@ export const RadioLabel = styled(Label)`
     font-weight: 350;
   }
 `;
+
+export const Title = styled.p`
+  font-size: 1.2rem;
+  font-weight: 700;
+`;
+
+export const RadioDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+  gap: ${({ name }) => (name === "size" ? "12px" : "14px")};
+  justify-content: ${({ name }) => name === "size" && "space-between"};
+`;

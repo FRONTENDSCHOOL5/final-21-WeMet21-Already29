@@ -7,10 +7,9 @@ import { useImage } from "../../../hooks/useImage";
 import Button from "../../../components/Button/Button";
 import Header from "../../../components/Header/Header";
 import UserInput from "../../../components/UserInput/UserInput";
-import SquareButton from "../../../components/Button/SquareButton/SquareButton";
+import ToggleButtonGroup from "../../../components/ToggleButton/ToggleButton";
 
 import UserInfo from "../../../contexts/LoginContext";
-
 import fetchApi from "../../../utils/fetchApi";
 
 import basicProfileImage from "../../../assets/images/basicProfileImg.png";
@@ -172,6 +171,7 @@ export default function ProfileSettings({ email, password }) {
 
   const buttons = useRef(null);
   const fassionKeywordHandler = (e) => {
+    console.log(e.target.value);
     setUserFassion((prev) => {
       if (prev.size >= 3) {
         e.target.checked = false;
@@ -184,12 +184,6 @@ export default function ProfileSettings({ email, password }) {
         return copy;
       }
     });
-  };
-
-  console.log(userFassion);
-
-  const imgUploadBtnHandler = () => {
-    uploadInput.current.click();
   };
 
   return (
@@ -205,7 +199,7 @@ export default function ProfileSettings({ email, password }) {
         <ProfileTitle className={isModify && "a11y-hidden"}>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
         {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
         <Label>
-          <ImgUploadBtn type="button" onClick={imgUploadBtnHandler}>
+          <ImgUploadBtn type="button" onClick={() => uploadInput.current.click()}>
             <Img src={image} alt="uploadFile" />
             <ImgIcon src={uploadIcon} alt="업로드아이콘" />
           </ImgUploadBtn>
@@ -262,14 +256,7 @@ export default function ProfileSettings({ email, password }) {
             나를 소개하는 키워드<small> / 최대 3개</small>
           </p>
           <UserSelectDiv ref={buttons}>
-            {Object.entries(fassionData).map((item) => {
-              const value = item[1];
-              return (
-                <React.Fragment key={item}>
-                  <SquareButton type="checkbox" data={value} value={value} state={userFassion} setState={(e) => fassionKeywordHandler(e)} />
-                </React.Fragment>
-              );
-            })}
+            <ToggleButtonGroup type="checkbox" data={Object.entries(fassionData)} state={userFassion} setState={(e) => fassionKeywordHandler(e)} />
           </UserSelectDiv>
           {!isModify && (
             <Button category="basic" type="submit" onClick={handleForm} disabled={!(nameValid && accountnameValid)}>

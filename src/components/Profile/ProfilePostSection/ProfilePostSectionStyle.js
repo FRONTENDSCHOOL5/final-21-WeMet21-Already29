@@ -1,9 +1,8 @@
 import styled, { css } from "styled-components";
 
 export const PostSection = styled.section`
-  border: 1px solid var(--line-gray-color);
-  padding-top: 0;
   padding-bottom: ${(props) => (props.length > 1 ? "60px" : 0)};
+  border: 1px solid var(--line-gray-color);
 
   li {
     list-style: none;
@@ -16,6 +15,7 @@ export const PostSectionHeader = styled.header`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+
   button {
     width: 26px;
     height: 26px;
@@ -27,17 +27,18 @@ export const PostSectionHeader = styled.header`
 
 export const Posts = styled.ul`
   ${(props) =>
-    props.isAlbum &&
-    css`
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      padding-bottom: 0;
-      margin: 12px;
-      gap: 8px;
-      img {
-        object-fit: cover;
-        height: 110px;
-        width: 100%;
-      }
-    `};
+    props.isAlbum
+      ? css`
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          padding-bottom: 0;
+          margin: 12px;
+          gap: 8px;
+          img {
+            object-fit: cover;
+            height: 110px;
+            width: 100%;
+          }
+        `
+      : "padding: 0 16px;"};
 `;

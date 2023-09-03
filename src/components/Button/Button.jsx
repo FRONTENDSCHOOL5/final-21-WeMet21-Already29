@@ -5,12 +5,12 @@ import { StyleButton, ProfileNav, WhiteButton } from "./Button.style";
 export default function Button({ category, type, width, height, to, disabled, children, fontSize, ...props }) {
   const button = {
     basic: (
-      <StyleButton type={type} width={width} height={height} disabled={disabled} fontSize={fontSize} {...props}>
+      <StyleButton type={type} btnWidth={width} btnHeight={height} disabled={disabled} btnFontSize={fontSize} {...props}>
         {children}
       </StyleButton>
     ),
     white: (
-      <WhiteButton type={type} width={width} height={height} fontSize={fontSize} {...props}>
+      <WhiteButton type={type} btnWidth={width} btnHeight={height} btnFontSize={fontSize} {...props}>
         {children}
       </WhiteButton>
     ),

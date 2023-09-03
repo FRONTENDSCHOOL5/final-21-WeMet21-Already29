@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Noto Sans KR', sans-serif;
   }
+
+  main {
+    padding: 0 16px;
+  }
   
   :root {
     --main-color: #058B2E; 

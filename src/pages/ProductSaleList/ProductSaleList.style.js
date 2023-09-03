@@ -12,8 +12,8 @@ export const FilterAside = styled.aside`
   }
 `;
 
-export const ProductListSection = styled.section`
-  padding-bottom: 60px;
+export const ProductListMain = styled.main`
+  padding: 0 0 60px;
 
   li {
     width: 100%;

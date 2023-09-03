@@ -12,7 +12,7 @@ const RadioDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 10px 0;
-  gap: ${({ name }) => (name === "size" ? "12px" : "15px")};
+  gap: ${({ name }) => (name === "size" ? "12px" : "14px")};
   justify-content: ${({ name }) => name === "size" && "space-between"};
 `;
 

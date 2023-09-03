@@ -16,7 +16,7 @@ export default function CardHeader({ image, username, accountname, time, childre
             {username}
             {time && <time>{time}</time>}
           </p>
-          {accountname && <p>@ {accountname}</p>}
+          {accountname && <p className="accountname">@ {accountname}</p>}
         </div>
       </Link>
       {children}

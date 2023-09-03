@@ -1,15 +1,18 @@
 import styled from "styled-components";
 
 export const PostHeader = styled.header`
-  padding: 0 16px;
   margin-top: 10px;
-  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
   box-sizing: border-box;
+  width: 100%;
 
   a {
     display: inline-flex;
     gap: 12px;
     align-items: center;
+    width: 90%;
+    overflow: hidden;
   }
 
   .profile-image {
@@ -17,6 +20,7 @@ export const PostHeader = styled.header`
     width: 36px;
     height: 36px;
     object-fit: cover;
+    flex-shrink: 0;
   }
 
   .user-name {
@@ -27,11 +31,17 @@ export const PostHeader = styled.header`
 
   div {
     flex-grow: 1;
+    overflow: hidden;
   }
 
-  p {
+  .accountname {
     font-size: 1.2rem;
     color: var(--gray-color);
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1.1;
   }
 
   time {

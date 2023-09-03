@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Button = styled.button`
-  width: ${(props) => props.width || "100%"};
-  height: ${(props) => props.height || "44px"};
-  font-size: ${(props) => props.fontSize || "1.4rem"};
+  ${(props) => {
+    return css`
+      width: ${props.btnWidth || "100%"};
+      height: ${props.btnHeight || "44px"};
+      font-size: ${props.btnFontSize || "1.4rem"};
+    `;
+  }}
+  flex-shrink: 0;
   border-radius: 10px;
   box-sizing: border-box;
   text-align: center;
@@ -20,8 +25,13 @@ const StyleButton = styled(Button)`
 `;
 
 const WhiteButton = styled(Button)`
-  width: ${(props) => props.width || "120px"};
-  height: ${(props) => props.height || "34px"};
+  ${(props) => {
+    return css`
+      width: ${props.btnWidth || "100%"};
+      height: ${props.btnHeight || "44px"};
+      font-size: ${props.btnFontSize || "1.4rem"};
+    `;
+  }}
   border: 1px solid var(--gray-color);
   color: var(--gray-color);
 `;

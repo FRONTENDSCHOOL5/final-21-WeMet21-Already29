@@ -10,7 +10,7 @@ import ProductItem from "../../components/ProductItem/ProductItem";
 
 import refresh from "../../assets/images/Icon-refresh.png";
 
-import { FilterAside, ProductListSection } from "./ProductSaleList.style";
+import { FilterAside, ProductListMain } from "./ProductSaleList.style";
 
 export default function ProductSale() {
   const { id: userAccountName } = useParams();
@@ -68,32 +68,31 @@ export default function ProductSale() {
 
   return (
     <>
-      <ProductListSection>
-        {products && (
-          <Header type="back" href={`/profile/${products[0].author.accountname}`}>
-            {products[0].author.username}님의 상품
-          </Header>
-        )}
-        <FilterAside>
-          <form>
-            <fieldset>
-              <legend className="a11y-hidden">상품 카테고리 필터</legend>
-              <button type="button" onClick={() => setcheckedItems(new Set())}>
-                <img src={refresh} alt="초기화버튼" style={{ width: "24px" }} />
-              </button>
-              {Object.entries(categoryData).map((item) => {
-                const key = item[0];
-                const value = item[1];
-                return (
-                  <React.Fragment key={key}>
-                    <SquareButton type="checkbox" data={key} value={value} state={checkedItems} setState={filterCheckboxHandler} />
-                  </React.Fragment>
-                );
-              })}
-            </fieldset>
-          </form>
-        </FilterAside>
-
+      {products && (
+        <Header type="back" href={`/profile/${products[0].author.accountname}`}>
+          {products[0].author.username}님의 상품
+        </Header>
+      )}
+      <FilterAside>
+        <form>
+          <fieldset>
+            <legend className="a11y-hidden">상품 카테고리 필터</legend>
+            <button type="button" onClick={() => setcheckedItems(new Set())}>
+              <img src={refresh} alt="초기화버튼" style={{ width: "24px" }} />
+            </button>
+            {Object.entries(categoryData).map((item) => {
+              const key = item[0];
+              const value = item[1];
+              return (
+                <React.Fragment key={key}>
+                  <SquareButton type="checkbox" data={key} value={value} state={checkedItems} setState={filterCheckboxHandler} />
+                </React.Fragment>
+              );
+            })}
+          </fieldset>
+        </form>
+      </FilterAside>
+      <ProductListMain>
         <ul>
           {filterProductDatas && checkedItems.size
             ? filterProductDatas.map((item, index) => {
@@ -104,7 +103,7 @@ export default function ProductSale() {
                 return <ProductItem item={item} key={item.id} />;
               })}
         </ul>
-      </ProductListSection>
+      </ProductListMain>
       <div ref={pageEnd} />
       <Navigation />
     </>

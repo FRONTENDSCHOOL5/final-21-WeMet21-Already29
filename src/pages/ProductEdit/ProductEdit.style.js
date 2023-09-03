@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Page = styled.main`
-  margin: 10px 14px;
+  margin: 10px 0;
   padding-bottom: 20px;
 `;
 

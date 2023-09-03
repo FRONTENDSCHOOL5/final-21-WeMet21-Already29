@@ -38,7 +38,7 @@ export default function Profile() {
   ) : (
     <>
       {userData && accountname === userData.accountname ? <Header type="basic" setBottomSheetOpen={setBottomSheetOpen}></Header> : <Header type="back" />}
-      <main>
+      <main style={{ padding: 0 }}>
         <ProfileHeader userData={userData} setShareModalOpen={setShareModalOpen} />
         <ProfileProduct userData={userData} />
         <ProfilePost />

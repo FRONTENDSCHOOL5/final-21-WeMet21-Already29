@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import StartSplash from "./../pages/Splash/StartSplash";
 import Login from "../pages/Login/Login";
 import SearchPage from "../pages/Search/SearchPage";
 import ModalContext from "../contexts/ModalContext/ModalContext";
@@ -17,6 +16,7 @@ import SignUpProfile from "../pages/SignUp/SignUpProfile/SignUpProfile";
 import Error from "../pages/404/Error";
 import FollowList from "../pages/FollowList/FollowList";
 import UserInfo from "../contexts/LoginContext";
+import Splash from "../pages/Splash/Splash";
 
 const Providers = ({ children }) => {
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
@@ -61,7 +61,7 @@ export default function Router() {
     <Providers>
       <h1 className="a11y-hidden">입구팔구</h1>
       <Routes>
-        <Route path="/" element={<StartSplash />}></Route>
+        <Route path="/" element={<Splash />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/home" element={<Home />}></Route>

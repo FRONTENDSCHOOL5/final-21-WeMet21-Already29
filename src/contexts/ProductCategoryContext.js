@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const category = createContext({
+const fassionCategory = createContext({
   outer: "아우터",
   onePiece: "원피스",
   top: "상의",
@@ -11,4 +11,4 @@ const category = createContext({
   jewelry: "주얼리",
 });
 
-export default category;
+export default fassionCategory;

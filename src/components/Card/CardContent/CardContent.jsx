@@ -18,7 +18,7 @@ import "swiper/swiper.min.css";
 
 SwiperCore.use([Pagination]);
 
-export default function CardContent({ post, commentLen }) {
+export default function CardContent({ post, commentCount }) {
   const navigator = useNavigate();
   const [isHearted, setIsHearted] = useState(false);
   const [heartCount, setHeartCount] = useState(0);
@@ -87,11 +87,11 @@ export default function CardContent({ post, commentLen }) {
           {heartCount}
         </p>
 
-        <Link to={`/post/${post.id}`} onMouseDown={getUserInfo}>
+        <Link to={`/post/${post.id}`} onClick={getUserInfo}>
           <img src={comment} className="comment-image" alt="댓글 이미지" />
           <p>
             <span className="a11y-hidden">댓글 : </span>
-            {commentLen || post.commentCount}
+            {commentCount || post.commentCount}
           </p>
         </Link>
       </PostMenuWrap>

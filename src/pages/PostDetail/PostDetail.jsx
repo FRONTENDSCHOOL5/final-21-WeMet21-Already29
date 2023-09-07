@@ -37,9 +37,13 @@ export default function PostDetail() {
   const { id: postId } = useParams();
   const { data: post, isLoading } = useFetch(`post/${postId}`, "GET");
   const { username, accountname } = userInfo;
-
+  const [commentsLength, setCommentsLength] = useState(0);
   const pageEnd = useRef(null);
   const { getData, page } = useInfiniteScroll(`post/${postId}/comments`, pageEnd);
+
+  useEffect(() => {
+    if (post) setCommentsLength(post.commentCount);
+  }, [post]);
 
   useEffect(() => {
     getData(page).then((json) => {
@@ -47,14 +51,15 @@ export default function PostDetail() {
         return prev.length === 0 ? json.comments : [...prev, ...json.comments];
       });
     });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") setIsDeleteCommentModalOpen(false);
-    });
   }, [page]);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setIsDeleteCommentModalOpen(false);
+  });
 
   const addComment = (newComment) => {
     setPostComments((prevComments) => [newComment, ...prevComments]);
+    setCommentsLength((prevLength) => prevLength + 1);
     setCommentInputValue("");
   };
 
@@ -135,7 +140,7 @@ export default function PostDetail() {
           <main>
             <article>
               <CardHeader image={post.author.image} username={post.author.username} accountname={post.author.accountname} />
-              <CardContent post={post} heartHandler={heartHandler} commentLen={postComments.length} />
+              <CardContent post={post} heartHandler={heartHandler} commentCount={commentsLength} />
             </article>
 
             <CommentSection>

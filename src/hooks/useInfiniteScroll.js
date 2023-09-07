@@ -4,7 +4,6 @@ const useInfiniteScroll = (fetchPath, pageEnd) => {
   const [page, setPage] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  console.log(page, hasMore);
 
   // Infinite scroll 관찰자 설정 및 업데이트
   useEffect(() => {
@@ -18,7 +17,7 @@ const useInfiniteScroll = (fetchPath, pageEnd) => {
     // 다음 페이지 데이터 불러오기
     const loadMoreData = async () => {
       if (!hasMore) return;
-
+      console.log("hello");
       setLoading(true);
       await getData(page);
       setLoading(false);
@@ -55,15 +54,13 @@ const useInfiniteScroll = (fetchPath, pageEnd) => {
 
     // JSON 응답에서 데이터를 추출
     const extractData = (json) => {
-      const dataKeys = ["data", "posts", "comments", "post"];
+      const dataKeys = ["posts", "comments", "post"];
 
       for (const key of dataKeys) {
-        if (json[key]) {
-          return json[key];
-        }
+        if (json[key]) return json[key].length;
       }
 
-      return json.length;
+      return json.data;
     };
 
     try {

@@ -17,7 +17,6 @@ const useInfiniteScroll = (fetchPath, pageEnd) => {
     // 다음 페이지 데이터 불러오기
     const loadMoreData = async () => {
       if (!hasMore) return;
-      console.log("hello");
       setLoading(true);
       await getData(page);
       setLoading(false);
@@ -54,17 +53,18 @@ const useInfiniteScroll = (fetchPath, pageEnd) => {
 
     // JSON 응답에서 데이터를 추출
     const extractData = (json) => {
-      const dataKeys = ["posts", "comments", "post"];
+      const dataKeys = ["product", "posts", "comments", "post"];
 
       for (const key of dataKeys) {
         if (json[key]) return json[key].length;
       }
 
-      return json.data;
+      return json.length;
     };
 
     try {
       const json = await fetchData();
+      console.log(json);
       const data = extractData(json);
 
       setHasMore(data >= 10);

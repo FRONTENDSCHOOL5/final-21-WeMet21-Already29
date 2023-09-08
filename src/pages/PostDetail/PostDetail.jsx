@@ -117,6 +117,7 @@ export default function PostDetail() {
       });
 
       setPostComments(filterComment);
+      setCommentsLength((prev) => prev - 1);
     }
   };
 
